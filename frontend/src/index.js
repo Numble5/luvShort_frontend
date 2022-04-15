@@ -4,8 +4,7 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 
-import theme from "./style/theme";
-import GlobalStyle from "./style/globalStyle";
+import { theme, GlobalStyle } from "@styles";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
