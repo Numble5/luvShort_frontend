@@ -10,6 +10,7 @@ import javax.persistence.*;
 public class User extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_idx")
     private Long idx;
 
     private String email;
