@@ -1,6 +1,7 @@
 package com.example.backend.domain.user;
 
 import com.example.backend.domain.BaseEntity;
+import com.example.backend.domain.video.Video;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,5 +33,10 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     List<UserInterest> interests = new LinkedList<>();
+
+    @OneToMany(mappedBy = "uploader", fetch = FetchType.LAZY)
+    List<Video> myVideos = new LinkedList<>();
+
+
 
 }
