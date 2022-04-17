@@ -9,6 +9,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
+@Table
 public class Profile extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

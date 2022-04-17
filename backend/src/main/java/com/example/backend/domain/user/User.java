@@ -5,8 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.LinkedList;
+import java.util.List;
 
-@Entity @Getter @NoArgsConstructor
+@Entity
+@Getter
+@NoArgsConstructor
+@Table
 public class User extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,5 +29,8 @@ public class User extends BaseEntity {
     @OneToOne
     @JoinColumn(name = "profile_idx")
     private Profile profile;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    List<UserInterest> interests = new LinkedList<>();
 
 }
