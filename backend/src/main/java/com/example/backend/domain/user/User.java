@@ -32,10 +32,10 @@ public class User extends BaseEntity {
     private Profile profile;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    List<UserInterest> interests = new LinkedList<>();
+    private List<UserInterest> interests = new LinkedList<>();
 
     @OneToMany(mappedBy = "uploader", fetch = FetchType.LAZY)
-    List<Video> myVideos = new LinkedList<>();
+    private List<Video> myVideos = new LinkedList<>();
 
 
 
