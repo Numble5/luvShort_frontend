@@ -20,6 +20,9 @@ public class Video extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
 
+    @Enumerated(EnumType.STRING)
+    private VideoType VideoType;
+
     private String title;
     private String content;
     private Long hits;
