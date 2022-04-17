@@ -20,4 +20,8 @@ public class User extends BaseEntity {
 
     @Embedded UserInfo userInfo;
 
+    @OneToOne
+    @JoinColumn(name = "profile_idx")
+    private Profile profile;
+
 }
