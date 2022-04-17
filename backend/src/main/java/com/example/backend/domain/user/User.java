@@ -18,4 +18,6 @@ public class User extends BaseEntity {
     @Enumerated
     private UserType userType; // 각 사용자의 권한을 관리할 Enum 클래스
 
+    @Embedded UserInfo userInfo;
+
 }
