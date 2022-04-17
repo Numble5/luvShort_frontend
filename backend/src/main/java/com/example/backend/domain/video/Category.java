@@ -20,4 +20,7 @@ public class Category extends BaseEntity {
 
     private String CategoryName;
 
+    @OneToMany(mappedBy = "category")
+    List<VideoCategory> videos = new LinkedList<>(); // 해당 카테고리에 속한 영상들
+
 }
