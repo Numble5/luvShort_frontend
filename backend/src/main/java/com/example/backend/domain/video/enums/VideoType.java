@@ -1,4 +1,4 @@
-package com.example.backend.domain.video;
+package com.example.backend.domain.video.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

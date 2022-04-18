@@ -1,6 +1,7 @@
 package com.example.backend.domain.user;
 
 import com.example.backend.domain.BaseEntity;
+import com.example.backend.domain.user.embedded.UserInfo;
 import com.example.backend.domain.user.enums.UserType;
 import com.example.backend.domain.video.Video;
 import lombok.Getter;
@@ -26,7 +27,8 @@ public class User extends BaseEntity {
     @Enumerated
     private UserType userType; // 각 사용자의 권한을 관리할 Enum 클래스
 
-    @Embedded UserInfo userInfo;
+    @Embedded
+    UserInfo userInfo;
 
     @OneToOne
     @JoinColumn(name = "profile_idx")

@@ -2,6 +2,7 @@ package com.example.backend.domain.video;
 
 import com.example.backend.domain.BaseEntity;
 import com.example.backend.domain.user.User;
+import com.example.backend.domain.video.enums.VideoType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

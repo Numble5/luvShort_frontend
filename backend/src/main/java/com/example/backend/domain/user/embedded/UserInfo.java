@@ -1,4 +1,4 @@
-package com.example.backend.domain.user;
+package com.example.backend.domain.user.embedded;
 
 import com.example.backend.domain.user.enums.GenderType;
 import lombok.AllArgsConstructor;
