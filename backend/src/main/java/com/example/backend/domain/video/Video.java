@@ -1,8 +1,12 @@
 package com.example.backend.domain.video;
 
 import com.example.backend.domain.BaseEntity;
+import com.example.backend.domain.user.Profile;
 import com.example.backend.domain.user.User;
+import com.example.backend.domain.user.embedded.UserInfo;
+import com.example.backend.domain.user.enums.UserType;
 import com.example.backend.domain.video.enums.VideoType;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -37,6 +41,16 @@ public class Video extends BaseEntity {
 
     @OneToMany(mappedBy = "video")
     private List<VideoCategory> Categories = new LinkedList<>(); // 해당 영상이 속한 카테고리들(여러개가능)
+
+    @Builder
+    public Video(String title, String content, Long hits, String thumbnailUrl, String videoUrl, User uploader){
+        this.title = title;
+        this.content = content;
+        this.hits = Long.valueOf("0"); // 조회수는 0으로 초기화
+        this.thumbnailUrl = thumbnailUrl;
+        this.videoUrl = videoUrl;
+        this.uploader = uploader;
+    }
 
     // 연관관계 매핑
     public void setUser(User user){
