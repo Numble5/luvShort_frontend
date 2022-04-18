@@ -1,6 +1,7 @@
 package com.example.backend.domain.user;
 
 import com.example.backend.domain.BaseEntity;
+import com.example.backend.domain.likes.Likes;
 import com.example.backend.domain.user.embedded.UserInfo;
 import com.example.backend.domain.user.enums.UserType;
 import com.example.backend.domain.video.Video;
@@ -40,6 +41,9 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "uploader", fetch = FetchType.LAZY)
     private List<Video> myVideos = new LinkedList<>();
 
-
+    public void addMyVideo(Video myVideo){
+        myVideo.setUser(this);
+        this.myVideos.add(myVideo);
+    }
 
 }

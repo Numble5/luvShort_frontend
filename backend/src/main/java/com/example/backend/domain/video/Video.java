@@ -38,4 +38,14 @@ public class Video extends BaseEntity {
     @OneToMany(mappedBy = "video")
     private List<VideoCategory> Categories = new LinkedList<>(); // 해당 영상이 속한 카테고리들(여러개가능)
 
+    // 연관관계 매핑
+    public void setUser(User user){
+        // 기존 업로더와의 관계를 제거
+        if (this.uploader != null){
+            this.uploader.getMyVideos().remove(this);
+        }
+        this.uploader = user;
+        uploader.getMyVideos().add(this);
+    }
+
 }
