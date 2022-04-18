@@ -22,7 +22,7 @@ public class Video extends BaseEntity {
     private Long idx;
 
     @Enumerated(EnumType.STRING)
-    private VideoType VideoType;
+    private VideoType videoType;
 
     private String title;
     private String content;

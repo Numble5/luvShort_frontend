@@ -1,6 +1,7 @@
 package com.example.backend.domain.user;
 
 import com.example.backend.domain.BaseEntity;
+import com.example.backend.domain.user.enums.UserType;
 import com.example.backend.domain.video.Video;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
