@@ -41,6 +41,7 @@ public class JpaTestApplicationTests {
     @Test
     public void contextLoads(){
 
+        /*
         User user = User.builder().email("syhan97@naver.com").userInfo(new UserInfo(26,"서울", GenderType.FEMALE)).build();
         userRepository.save(user);
 
@@ -50,6 +51,7 @@ public class JpaTestApplicationTests {
 
         // Video 엔티티 저장
         videoRepository.save(video);
+         */
 
     }
 }
