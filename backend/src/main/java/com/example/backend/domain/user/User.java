@@ -1,9 +1,8 @@
 package com.example.backend.domain.user;
 
 import com.example.backend.domain.BaseEntity;
-import com.example.backend.domain.likes.Likes;
 import com.example.backend.domain.user.embedded.UserInfo;
-import com.example.backend.domain.user.enums.UserType;
+import com.example.backend.domain.user.enums.RoleType;
 import com.example.backend.domain.video.Video;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,7 +26,7 @@ public class User extends BaseEntity {
     private String nickname;
 
     @Enumerated
-    private UserType userType; // 각 사용자의 권한을 관리할 Enum 클래스
+    private RoleType roleType; // 각 사용자의 권한을 관리할 Enum 클래스
 
     @Embedded
     UserInfo userInfo;
@@ -43,10 +42,10 @@ public class User extends BaseEntity {
     private List<Video> myVideos = new LinkedList<>();
 
     @Builder
-    public User(String email, String nickname, UserType userType, UserInfo userInfo, Profile profile){
+    public User(String email, String nickname, RoleType roleType, UserInfo userInfo, Profile profile){
         this.email = email;
         this.nickname = nickname;
-        this.userType = userType;
+        this.roleType = roleType;
         this.userInfo = userInfo;
         this.profile = profile;
     }

@@ -1,10 +1,7 @@
 package com.example.backend.domain.video;
 
 import com.example.backend.domain.BaseEntity;
-import com.example.backend.domain.user.Profile;
 import com.example.backend.domain.user.User;
-import com.example.backend.domain.user.embedded.UserInfo;
-import com.example.backend.domain.user.enums.UserType;
 import com.example.backend.domain.video.enums.VideoType;
 import lombok.Builder;
 import lombok.Getter;
