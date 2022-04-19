@@ -14,6 +14,11 @@ const GlobalStyle = createGlobalStyle`
    color: #000000;
  }
 
+  html, body {
+    height: 100%;
+    background-color: gray;
+  }
+
   body {
     box-sizing: border-box;
   }
