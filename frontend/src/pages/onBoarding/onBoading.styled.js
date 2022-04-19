@@ -2,14 +2,7 @@ import styled from "styled-components";
 import green from "./assets/green.svg";
 import pink from "./assets/pink.svg";
 
-export const Wrapper = styled.section`
-  width: 100vw;
-  height: 100vh;
-
-  img {
-    width: 80px;
-  }
-`;
+export const Wrapper = styled.section``;
 export const Logo = styled.div`
   position: absolute;
   left: 50%;
@@ -24,6 +17,7 @@ export const Logo = styled.div`
   img {
     display: block;
     margin: 0 auto;
+    width: 80px;
   }
 
   h1 {
