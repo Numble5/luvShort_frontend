@@ -52,7 +52,7 @@ public class User extends BaseEntity {
     }
 
     public void addMyVideo(Video myVideo){
-        myVideo.setUser(this);
+        //myVideo.setUser(this);
         this.myVideos.add(myVideo);
     }
 
