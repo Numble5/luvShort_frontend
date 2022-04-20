@@ -8,6 +8,7 @@ build/
 ### new ignore ###
 src/main/resources/application.yaml
 
+
 ### STS ###
 .apt_generated
 .classpath
