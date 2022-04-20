@@ -1,9 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-
-import Navigator from "@components/navigator";
 import Login from "@/pages/login";
-import OnBoarding from "@/pages/onBoarding";
+import Main from "@/pages/main";
 
 const Routers = (props) => {
   return (
@@ -11,7 +9,7 @@ const Routers = (props) => {
       <Routes>
         {/* <Route to="" element={}/> */}
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<OnBoarding />} />
+        <Route path="/" element={<Main />} />
       </Routes>
       {/*<Navigator />*/}
     </>
