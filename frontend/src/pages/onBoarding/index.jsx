@@ -12,7 +12,7 @@ const OnBoarding = () => {
         <span>사랑에 빠지는 순간</span>
       </Logo>
       <BottomWave>
-        <img src={waveImg} alt="웨이브 이미지"></img>
+        <div></div>
       </BottomWave>
       <span className="sublogo">loveshort</span>
     </Wrapper>
@@ -62,16 +62,16 @@ const Logo = styled.div`
 `;
 
 const BottomWave = styled.div`
-  background-color: red;
   position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
 
-  img {
+  div {
     width: 100%;
-    position: fixed;
-    left: 0;
-    bottom: 0;
+    height: 250px;
+    background-image: url(${waveImg});
+    background-repeat: no-repeat;
+    background-size: cover;
   }
 `;
