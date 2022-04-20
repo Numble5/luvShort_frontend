@@ -21,6 +21,37 @@ const Step1PageBlock = styled.div`
       margin-bottom: 14px;
     }
   }
+
+  .profile-container {
+    .nickname-container {
+      > label {
+        display: inline-block;
+        margin-bottom: 8px;
+      }
+
+      .nickname-input {
+        position: relative;
+        > input {
+          width: 100%;
+          box-sizing: border-box;
+          padding: 0.6em 1em;
+          color: #5dccc6;
+          font-size: 18px;
+          border: 1px solid #c4c4c4;
+          border-radius: 8px;
+          outline: none;
+          &:focus {
+            border: 1px solid #5dccc6;
+          }
+        }
+        > img {
+          position: absolute;
+          right: 1em;
+          top: 10px;
+        }
+      }
+    }
+  }
 `;
 
 const Step1Page = () => {
@@ -39,7 +70,7 @@ const Step1Page = () => {
         <h1>Step1</h1>
         <p>간단한 프로필을 완성해주세요</p>
       </div>
-      <div className="inputs-container">
+      <form className="profile-container">
         <div className="nickname-container">
           <label>닉네임</label>
           <div className="nickname-input">
@@ -51,7 +82,7 @@ const Step1Page = () => {
           <label>생년월일/성별</label>
           <div className="birthday-input-gender-checkbox"></div>
         </div>
-      </div>
+      </form>
     </Step1PageBlock>
   );
 };
