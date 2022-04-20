@@ -6,10 +6,18 @@ import styled from "styled-components";
 const Header = () => {
   return (
     <StyledHeader>
-      <HeaderLogo>
-        <img src="assets/logo+name.svg" alt="로고" />
-        <span className="sr-only">럽쇼츠</span>
-      </HeaderLogo>
+      <HeaderWrapper>
+        <h1>
+          <img src="assets/logo+name.svg" alt="로고" />
+          <span className="sr-only">럽쇼츠</span>
+        </h1>
+        <a className="login" href="/login">
+          로그인
+        </a>
+        {/* <div className="pofile">
+          <span>빙고</span>
+        </div> */}
+      </HeaderWrapper>
       <HeaderGreeting>
         <div>
           <span className="greeting_bold">빙고</span>
@@ -17,7 +25,7 @@ const Header = () => {
         </div>
         <div className="greeting_mid">짧은 영상을 업로드하고</div>
         <div className="greeting_mid">신개념 랜선 소개팅을 경험해 보세요!</div>
-        <Link to="">{`> 업로드 하러가기`}</Link>
+        <Link to="">{`업로드 하러가기`}</Link>
       </HeaderGreeting>
     </StyledHeader>
   );
@@ -26,15 +34,28 @@ const Header = () => {
 export default Header;
 
 const StyledHeader = styled.header`
-  margin-top: 20px;
+  padding-top: 20px;
+  width: 90%;
+  margin: 0 auto;
 `;
 
-const HeaderLogo = styled.h1`
-  text-align: right;
-  margin-right: 5%;
+const HeaderWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .login {
+    background-color: #5dccc6;
+    border-radius: 3px;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 16px;
+    height: 20px;
+    line-height: 23px;
+    padding: 3px 8px;
+  }
 `;
 const HeaderGreeting = styled.div`
-  margin-left: 5%;
   margin-top: 28px;
 
   .greeting_bold,
