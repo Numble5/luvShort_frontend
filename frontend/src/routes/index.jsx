@@ -1,13 +1,14 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Login from "@/pages/login";
-import Main from "@/pages/main";
+import Main from "@pages/main";
+import Login from "@pages/login";
+import OnBoarding from "@pages/onBoarding";
 
 const Routers = (props) => {
   return (
     <>
       <Routes>
-        {/* <Route to="" element={}/> */}
+        <Route path="/on" element={<OnBoarding />} />
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Main />} />
       </Routes>
