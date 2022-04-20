@@ -19,7 +19,8 @@ const GlobalStyle = createGlobalStyle`
  }
 
   html, body {
-
+    position:relative;
+    height: 100%;
   }
 
   body {
