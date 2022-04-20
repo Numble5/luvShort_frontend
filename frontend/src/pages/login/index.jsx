@@ -7,10 +7,16 @@ import KakaoButton3 from "@/static/login/kakaotalk.svg";
 import axios from "axios";
 
 const LoginBlock = styled.div`
-  padding: 0 30px;
+  .illust {
+    img {
+      width: 100%;
+      height: 214px;
+    }
+  }
 
   .logo_text_container {
-    margin-bottom: 187px;
+    padding: 0 30px;
+    margin-bottom: 160px;
     .logo_container {
       margin-bottom: 16px;
     }
@@ -21,7 +27,10 @@ const LoginBlock = styled.div`
     }
   }
   .sns-login-container {
-    text-align: center;
+    width: calc(100% - 60px);
+    margin-left: 30px;
+    position: absolute;
+    bottom: 3em;
     > p {
       font-size: 14px;
       text-align: center;
@@ -33,12 +42,16 @@ const LoginBlock = styled.div`
       display: flex;
       align-items: center;
       border-radius: 12px;
-      background: #f6f6f6;
+      background: #fee500;
       padding: 3px 2px 1.5px 2px;
       margin-bottom: 10px;
       cursor: pointer;
       img {
-        margin-right: 4em;
+      }
+      span {
+        flex: 1;
+        text-align: center;
+        padding-right: 40px;
       }
     }
     .naver-login-container {
@@ -47,26 +60,24 @@ const LoginBlock = styled.div`
       display: flex;
       align-items: center;
       border-radius: 12px;
-      background: #f6f6f6;
+      background: #1ec800;
       padding: 3px 2px 1.5px 2px;
       cursor: pointer;
 
       #naverIdLogin {
-        > a {
-          padding-right: 210px;
-          padding-top: 25px;
-        }
         img {
           border-radius: 10px;
-          margin-right: 4em;
         }
       }
 
       > span {
-        position: absolute;
+        flex: 1;
+        text-align: center;
+        padding-right: 40px;
+        /* position: absolute;
         left: 6.5em;
         z-index: 0;
-        pointer-events: none;
+        pointer-events: none; */
       }
     }
   }
@@ -76,9 +87,6 @@ const { Kakao } = window;
 const { naver } = window;
 
 const Login = () => {
-  // const CLIENT_ID = "cb35cf8c852a69a0ff7192f0f1ca071d";
-  // const REDIRECT_URI = "http://localhost:3000/oauth";
-  // const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
   const naverRef = useRef(null);
 
   const kakaoLoginClickHandler = () => {
@@ -109,11 +117,10 @@ const Login = () => {
     naverLogin.init();
   };
 
-  // const clickNaver = (event) => {
-  //   console.log("하이");
-  //   console.log("바이");
-  //   naverRef.current.children[0].click();
-  // };
+  const onNaverLogin = () => {
+    console.log(naverRef.current);
+    naverRef.current.children[0].click();
+  };
 
   useEffect(() => {
     naverLoginInitial();
@@ -121,37 +128,35 @@ const Login = () => {
 
   return (
     <>
-      <Template>
-        <div className="illust" style={{ marginBottom: "80px" }}>
+      <LoginBlock>
+        <div className="illust" style={{ marginBottom: "50px" }}>
           <img src={WaveIllust} alt="웨이브일러스트" />
         </div>
-        <LoginBlock>
-          <div className="logo_text_container">
-            <div className="logo_container">
-              <img src={LogoIllust} alt="로고" />
-            </div>
-            <div className="text_container">
-              안녕하세요!
-              <br />
-              럽쇼츠를 시작해볼까요?
-            </div>
+        <div className="logo_text_container">
+          <div className="logo_container">
+            <img src={LogoIllust} alt="로고" />
           </div>
-          <div className="sns-login-container">
-            <p>SNS 계정으로 간편하기 시작하기</p>
-            <div
-              className="kakao-login-container"
-              onClick={kakaoLoginClickHandler}
-            >
-              <img src={KakaoButton3} alt="카카오로그인버튼" />
-              <span>카카오로 시작하기</span>
-            </div>
-            <div className="naver-login-container">
-              <div id="naverIdLogin" />
-              <span>네이버로 시작하기</span>
-            </div>
+          <div className="text_container">
+            안녕하세요!
+            <br />
+            럽쇼츠를 시작해볼까요?
           </div>
-        </LoginBlock>
-      </Template>
+        </div>
+        <div className="sns-login-container">
+          <p>SNS 계정으로 간편하기 시작하기</p>
+          <div
+            className="kakao-login-container"
+            onClick={kakaoLoginClickHandler}
+          >
+            <img src={KakaoButton3} alt="카카오로그인버튼" />
+            <span>카카오로 시작하기</span>
+          </div>
+          <div className="naver-login-container" onClick={onNaverLogin}>
+            <div id="naverIdLogin" ref={naverRef} />
+            <span>네이버로 시작하기</span>
+          </div>
+        </div>
+      </LoginBlock>
     </>
   );
 };
