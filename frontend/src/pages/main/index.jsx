@@ -1,15 +1,19 @@
-import React from "react";
+import React, { Suspense } from "react";
 
 import Header from "@components/header";
 import VideoList from "@components/videoList";
 import Navigator from "@components/navigator";
+import { FixedUploadBtn } from "@components/common/button";
 
 const Main = () => {
   return (
     <>
+      {/* <Suspense fallback={<OnBoarding />}> */}
       <Header />
-      <VideoList />
       <Navigator />
+      <VideoList />
+      <FixedUploadBtn />
+      {/* </Suspense> */}
     </>
   );
 };
