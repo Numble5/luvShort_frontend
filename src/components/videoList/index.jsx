@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import VideoItem from "../videoItem.jsx";
 
 const videos = [
   {
@@ -14,32 +15,15 @@ const videos = [
     uploadeDate: "1시간전",
   },
 ];
+
 const VideoList = (props) => {
   return (
     <VideoListWrapper>
       <h2 className="sr-only">영상리스트</h2>
       <StyledUl>
-        {videos?.map((video) => {
-          return (
-            <StyledLi key={video.idx}>
-              <Link to={`/${video.videoUrl}`}>
-                <div className="info_wrapper">
-                  <div className="user_wrapper">
-                    {/* <img src={video.profileImgUrl} alt={`${video.nickname}`} /> */}
-                    <span>{video.nickname}</span>
-                  </div>
-                  <div className="video_info">
-                    <span>{video.uploadeDate}</span>
-                    <span>
-                      <img src="" alt="하트"></img>
-                    </span>
-                  </div>
-                </div>
-                <div>{video.title}</div>
-              </Link>
-            </StyledLi>
-          );
-        })}
+        {videos?.map((video) => (
+          <VideoItem video={video} />
+        ))}
       </StyledUl>
     </VideoListWrapper>
   );
@@ -49,4 +33,3 @@ export default VideoList;
 const VideoListWrapper = styled.section``;
 
 const StyledUl = styled.ul``;
-const StyledLi = styled.li``;
