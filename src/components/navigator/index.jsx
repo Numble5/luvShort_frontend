@@ -9,8 +9,8 @@ const Navigator = () => {
     <Navigation>
       <NavigationList>
         {menu.map(({ icon, link, title }) => (
-          <NavigationItem>
-            <Link key={title} to={`/${link}`}>
+          <NavigationItem key={title}>
+            <Link to={`/${link}`}>
               <img src={icon} alt={`${title}아이콘`} />
               <h2>{title}</h2>
             </Link>
@@ -26,7 +26,7 @@ export default Navigator;
 const Navigation = styled.nav`
   background-color: #fafafa;
 
-  position: absolute;
+  position: fixed;
   width: 100%;
   bottom: 0;
 `;
