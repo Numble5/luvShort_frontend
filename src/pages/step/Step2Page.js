@@ -2,8 +2,8 @@ import styled from "styled-components";
 import React, { useState } from "react";
 import LeftArrow from "@/static/step/Vector 3.svg";
 import RightArrow from "@/static/step/Vector 2.svg";
-import flight from "@/pages/step/assets-step2/Vector.svg";
-import Circle from "@/pages/step/assets-step2/Ellipse 454.svg";
+import flight from "@pages/step/assets-step2/Vector.svg";
+import Circle from "@pages/step/assets-step2/Ellipse 454.svg";
 
 const Step2PageBlock = styled.div`
   padding: 53px 30px 0 30px;
