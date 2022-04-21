@@ -19,6 +19,10 @@ const LoginBlock = styled.div`
     margin-bottom: 160px;
     .logo_container {
       margin-bottom: 16px;
+
+      img {
+        width: 109px;
+      }
     }
     .text_container {
       font-size: 20px;
@@ -134,7 +138,7 @@ const Login = () => {
         </div>
         <div className="logo_text_container">
           <div className="logo_container">
-            <img src={LogoIllust} alt="로고" />
+            <img src="assets/logo+name.svg" alt="로고" />
           </div>
           <div className="text_container">
             안녕하세요!
