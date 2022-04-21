@@ -1,11 +1,9 @@
 import styled from "styled-components";
 import React from "react";
-import Template from "@/components/common/Template";
 import LeftArrow from "@/static/step/Vector 3.svg";
 import RightArrow from "@/static/step/Vector 2.svg";
 import NicknameCheck from "@/static/step/alert_circle.svg";
 import GenderGrayCheckButton from "@/static/step/Group 39531.svg";
-import GenderGreenCheckButton from "@/static/step/Group 39531.svg";
 
 const Step1PageBlock = styled.div`
   padding: 53px 30px 0 30px;
