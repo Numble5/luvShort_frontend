@@ -61,7 +61,7 @@ const HeaderWrapper = styled.div`
   }
 `;
 const HeaderGreeting = styled.div`
-  margin: 28px auto 0 auto;
+  margin: 40px auto 0 auto;
   width: 90%;
 
   .greeting_bold,
