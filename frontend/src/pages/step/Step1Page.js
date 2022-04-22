@@ -1,9 +1,19 @@
 import styled from "styled-components";
-import React from "react";
+import React, { useCallback, useState } from "react";
 import LeftArrow from "@/static/step/Vector 3.svg";
 import RightArrow from "@/static/step/Vector 2.svg";
 import NicknameCheck from "@/static/step/alert_circle.svg";
 import GenderGrayCheckButton from "@/static/step/Group 39531.svg";
+import GenderGreenCheckButton from "@/pages/step/assets-step1/Group 39571.svg";
+import NicknameError from "@/pages/step/assets-step1/Group 39570.svg";
+import { useDispatch, useSelector } from "react-redux";
+import user, {
+  changeBirthday,
+  changeCity,
+  changeGender,
+  changeNickname,
+  changeState,
+} from "@/reducers/user";
 
 const Step1PageBlock = styled.div`
   padding: 53px 30px 0 30px;
@@ -45,6 +55,16 @@ const Step1PageBlock = styled.div`
             border: 1px solid #5dccc6;
           }
         }
+        > span {
+          position: absolute;
+          right: 1em;
+          top: 10px;
+          background-color: #5dccc6;
+          padding: 0.4em 0.8em 0.6em 0.8em;
+          border-radius: 6px;
+          color: white;
+          font-size: 14px;
+        }
         > img {
           position: absolute;
           right: 1em;
@@ -56,9 +76,16 @@ const Step1PageBlock = styled.div`
 
   .birthday-gender {
     margin-bottom: 27px;
-    > label {
-      display: inline-block;
-      margin-bottom: 8px;
+    .birthday-gender-title {
+      label {
+        display: inline-block;
+        margin-bottom: 8px;
+        margin-right: 1em;
+      }
+      span {
+        font-size: 12px;
+        color: red;
+      }
     }
 
     .birthday-input-gender-checkbox {
@@ -141,16 +168,65 @@ const Step1PageBlock = styled.div`
     bottom: 0;
     left: 0;
     border: 0;
-    background: #5dccc6;
+    background: #c4c4c4;
     width: 100%;
     height: 80px;
     color: white;
     font-size: 18px;
     font-weight: bold;
   }
+  .next-step-button-selected {
+    background: #5dccc6;
+  }
 `;
 
 const Step1Page = () => {
+  const dispatch = useDispatch();
+  const nickname = useSelector(({ user }) => user.nickname);
+  const birthday = useSelector(({ user }) => user.birthday);
+  const gender = useSelector(({ user }) => user.gender);
+  const state = useSelector(({ user }) => user.state);
+  const [city, setCity] = useState("은평구");
+  const [nicknameError, setNicknameError] = useState(false);
+  const [nicknameCheckSuccess, setNicknameCheckSuccess] = useState(false);
+  const [birthdayError, setBirthdayError] = useState(false);
+
+  const onChangeNickname = useCallback((e) => {
+    dispatch(changeNickname(e.target.value));
+  }, []);
+
+  const onChangeBirthday = useCallback((e) => {
+    const onlyNumber = e.target.value.replace(/[^0-9]/g, "");
+    dispatch(changeBirthday(onlyNumber));
+    if (e.target.value.length === 6) {
+      birthdayCheck(e.target.value);
+    }
+  }, []);
+
+  const birthdayCheck = (birth) => {
+    var format = /([0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[1,2][0-9]|3[0,1]))/;
+    if (format.test(birth)) {
+      setBirthdayError(false);
+    } else {
+      setBirthdayError(true);
+    }
+  };
+
+  const checkGender = (gender) => {
+    dispatch(changeGender(gender));
+  };
+
+  const onChangeState = useCallback((e) => {
+    console.log(e.target.value);
+    dispatch(changeState(e.target.value));
+  }, []);
+
+  const onChangeCity = (e) => {
+    dispatch(changeCity(e.target.value));
+  };
+
+  const onClickCheckNickname = () => {};
+
   return (
     <Step1PageBlock>
       <div className="header-pagination">
@@ -172,24 +248,48 @@ const Step1Page = () => {
         <div className="nickname-container">
           <label>닉네임</label>
           <div className="nickname-input">
-            <input type="text" />
-            <img src={NicknameCheck} alt="닉네임중복체크기능" />
+            <input type="text" value={nickname} onChange={onChangeNickname} />
+            <span onClick={onClickCheckNickname}>중복확인</span>
+            {nicknameCheckSuccess && (
+              <img src={NicknameCheck} alt="닉네임중복체크기능" />
+            )}
+            {nicknameError && (
+              <img src={NicknameError} alt="닉네임중복체크기능" />
+            )}
           </div>
         </div>
 
         <div className="birthday-gender">
-          <label>생년월일/성별</label>
+          <div className="birthday-gender-title">
+            <label>생년월일/성별</label>
+            {birthdayError && <span>생년월일을 다시 입력해주세요!</span>}
+          </div>
           <div className="birthday-input-gender-checkbox">
             <div className="birthday-input-container">
-              <input type="text" placeholder="YY MM DD" />
+              <input
+                type="text"
+                value={birthday}
+                placeholder="YY MM DD"
+                pattern="[0-9]+"
+                maxLength={6}
+                onChange={onChangeBirthday}
+              />
             </div>
             <div className="gender-checkbox-container">
-              <div className="male">
-                <img src={GenderGrayCheckButton} alt="체크박스" />
+              <div className="male" onClick={() => checkGender("남")}>
+                {gender === "남" ? (
+                  <img src={GenderGreenCheckButton} alt="체크박스" />
+                ) : (
+                  <img src={GenderGrayCheckButton} alt="체크박스" />
+                )}
                 <span>남</span>
               </div>
-              <div className="female">
-                <img src={GenderGrayCheckButton} alt="체크박스" />
+              <div className="female" onClick={() => checkGender("여")}>
+                {gender === "여" ? (
+                  <img src={GenderGreenCheckButton} alt="체크박스" />
+                ) : (
+                  <img src={GenderGrayCheckButton} alt="체크박스" />
+                )}
                 <span>여</span>
               </div>
             </div>
@@ -200,10 +300,8 @@ const Step1Page = () => {
           <label>거주지역</label>
           <div className="location-select-container">
             <div className="location-si">
-              <select>
-                <option selected value="서울">
-                  서울
-                </option>
+              <select onChange={onChangeState}>
+                <option value="서울">서울</option>
                 <option value="인천">인천</option>
                 <option value="대전">대전</option>
                 <option value="대구">대구</option>
@@ -211,18 +309,24 @@ const Step1Page = () => {
               </select>
             </div>
             <div className="location-gu">
-              <select>
-                <option selected>은평구</option>
-                <option>강동구</option>
-                <option>송파구</option>
-                <option>용산구</option>
-                <option>동작구</option>
+              <select onChange={onChangeCity} defaultValue="강동구">
+                <option value="강동구">강동구</option>
+                <option value="송파구">송파구</option>
+                <option value="용산구">용산구</option>
+                <option value="은평구">은평구</option>
+                <option value="동작구">동작구</option>
               </select>
             </div>
           </div>
         </div>
-
-        <button type="submit" className="next-step-button">
+        <button
+          type="submit"
+          className={
+            nicknameCheckSuccess && !birthdayError
+              ? "next-step-button next-step-button-selected"
+              : "next-step-button"
+          }
+        >
           다음
         </button>
       </form>
