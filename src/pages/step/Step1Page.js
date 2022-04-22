@@ -14,6 +14,7 @@ import user, {
   changeNickname,
   changeState,
 } from "@/reducers/user";
+import axios from "axios";
 
 const Step1PageBlock = styled.div`
   padding: 53px 30px 0 30px;
@@ -35,9 +36,22 @@ const Step1PageBlock = styled.div`
   .profile {
     .nickname-container {
       margin-bottom: 27px;
-      > label {
-        display: inline-block;
-        margin-bottom: 8px;
+      .nickname_title {
+        display: flex;
+        justify-content: space-between;
+        label {
+          display: inline-block;
+          margin-bottom: 8px;
+        }
+        span {
+          font-size: 12p;
+          &.success {
+            color: #5dccc6;
+          }
+          &.error {
+            color: red;
+          }
+        }
       }
 
       .nickname-input {
@@ -54,6 +68,10 @@ const Step1PageBlock = styled.div`
           &:focus {
             border: 1px solid #5dccc6;
           }
+          &.error {
+            border: 1px solid red;
+            color: red;
+          }
         }
         > span {
           position: absolute;
@@ -64,6 +82,12 @@ const Step1PageBlock = styled.div`
           border-radius: 6px;
           color: white;
           font-size: 14px;
+          cursor: pointer;
+          &.error {
+            box-sizing: border-box;
+            background: #c4c4c4;
+            margin-right: 3em;
+          }
         }
         > img {
           position: absolute;
@@ -178,6 +202,9 @@ const Step1PageBlock = styled.div`
   .next-step-button-selected {
     background: #5dccc6;
   }
+  .error {
+    color: red;
+  }
 `;
 
 const Step1Page = () => {
@@ -186,9 +213,8 @@ const Step1Page = () => {
   const birthday = useSelector(({ user }) => user.birthday);
   const gender = useSelector(({ user }) => user.gender);
   const state = useSelector(({ user }) => user.state);
-  const [city, setCity] = useState("은평구");
-  const [nicknameError, setNicknameError] = useState(false);
-  const [nicknameCheckSuccess, setNicknameCheckSuccess] = useState(false);
+  const city = useSelector(({ user }) => user.city);
+  const [nicknameCheckSuccess, setNicknameCheckSuccess] = useState(null);
   const [birthdayError, setBirthdayError] = useState(false);
 
   const onChangeNickname = useCallback((e) => {
@@ -225,7 +251,23 @@ const Step1Page = () => {
     dispatch(changeCity(e.target.value));
   };
 
-  const onClickCheckNickname = () => {};
+  const onClickCheckNickname = async () => {
+    try {
+      const { data } = await axios.post("/nickname_check", nickname);
+      if (data.used_nickname) {
+        setNicknameCheckSuccess(false);
+      } else {
+        setNicknameCheckSuccess(true);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const nicknameReset = () => {
+    dispatch(changeNickname(""));
+    setNicknameCheckSuccess(null);
+  };
 
   return (
     <Step1PageBlock>
@@ -246,15 +288,50 @@ const Step1Page = () => {
 
       <form className="profile">
         <div className="nickname-container">
-          <label>닉네임</label>
+          <div className="nickname_title">
+            <label>닉네임</label>
+            {nicknameCheckSuccess === true && (
+              <span className="success">사용 가능한 닉네임이에요.</span>
+            )}
+            {nicknameCheckSuccess === false && (
+              <span className="error">동일한 닉네임이 있어요.</span>
+            )}
+          </div>
+
           <div className="nickname-input">
-            <input type="text" value={nickname} onChange={onChangeNickname} />
-            <span onClick={onClickCheckNickname}>중복확인</span>
-            {nicknameCheckSuccess && (
+            {nicknameCheckSuccess === true ? (
+              <input
+                type="text"
+                value={nickname}
+                onChange={onChangeNickname}
+                disabled
+              />
+            ) : (
+              <input
+                type="text"
+                className={nicknameCheckSuccess === false ? "error" : ""}
+                value={nickname}
+                onChange={onChangeNickname}
+              />
+            )}
+
+            {nicknameCheckSuccess === null && (
+              <span onClick={onClickCheckNickname}>중복확인</span>
+            )}
+            {nicknameCheckSuccess === true && (
               <img src={NicknameCheck} alt="닉네임중복체크기능" />
             )}
-            {nicknameError && (
-              <img src={NicknameError} alt="닉네임중복체크기능" />
+            {nicknameCheckSuccess === false && (
+              <>
+                <span className="error" onClick={onClickCheckNickname}>
+                  중복확인
+                </span>
+                <img
+                  src={NicknameError}
+                  onClick={nicknameReset}
+                  alt="닉네임중복체크기능"
+                />
+              </>
             )}
           </div>
         </div>
