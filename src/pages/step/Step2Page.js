@@ -204,7 +204,7 @@ const Step2Page = () => {
       gender,
       state,
       city,
-      user_info: selectedInterests,
+      selectedInterests: selectedInterests,
     };
     submitUserInfo(user_info);
   };
