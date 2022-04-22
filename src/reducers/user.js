@@ -16,6 +16,7 @@ const initialState = {
   gender: "",
   state: "",
   city: "",
+  interest: "",
 };
 
 const userSlice = createSlice({
@@ -44,8 +45,7 @@ const userSlice = createSlice({
         state.stepTWoLoading = true;
       })
       .addCase(submitUserInfo.fulfilled, (state, action) => {
-        state.stepTWoLoading = false;
-        state = action.payload;
+        state = { ...action.payload, stepTWoLoading: false };
       });
   },
 });
