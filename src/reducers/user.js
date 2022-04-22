@@ -1,6 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+
+export const submitUserInfo = createAsyncThunk(
+  "user/submitUserInfo",
+  async (userInfo) => {
+    const response = await axios.post("백엔드 지정 주소", userInfo);
+    return response.data;
+  }
+);
 
 const initialState = {
+  stepTWoLoading: false,
   nickname: "",
   birthday: "",
   gender: "",
@@ -27,6 +37,16 @@ const userSlice = createSlice({
     changeCity(state, action) {
       state.city = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(submitUserInfo.pending, (state, action) => {
+        state.stepTWoLoading = true;
+      })
+      .addCase(submitUserInfo.fulfilled, (state, action) => {
+        state.stepTWoLoading = false;
+        state = action.payload;
+      });
   },
 });
 
