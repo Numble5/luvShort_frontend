@@ -1,8 +1,10 @@
 import React, { Suspense } from "react";
+import styled from "styled-components";
 
 import Header from "@components/header";
 import VideoList from "@components/videoList";
 import Navigator from "@components/navigator";
+import Categories from "@/components/common/categories";
 import { FixedUploadBtn } from "@components/common/button";
 
 const Main = () => {
@@ -11,7 +13,10 @@ const Main = () => {
       {/* <Suspense fallback={<OnBoarding />}> */}
       <Header />
       <Navigator />
-      <VideoList />
+      <Wrapper>
+        <Categories marginTop={"23px"} />
+        <VideoList />
+      </Wrapper>
       <FixedUploadBtn />
       {/* </Suspense> */}
     </>
@@ -19,3 +24,8 @@ const Main = () => {
 };
 
 export default Main;
+
+const Wrapper = styled.div`
+  width: 90%;
+  margin: 0 auto;
+`;
