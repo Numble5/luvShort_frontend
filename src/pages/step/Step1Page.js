@@ -15,6 +15,7 @@ import user, {
   changeState,
 } from "@/reducers/user";
 import axios from "axios";
+import Modal from "@/components/step1/modal";
 
 const Step1PageBlock = styled.div`
   padding: 53px 30px 0 30px;
@@ -22,6 +23,9 @@ const Step1PageBlock = styled.div`
     display: flex;
     justify-content: space-between;
     margin-bottom: 70px;
+    .left-arrow {
+      cursor: pointer;
+    }
   }
 
   .title {
@@ -212,8 +216,7 @@ const Step1Page = () => {
   const nickname = useSelector(({ user }) => user.nickname);
   const birthday = useSelector(({ user }) => user.birthday);
   const gender = useSelector(({ user }) => user.gender);
-  const state = useSelector(({ user }) => user.state);
-  const city = useSelector(({ user }) => user.city);
+  const [isModal, setIsModal] = useState(false);
   const [nicknameCheckSuccess, setNicknameCheckSuccess] = useState(null);
   const [birthdayError, setBirthdayError] = useState(false);
 
@@ -269,145 +272,156 @@ const Step1Page = () => {
     setNicknameCheckSuccess(null);
   };
 
+  const onClickModal = () => {
+    if (isModal === true) {
+      setIsModal(false);
+    } else {
+      setIsModal(true);
+    }
+  };
+
   return (
-    <Step1PageBlock>
-      <div className="header-pagination">
-        <div className="left-arrow">
-          <img src={LeftArrow} alt="좌측화살표" />
-        </div>
-        <span>1/2</span>
-        <div className="right-arrow">
-          <img src={RightArrow} alt="우측화살표" />
-        </div>
-      </div>
-
-      <div className="title">
-        <h1>Step1</h1>
-        <p>간단한 프로필을 완성해주세요</p>
-      </div>
-
-      <form className="profile">
-        <div className="nickname-container">
-          <div className="nickname_title">
-            <label>닉네임</label>
-            {nicknameCheckSuccess === true && (
-              <span className="success">사용 가능한 닉네임이에요.</span>
-            )}
-            {nicknameCheckSuccess === false && (
-              <span className="error">동일한 닉네임이 있어요.</span>
-            )}
+    <>
+      <Step1PageBlock>
+        <div className="header-pagination">
+          <div className="left-arrow" onClick={onClickModal}>
+            <img src={LeftArrow} alt="좌측화살표" />
           </div>
+          <span>1/2</span>
+          <div className="right-arrow">
+            <img src={RightArrow} alt="우측화살표" />
+          </div>
+        </div>
 
-          <div className="nickname-input">
-            {nicknameCheckSuccess === true ? (
-              <input
-                type="text"
-                value={nickname}
-                onChange={onChangeNickname}
-                disabled
-              />
-            ) : (
-              <input
-                type="text"
-                className={nicknameCheckSuccess === false ? "error" : ""}
-                value={nickname}
-                onChange={onChangeNickname}
-              />
-            )}
+        <div className="title">
+          <h1>Step1</h1>
+          <p>간단한 프로필을 완성해주세요</p>
+        </div>
 
-            {nicknameCheckSuccess === null && (
-              <span onClick={onClickCheckNickname}>중복확인</span>
-            )}
-            {nicknameCheckSuccess === true && (
-              <img src={NicknameCheck} alt="닉네임중복체크기능" />
-            )}
-            {nicknameCheckSuccess === false && (
-              <>
-                <span className="error" onClick={onClickCheckNickname}>
-                  중복확인
-                </span>
-                <img
-                  src={NicknameError}
-                  onClick={nicknameReset}
-                  alt="닉네임중복체크기능"
+        <form className="profile">
+          <div className="nickname-container">
+            <div className="nickname_title">
+              <label>닉네임</label>
+              {nicknameCheckSuccess === true && (
+                <span className="success">사용 가능한 닉네임이에요.</span>
+              )}
+              {nicknameCheckSuccess === false && (
+                <span className="error">동일한 닉네임이 있어요.</span>
+              )}
+            </div>
+
+            <div className="nickname-input">
+              {nicknameCheckSuccess === true ? (
+                <input
+                  type="text"
+                  value={nickname}
+                  onChange={onChangeNickname}
+                  disabled
                 />
-              </>
-            )}
-          </div>
-        </div>
+              ) : (
+                <input
+                  type="text"
+                  className={nicknameCheckSuccess === false ? "error" : ""}
+                  value={nickname}
+                  onChange={onChangeNickname}
+                />
+              )}
 
-        <div className="birthday-gender">
-          <div className="birthday-gender-title">
-            <label>생년월일/성별</label>
-            {birthdayError && <span>생년월일을 다시 입력해주세요!</span>}
-          </div>
-          <div className="birthday-input-gender-checkbox">
-            <div className="birthday-input-container">
-              <input
-                type="text"
-                value={birthday}
-                placeholder="YY MM DD"
-                pattern="[0-9]+"
-                maxLength={6}
-                onChange={onChangeBirthday}
-              />
-            </div>
-            <div className="gender-checkbox-container">
-              <div className="male" onClick={() => checkGender("남")}>
-                {gender === "남" ? (
-                  <img src={GenderGreenCheckButton} alt="체크박스" />
-                ) : (
-                  <img src={GenderGrayCheckButton} alt="체크박스" />
-                )}
-                <span>남</span>
-              </div>
-              <div className="female" onClick={() => checkGender("여")}>
-                {gender === "여" ? (
-                  <img src={GenderGreenCheckButton} alt="체크박스" />
-                ) : (
-                  <img src={GenderGrayCheckButton} alt="체크박스" />
-                )}
-                <span>여</span>
-              </div>
+              {nicknameCheckSuccess === null && (
+                <span onClick={onClickCheckNickname}>중복확인</span>
+              )}
+              {nicknameCheckSuccess === true && (
+                <img src={NicknameCheck} alt="닉네임중복체크기능" />
+              )}
+              {nicknameCheckSuccess === false && (
+                <>
+                  <span className="error" onClick={onClickCheckNickname}>
+                    중복확인
+                  </span>
+                  <img
+                    src={NicknameError}
+                    onClick={nicknameReset}
+                    alt="닉네임중복체크기능"
+                  />
+                </>
+              )}
             </div>
           </div>
-        </div>
 
-        <div className="location-select">
-          <label>거주지역</label>
-          <div className="location-select-container">
-            <div className="location-si">
-              <select onChange={onChangeState}>
-                <option value="서울">서울</option>
-                <option value="인천">인천</option>
-                <option value="대전">대전</option>
-                <option value="대구">대구</option>
-                <option value="melon">부산</option>
-              </select>
+          <div className="birthday-gender">
+            <div className="birthday-gender-title">
+              <label>생년월일/성별</label>
+              {birthdayError && <span>생년월일을 다시 입력해주세요!</span>}
             </div>
-            <div className="location-gu">
-              <select onChange={onChangeCity} defaultValue="강동구">
-                <option value="강동구">강동구</option>
-                <option value="송파구">송파구</option>
-                <option value="용산구">용산구</option>
-                <option value="은평구">은평구</option>
-                <option value="동작구">동작구</option>
-              </select>
+            <div className="birthday-input-gender-checkbox">
+              <div className="birthday-input-container">
+                <input
+                  type="text"
+                  value={birthday}
+                  placeholder="YY MM DD"
+                  pattern="[0-9]+"
+                  maxLength={6}
+                  onChange={onChangeBirthday}
+                />
+              </div>
+              <div className="gender-checkbox-container">
+                <div className="male" onClick={() => checkGender("남")}>
+                  {gender === "남" ? (
+                    <img src={GenderGreenCheckButton} alt="체크박스" />
+                  ) : (
+                    <img src={GenderGrayCheckButton} alt="체크박스" />
+                  )}
+                  <span>남</span>
+                </div>
+                <div className="female" onClick={() => checkGender("여")}>
+                  {gender === "여" ? (
+                    <img src={GenderGreenCheckButton} alt="체크박스" />
+                  ) : (
+                    <img src={GenderGrayCheckButton} alt="체크박스" />
+                  )}
+                  <span>여</span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <button
-          type="submit"
-          className={
-            nicknameCheckSuccess && !birthdayError
-              ? "next-step-button next-step-button-selected"
-              : "next-step-button"
-          }
-        >
-          다음
-        </button>
-      </form>
-    </Step1PageBlock>
+
+          <div className="location-select">
+            <label>거주지역</label>
+            <div className="location-select-container">
+              <div className="location-si">
+                <select onChange={onChangeState}>
+                  <option value="서울">서울</option>
+                  <option value="인천">인천</option>
+                  <option value="대전">대전</option>
+                  <option value="대구">대구</option>
+                  <option value="melon">부산</option>
+                </select>
+              </div>
+              <div className="location-gu">
+                <select onChange={onChangeCity} defaultValue="강동구">
+                  <option value="강동구">강동구</option>
+                  <option value="송파구">송파구</option>
+                  <option value="용산구">용산구</option>
+                  <option value="은평구">은평구</option>
+                  <option value="동작구">동작구</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <button
+            type="submit"
+            className={
+              nicknameCheckSuccess && !birthdayError
+                ? "next-step-button next-step-button-selected"
+                : "next-step-button"
+            }
+          >
+            다음
+          </button>
+        </form>
+      </Step1PageBlock>
+      {isModal && <Modal onClickModal={onClickModal} />}
+    </>
   );
 };
 
