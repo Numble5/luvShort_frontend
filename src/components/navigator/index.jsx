@@ -1,17 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import { menu } from "./data/menu";
 
 const Navigator = () => {
+  const [selcted, setSelected] = useState("");
+
+  const changeMenu = (e) => {
+    while (e.target.nodeName !== "LI") {
+      e.target = e.target.parentNode;
+    }
+    setSelected(e.target.dataset.id);
+  };
+
   return (
     <Navigation>
       <NavigationList>
-        {menu.map(({ icon, link, title }) => (
-          <NavigationItem key={title}>
+        {menu.map(({ icon, focus, link, title }) => (
+          <NavigationItem
+            key={title}
+            data-id={link}
+            onClick={(e) => changeMenu(e)}
+          >
             <Link to={`/${link}`}>
-              <img src={icon} alt={`${title}아이콘`} />
+              {selcted === link ? (
+                <img src={focus} alt={`${title}아이콘`} />
+              ) : (
+                <img src={icon} alt={`${title}아이콘`} />
+              )}
               <h2>{title}</h2>
             </Link>
           </NavigationItem>
@@ -37,6 +54,7 @@ const NavigationList = styled.ul`
   justify-content: space-around;
   align-items: center;
 `;
+
 const NavigationItem = styled.li`
   padding: 8px;
   text-align: center;
