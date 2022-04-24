@@ -10,14 +10,14 @@ import store from "@redux/store/configureStore";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <Provider store={store}>
-          <Routers />
-        </Provider>
-        <GlobalStyle />
-      </ThemeProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        <Routers />
+      </Provider>
+      <GlobalStyle />
+    </ThemeProvider>
+  </BrowserRouter>
+  // </React.StrictMode>
 );
