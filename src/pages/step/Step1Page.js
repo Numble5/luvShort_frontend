@@ -5,7 +5,7 @@ import RightArrow from "@/static/step/Vector 2.svg";
 import NicknameCheck from "@/static/step/alert_circle.svg";
 import GenderGrayCheckButton from "@/static/step/Group 39531.svg";
 import GenderGreenCheckButton from "@/pages/step/assets-step1/Group 39571.svg";
-import NicknameError from "@/pages/step/assets-step1/Group 39570.svg";
+import NicknameError from "@pages/step/assets-step1/Group 39570.svg";
 import { useDispatch, useSelector } from "react-redux";
 import user, {
   changeBirthday,
@@ -13,9 +13,9 @@ import user, {
   changeGender,
   changeNickname,
   changeState,
-} from "@/reducers/user";
+} from "@redux/reducers/user";
 import axios from "axios";
-import Modal from "@/components/step1/modal";
+import Modal from "@components/step1/modal";
 
 const Step1PageBlock = styled.div`
   padding: 53px 30px 0 30px;
