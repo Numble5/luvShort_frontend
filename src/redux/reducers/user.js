@@ -14,16 +14,28 @@ export const userCheck = createAsyncThunk("user/userCheck", async () => {
   return response.data;
 });
 
+export const nicknameCheck = createAsyncThunk(
+  "user/nicknameCheck",
+  async (nickname) => {
+    const response = await client.get(`/api/auth/check/${nickname}`);
+    console.log(response.data);
+    return response.data;
+  }
+);
+
 const initialState = {
   user: null,
   userCheckError: null,
   userCheckLoading: null,
-  stepTWoLoading: false,
+  nicknameCheckError: null,
+  nicknameCheckLoading: null,
+  birthdayError: null,
+  stepTwoLoading: false,
   nickname: "",
   birthday: "",
   gender: "",
-  state: "",
-  city: "",
+  state: "서울",
+  city: "강동구",
   interest: "",
 };
 
@@ -46,14 +58,20 @@ const userSlice = createSlice({
     changeCity(state, action) {
       state.city = action.payload;
     },
+    changeBirtdayError(state, action) {
+      state.birthdayError = action.payload;
+    },
+    setNicknameCheckNull(state, action) {
+      state.nicknameCheckError = null;
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(submitUserInfo.pending, (state, action) => {
-        state.stepTWoLoading = true;
+        state.stepTwoLoading = true;
       })
       .addCase(submitUserInfo.fulfilled, (state, action) => {
-        state = { ...action.payload, stepTWoLoading: false };
+        state = { ...action.payload, stepTwoLoading: false };
       })
       .addCase(userCheck.pending, (state, action) => {
         state.userCheckLoading = true;
@@ -66,6 +84,17 @@ const userSlice = createSlice({
         state.userCheckLoading = false;
         state.user = null;
         state.userCheckError = true;
+      })
+      .addCase(nicknameCheck.pending, (state, action) => {
+        state.nicknameCheckLoading = true;
+      })
+      .addCase(nicknameCheck.fulfilled, (state, action) => {
+        state.nicknameCheckLoading = false;
+        state.nicknameCheckError = true;
+      })
+      .addCase(nicknameCheck.rejected, (state, action) => {
+        state.nicknameCheckLoading = false;
+        state.nicknameCheckError = false;
       });
   },
 });
@@ -76,6 +105,8 @@ export const {
   changeGender,
   changeState,
   changeCity,
+  changeBirtdayError,
+  setNicknameCheckNull,
 } = userSlice.actions;
 
 export default userSlice.reducer;
