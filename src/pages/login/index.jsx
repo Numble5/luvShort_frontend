@@ -7,7 +7,7 @@ import KakaoButton3 from "@/static/login/kakaotalk.svg";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { client } from "@/lib/api";
-import { userCheck } from "@/reducers/user";
+import { userCheck } from "@/redux/reducers/user";
 import { useDispatch, useSelector } from "react-redux";
 
 const LoginBlock = styled.div`
