@@ -42,6 +42,7 @@ export default Navigator;
 
 const Navigation = styled.nav`
   background-color: #fafafa;
+  z-index: 1;
 
   position: fixed;
   width: 100%;
