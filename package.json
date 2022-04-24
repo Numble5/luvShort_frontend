@@ -47,5 +47,6 @@
   },
   "devDependencies": {
     "craco-alias": "^3.0.1"
-  }
+  },
+  "proxy": "http://localhost:4000/"
 }
