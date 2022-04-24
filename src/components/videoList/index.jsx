@@ -1,48 +1,33 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import VideoItem from "../videoItem.jsx";
-
-const videos = [
-  {
-    idx: 1212,
-    thumbnailUrl: "",
-    title: "임시 타이틀입니다.",
-    videoUrl: "sadldsal",
-    profileImgUrl:
-      "https://s3.ap-northeast-2.amazonaws.com/elasticbeanstalk-ap-northeast-2-176213403491/media/magazine_img/magazine_262/%EC%8D%B8%EB%84%A4%EC%9D%BC.jpg",
-    nickname: "김첨지",
-    uploadeDate: "1시간전",
-  },
-  {
-    idx: 1212,
-    thumbnailUrl: "",
-    title: "임시 타이틀입니다.",
-    videoUrl: "sadldsal",
-    profileImgUrl:
-      "https://s3.ap-northeast-2.amazonaws.com/elasticbeanstalk-ap-northeast-2-176213403491/media/magazine_img/magazine_262/%EC%8D%B8%EB%84%A4%EC%9D%BC.jpg",
-    nickname: "김첨지",
-    uploadeDate: "1시간전",
-  },
-  {
-    idx: 1212,
-    thumbnailUrl: "",
-    title: "임시 타이틀입니다.",
-    videoUrl: "sadldsal",
-    profileImgUrl:
-      "https://s3.ap-northeast-2.amazonaws.com/elasticbeanstalk-ap-northeast-2-176213403491/media/magazine_img/magazine_262/%EC%8D%B8%EB%84%A4%EC%9D%BC.jpg",
-    nickname: "김첨지",
-    uploadeDate: "1시간전",
-  },
-];
+import request from "@/api/request";
 
 const VideoList = (props) => {
+  const [videos, setVideos] = useState([]);
+
+  const fetchData = async () => {
+    try {
+      const result = await request("/api/videos", "get");
+      console.log(result);
+
+      setVideos([...videos, ...result]);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <VideoListWrapper>
       <h2 className="sr-only">영상리스트</h2>
       <StyledUl>
-        {videos?.map((video) => (
-          <VideoItem key={video.idx} video={video} />
-        ))}
+        {videos?.map((video) => {
+          return <VideoItem key={video.video_idx} video={video} />;
+        })}
       </StyledUl>
     </VideoListWrapper>
   );
@@ -50,7 +35,7 @@ const VideoList = (props) => {
 export default VideoList;
 
 const VideoListWrapper = styled.section`
-  padding-bottom: 90px;
+  padding-bottom: 100px;
 `;
 
 const StyledUl = styled.ul`

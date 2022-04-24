@@ -14,7 +14,7 @@ import Book from "@pages/step/assets-step2/book.svg";
 import Cooking from "@pages/step/assets-step2/cooking.svg";
 
 import { useSelector } from "react-redux";
-import user, { submitUserInfo } from "@/reducers/user";
+import user, { submitUserInfo } from "@redux/reducers/user";
 
 const Step2PageBlock = styled.div`
   padding: 53px 30px 0 30px;

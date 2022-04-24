@@ -4,6 +4,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@styles/*": ["./src/style"],
+      "@redux/*": ["./src/redux"],
       "@components/*": ["./src/components"],
       "@pages/*": ["./src/pages"],
       "@routes/*": ["./src/routes"]

@@ -1,27 +1,52 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import heart from "./assets/heart.svg";
 
-const VideoItem = ({ video }) => {
+const VideoItem = ({
+  video: {
+    video_idx,
+    title,
+    nickname,
+    thumbnailUrl,
+    profileImgUrl,
+    updatedDate,
+  },
+}) => {
+  const calUpdateDate = () => {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth() + 1;
+    const day = currentDate.getDate();
+
+    console.log(updatedDate);
+    let result = "1시간";
+    return result;
+  };
+
+  const date = calUpdateDate();
+
   return (
-    <StyledLi key={video.idx}>
-      <Link to={`/${video.videoUrl}`}></Link>
+    <StyledLi key={video_idx}>
+      <Link to={`/${video_idx}`}></Link>
       <div className="wrapper">
+        <div className="thumbnail_wrapper">
+          {/* <img src={thumbnailUrl} alt={`${nickname}동영상`} /> */}
+        </div>
         <div className="info_wrapper">
           <div className="user_wrapper">
-            <UserProfileImgWrpper profileImgUrl={video.profileImgUrl} />
-            <span>{video.nickname}</span>
+            <UserProfileImgWrpper profileImgUrl={profileImgUrl} />
+            <span>{nickname}</span>
           </div>
           <div className="video_info">
-            <span>{video.uploadeDate}</span>
+            <span>{date}전</span>
             <span>
               <img src={heart} alt="하트"></img>
             </span>
           </div>
         </div>
-        <div className="item_title">{video.title}</div>
+        <div className="item_title">{title}</div>
       </div>
     </StyledLi>
   );

@@ -12,13 +12,13 @@ const BASE_URL = "http://13.209.236.146:8080";
 const request = async (req, option, query = {}) => {
   try {
     const FULL_URL = `${BASE_URL}${req}`;
-    const res = await axios({
+    const { data } = await axios({
       url: FULL_URL,
       method: option,
       params: query,
     });
 
-    return res;
+    return data;
   } catch (e) {
     console.log(e);
   }
