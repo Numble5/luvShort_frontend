@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LeftArrow from "@/static/step/Vector 3.svg";
 import RightArrow from "@/static/step/Vector 2.svg";
 import Circle from "@pages/step/assets-step2/Ellipse 454.svg";
@@ -13,8 +13,10 @@ import Animal from "@pages/step/assets-step2/animal.svg";
 import Book from "@pages/step/assets-step2/book.svg";
 import Cooking from "@pages/step/assets-step2/cooking.svg";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import user, { submitUserInfo } from "@redux/reducers/user";
+import { useNavigate } from "react-router";
+import { userCheck } from "@/redux/reducers/user";
 
 const Step2PageBlock = styled.div`
   padding: 53px 30px 0 30px;
@@ -122,11 +124,17 @@ const Step2PageBlock = styled.div`
 `;
 
 const Step2Page = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const nickname = useSelector(({ user }) => user.nickname);
   const birthday = useSelector(({ user }) => user.birthday);
   const gender = useSelector(({ user }) => user.gender);
   const state = useSelector(({ user }) => user.state);
   const city = useSelector(({ user }) => user.city);
+  const user = useSelector(({ user }) => user.user);
+  const submitUserInfoError = useSelector(
+    ({ user }) => user.submitUserInfoError
+  );
 
   const [interests, setInterests] = useState([
     {
@@ -206,8 +214,25 @@ const Step2Page = () => {
       city,
       selectedInterests: selectedInterests,
     };
-    submitUserInfo(user_info);
+    dispatch(submitUserInfo(user_info));
   };
+
+  useEffect(() => {
+    if (submitUserInfoError === false) {
+      dispatch(userCheck());
+    }
+  }, [submitUserInfoError]);
+
+  useEffect(() => {
+    if (user) {
+      navigate("/register-success");
+      try {
+        localStorage.setItem("user", JSON.stringify(user));
+      } catch (e) {
+        console.log("로컬스토리지가 작동 안해요.");
+      }
+    }
+  }, [user]);
 
   return (
     <Step2PageBlock>

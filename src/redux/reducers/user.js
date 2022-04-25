@@ -4,7 +4,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 export const submitUserInfo = createAsyncThunk(
   "user/submitUserInfo",
   async (userInfo) => {
-    const response = await client.post("백엔드 지정 주소", userInfo);
+    const response = await client.post("/api/auth/register-submit", userInfo);
     return response.data;
   }
 );
@@ -18,7 +18,6 @@ export const nicknameCheck = createAsyncThunk(
   "user/nicknameCheck",
   async (nickname) => {
     const response = await client.get(`/api/auth/check/${nickname}`);
-    console.log(response.data);
     return response.data;
   }
 );
@@ -29,8 +28,9 @@ const initialState = {
   userCheckLoading: null,
   nicknameCheckError: null,
   nicknameCheckLoading: null,
+  submitUserInfoError: null,
+  submitUserInfoLoading: false,
   birthdayError: null,
-  stepTwoLoading: false,
   nickname: "",
   birthday: "",
   gender: "",
@@ -68,10 +68,16 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(submitUserInfo.pending, (state, action) => {
-        state.stepTwoLoading = true;
+        state.submitUserInfoLoading = true;
       })
       .addCase(submitUserInfo.fulfilled, (state, action) => {
-        state = { ...action.payload, stepTwoLoading: false };
+        console.log(action.payload);
+        state.submitUserInfoLoading = false;
+        state.submitUserInfoError = false;
+      })
+      .addCase(submitUserInfo.rejected, (state, action) => {
+        state.submitUserInfoLoading = false;
+        state.submitUserInfoError = action.error.message;
       })
       .addCase(userCheck.pending, (state, action) => {
         state.userCheckLoading = true;
