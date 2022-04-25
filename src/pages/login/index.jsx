@@ -5,6 +5,10 @@ import LogoIllust from "../../static/login/Group 39520.jpg";
 import Template from "@/components/common/Template";
 import KakaoButton3 from "@/static/login/kakaotalk.svg";
 import axios from "axios";
+import { useNavigate } from "react-router";
+import { client } from "@/lib/api";
+import { userCheck } from "@/redux/reducers/user";
+import { useDispatch, useSelector } from "react-redux";
 
 const LoginBlock = styled.div`
   .illust {
@@ -19,6 +23,10 @@ const LoginBlock = styled.div`
     margin-bottom: 160px;
     .logo_container {
       margin-bottom: 16px;
+
+      img {
+        width: 109px;
+      }
     }
     .text_container {
       font-size: 20px;
@@ -88,15 +96,21 @@ const { naver } = window;
 
 const Login = () => {
   const naverRef = useRef(null);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector(({ user }) => user.user);
 
   const kakaoLoginClickHandler = () => {
     Kakao.Auth.login({
       success: async function (authObj) {
-        console.log(authObj);
-        let result = await axios.post("/api/auth/kakao-login", {
+        let result = await client.post("/api/auth/kakao-login", {
           access_token: authObj.access_token,
         });
-        console.log(result);
+        if (result.data.redirectUrl === "/") {
+          dispatch(userCheck());
+        } else if (result.data.redirectUrl === "/step1") {
+          navigate("/step1");
+        }
       },
     });
   };
@@ -123,8 +137,16 @@ const Login = () => {
   };
 
   useEffect(() => {
+    if (user) {
+      navigate("/");
+      try {
+        localStorage.setItem("user", JSON.stringify(user));
+      } catch (e) {
+        console.log("로컬스토리지가 작동 안해요.");
+      }
+    }
     naverLoginInitial();
-  }, []);
+  }, [user]);
 
   return (
     <>
@@ -134,7 +156,7 @@ const Login = () => {
         </div>
         <div className="logo_text_container">
           <div className="logo_container">
-            <img src={LogoIllust} alt="로고" />
+            <img src="assets/logo+name.svg" alt="로고" />
           </div>
           <div className="text_container">
             안녕하세요!

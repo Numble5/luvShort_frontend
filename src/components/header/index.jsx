@@ -2,21 +2,20 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import styled from "styled-components";
+import Union from "./assets/Union.svg";
 
 const Header = () => {
   return (
     <StyledHeader>
       <HeaderWrapper>
         <h1>
-          <img src="assets/logo+name.svg" alt="로고" />
+          <img src="assets/logo+name(white).svg" alt="로고" />
           <span className="sr-only">럽쇼츠</span>
         </h1>
-        <a className="login" href="/login">
-          로그인
-        </a>
-        {/* <div className="pofile">
+        <div className="header__userProfile">
           <span>빙고</span>
-        </div> */}
+          <div className="profile__img"></div>
+        </div>
       </HeaderWrapper>
       <HeaderGreeting>
         <div>
@@ -35,33 +34,37 @@ export default Header;
 
 const StyledHeader = styled.header`
   padding-top: 20px;
-  width: 90%;
+  width: 100%;
+  min-height: 240px;
+
   margin: 0 auto;
+  background-image: url(${Union});
+  background-repeat: no-repeat;
+  background-size: cover;
 `;
 
 const HeaderWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 90%;
+  margin: 0 auto;
 
-  .login {
-    background-color: #5dccc6;
-    border-radius: 3px;
-    color: #ffffff;
-    font-weight: 700;
-    font-size: 16px;
-    height: 20px;
-    line-height: 23px;
-    padding: 3px 8px;
+  .header__userProfile {
+    > span {
+      color: #d4d4d4;
+    }
   }
 `;
 const HeaderGreeting = styled.div`
-  margin-top: 28px;
+  margin: 40px auto 0 auto;
+  width: 90%;
 
   .greeting_bold,
   .greeting_mid {
     font-weight: 700;
     line-height: 26px;
+    color: #e6e6e6;
   }
   .greeting_bold {
     font-size: 21px;
@@ -75,5 +78,6 @@ const HeaderGreeting = styled.div`
     font-size: 16px;
     display: block;
     margin-top: 10px;
+    color: #5dccc6;
   }
 `;

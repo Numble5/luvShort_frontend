@@ -20,7 +20,6 @@ const Routers = (props) => {
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Main />} />
       </Routes>
-      {/*<Navigator />*/}
     </>
   );
 };
