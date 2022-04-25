@@ -7,15 +7,20 @@ import GenderGrayCheckButton from "@/static/step/Group 39531.svg";
 import GenderGreenCheckButton from "@/pages/step/assets-step1/Group 39571.svg";
 import NicknameError from "@pages/step/assets-step1/Group 39570.svg";
 import { useDispatch, useSelector } from "react-redux";
-import user, {
+import {
   changeBirthday,
   changeCity,
   changeGender,
   changeNickname,
   changeState,
 } from "@redux/reducers/user";
-import axios from "axios";
 import Modal from "@components/step1/modal";
+import {
+  changeBirtdayError,
+  nicknameCheck,
+  setNicknameCheckNull,
+} from "@/redux/reducers/user";
+import { useNavigate } from "react-router";
 
 const Step1PageBlock = styled.div`
   padding: 53px 30px 0 30px;
@@ -213,12 +218,13 @@ const Step1PageBlock = styled.div`
 
 const Step1Page = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const nickname = useSelector(({ user }) => user.nickname);
   const birthday = useSelector(({ user }) => user.birthday);
   const gender = useSelector(({ user }) => user.gender);
+  const nicknameCheckError = useSelector(({ user }) => user.nicknameCheckError);
+  const birthdayError = useSelector(({ user }) => user.birthdayError);
   const [isModal, setIsModal] = useState(false);
-  const [nicknameCheckSuccess, setNicknameCheckSuccess] = useState(null);
-  const [birthdayError, setBirthdayError] = useState(false);
 
   const onChangeNickname = useCallback((e) => {
     dispatch(changeNickname(e.target.value));
@@ -235,9 +241,9 @@ const Step1Page = () => {
   const birthdayCheck = (birth) => {
     var format = /([0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[1,2][0-9]|3[0,1]))/;
     if (format.test(birth)) {
-      setBirthdayError(false);
+      dispatch(changeBirtdayError(false));
     } else {
-      setBirthdayError(true);
+      dispatch(changeBirtdayError(true));
     }
   };
 
@@ -246,7 +252,6 @@ const Step1Page = () => {
   };
 
   const onChangeState = useCallback((e) => {
-    console.log(e.target.value);
     dispatch(changeState(e.target.value));
   }, []);
 
@@ -254,22 +259,9 @@ const Step1Page = () => {
     dispatch(changeCity(e.target.value));
   };
 
-  const onClickCheckNickname = async () => {
-    try {
-      const { data } = await axios.post("/nickname_check", nickname);
-      if (data.used_nickname) {
-        setNicknameCheckSuccess(false);
-      } else {
-        setNicknameCheckSuccess(true);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   const nicknameReset = () => {
     dispatch(changeNickname(""));
-    setNicknameCheckSuccess(null);
+    dispatch(setNicknameCheckNull());
   };
 
   const onClickModal = () => {
@@ -278,6 +270,14 @@ const Step1Page = () => {
     } else {
       setIsModal(true);
     }
+  };
+
+  const onClickCheckNickname = () => {
+    if (!nickname) {
+      console.log("닉네임을 입력해주세요");
+      return;
+    }
+    dispatch(nicknameCheck(nickname));
   };
 
   return (
@@ -302,16 +302,16 @@ const Step1Page = () => {
           <div className="nickname-container">
             <div className="nickname_title">
               <label>닉네임</label>
-              {nicknameCheckSuccess === true && (
+              {nicknameCheckError === false && (
                 <span className="success">사용 가능한 닉네임이에요.</span>
               )}
-              {nicknameCheckSuccess === false && (
+              {nicknameCheckError === true && (
                 <span className="error">동일한 닉네임이 있어요.</span>
               )}
             </div>
 
             <div className="nickname-input">
-              {nicknameCheckSuccess === true ? (
+              {nicknameCheckError === false ? (
                 <input
                   type="text"
                   value={nickname}
@@ -321,19 +321,19 @@ const Step1Page = () => {
               ) : (
                 <input
                   type="text"
-                  className={nicknameCheckSuccess === false ? "error" : ""}
+                  className={nicknameCheckError === true ? "error" : ""}
                   value={nickname}
                   onChange={onChangeNickname}
                 />
               )}
 
-              {nicknameCheckSuccess === null && (
+              {nicknameCheckError === null && (
                 <span onClick={onClickCheckNickname}>중복확인</span>
               )}
-              {nicknameCheckSuccess === true && (
+              {nicknameCheckError === false && (
                 <img src={NicknameCheck} alt="닉네임중복체크기능" />
               )}
-              {nicknameCheckSuccess === false && (
+              {nicknameCheckError === true && (
                 <>
                   <span className="error" onClick={onClickCheckNickname}>
                     중복확인
@@ -394,7 +394,7 @@ const Step1Page = () => {
                   <option value="인천">인천</option>
                   <option value="대전">대전</option>
                   <option value="대구">대구</option>
-                  <option value="melon">부산</option>
+                  <option value="부산">부산</option>
                 </select>
               </div>
               <div className="location-gu">
@@ -409,12 +409,26 @@ const Step1Page = () => {
             </div>
           </div>
           <button
+            disabled={
+              nickname &&
+              nicknameCheckError === false &&
+              birthday &&
+              birthdayError === false &&
+              gender
+                ? false
+                : true
+            }
             type="submit"
             className={
-              nicknameCheckSuccess && !birthdayError
+              nickname &&
+              nicknameCheckError === false &&
+              birthday &&
+              birthdayError === false &&
+              gender
                 ? "next-step-button next-step-button-selected"
                 : "next-step-button"
             }
+            onClick={() => navigate("/step2")}
           >
             다음
           </button>
