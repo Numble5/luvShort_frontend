@@ -36,13 +36,16 @@ const initialState = {
   gender: "",
   state: "서울",
   city: "강동구",
-  interest: "",
+  interests: "",
 };
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    tempSetUser(state, action) {
+      state.user = action.payload;
+    },
     changeNickname(state, action) {
       state.nickname = action.payload;
     },
@@ -74,6 +77,7 @@ const userSlice = createSlice({
         console.log(action.payload);
         state.submitUserInfoLoading = false;
         state.submitUserInfoError = false;
+        state.interests = action.payload.selectedInterests;
       })
       .addCase(submitUserInfo.rejected, (state, action) => {
         state.submitUserInfoLoading = false;
@@ -113,6 +117,7 @@ export const {
   changeCity,
   changeBirtdayError,
   setNicknameCheckNull,
+  tempSetUser,
 } = userSlice.actions;
 
 export default userSlice.reducer;

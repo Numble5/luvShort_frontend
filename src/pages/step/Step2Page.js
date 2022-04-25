@@ -14,7 +14,7 @@ import Book from "@pages/step/assets-step2/book.svg";
 import Cooking from "@pages/step/assets-step2/cooking.svg";
 
 import { useDispatch, useSelector } from "react-redux";
-import user, { submitUserInfo } from "@redux/reducers/user";
+import { submitUserInfo } from "@redux/reducers/user";
 import { useNavigate } from "react-router";
 import { userCheck } from "@/redux/reducers/user";
 
