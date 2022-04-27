@@ -7,6 +7,9 @@ import Step1Page from "@/pages/step/Step1Page";
 import Main from "@pages/main";
 import Step2Page from "@/pages/step/Step2Page";
 import RegisterSuccessPage from "@/pages/step/RegisterSuccessPage";
+import Interests from "@/pages/Interests/noInterests";
+import LoginCallbackPage from "@/pages/login/LoginCallbackPage";
+import FileUploadPage from "@/pages/file-upload/FileUploadPage";
 
 const Routers = (props) => {
   return (
@@ -18,7 +21,10 @@ const Routers = (props) => {
         <Route path="/register-success" element={<RegisterSuccessPage />} />
         <Route path="/on" element={<OnBoarding />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/naver/auth/callback" element={<LoginCallbackPage />} />
         <Route path="/" element={<Main />} />
+        <Route path="/interest" element={<Interests/>} />
+        <Route path="/file-upload" element={<FileUploadPage />} />
       </Routes>
     </>
   );

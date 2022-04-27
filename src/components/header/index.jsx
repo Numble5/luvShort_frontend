@@ -18,10 +18,10 @@ const Header = () => {
         </div>
       </HeaderWrapper>
       <HeaderGreeting>
-        <div>
+        {/* <div>
           <span className="greeting_bold">빙고</span>
           <span className="greeting_mid">님,</span>
-        </div>
+        </div> */}
         <div className="greeting_mid">짧은 영상을 업로드하고</div>
         <div className="greeting_mid">신개념 랜선 소개팅을 경험해 보세요!</div>
         <Link to="">{`업로드 하러가기`}</Link>
