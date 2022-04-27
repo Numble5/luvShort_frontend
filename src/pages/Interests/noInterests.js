@@ -31,7 +31,7 @@ const InterestBlock = styled.div`
         img {
             display:block;
             margin:auto;
-            vertical-align:middle;
+            text-align:center;
         } //이미지 중앙정렬이 안 먹음
     }
 `;
@@ -49,7 +49,7 @@ const Interests = () => {
                 
             <div className="contents">
                 <h3>마음에 드는 영상에 하트를 누르고<br/> 관심영상을 업데이트해보세요!</h3>
-                <img src={noInterests} alt="아직 영상이 없어요"/> 
+                <div><img src={noInterests} alt="아직 영상이 없어요"/> </div>
                 <VideoList></VideoList>
             </div>
             
