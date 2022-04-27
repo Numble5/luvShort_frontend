@@ -13,7 +13,7 @@ export const menu = [
   {
     icon: `${liked}`,
     title: "관심영상",
-    link: "/liked",
+    link: "interest",
   },
   {
     icon: `${home}`,
