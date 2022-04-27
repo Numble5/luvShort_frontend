@@ -274,6 +274,7 @@ const Step1Page = () => {
 
   const onClickCheckNickname = () => {
     if (!nickname) {
+      console.log("닉네임을 입력해주세요");
       return;
     }
     dispatch(nicknameCheck(nickname));
