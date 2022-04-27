@@ -1,6 +1,8 @@
 import styled from "styled-components";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Wave from "@/pages/step/assets-register-success/Group 39534.jpg";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 
 const RegisterSuccessPageBlock = styled.div`
   padding: 20vh 27px 0 27px;
@@ -50,23 +52,29 @@ const RegisterSuccessPageBlock = styled.div`
     color: white;
     font-size: 18px;
     font-weight: bold;
+    cursor: pointer;
   }
 `;
 
 const RegisterSuccessPage = () => {
-  const [interests, setInterests] = useState(["여행", "영화", "요리"]);
+  // const nickname = useSelector(({user}) => user.nickname);
+  // const interests = useSelector(({user}) => user.interests); 서버 통신 완성되면 이거 사용하기
+  const navigate = useNavigate();
+  const nickname = useSelector(({ user }) => user.nickname);
+  const interests = useSelector(({ user }) => user.interests);
+
   return (
     <RegisterSuccessPageBlock>
       <div className="title">
         <h1>
-          <span>'빙고'</span>님,
+          <span>'{nickname}'</span>님,
           <br />
           회원가입을 축하해요
         </h1>
       </div>
       <div className="sub-title">
         <p>관심사는</p>
-        {interests.map((item) => (
+        {interests?.map((item) => (
           <span>#{item}</span>
         ))}
       </div>
@@ -75,7 +83,11 @@ const RegisterSuccessPage = () => {
         <img src={Wave} alt="웨이브" />
       </div>
 
-      <button type="submit" className="next-step-button">
+      <button
+        type="submit"
+        className="next-step-button"
+        onClick={() => navigate("/")}
+      >
         시작하기
       </button>
     </RegisterSuccessPageBlock>
