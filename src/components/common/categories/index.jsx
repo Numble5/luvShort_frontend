@@ -1,48 +1,57 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import { AddCategoryBtn } from "../button";
+import { useSelector } from "react-redux";
 
-const tempCategory = [
-  {
-    link: "cook",
-    title: "요리",
-    color: "#FFC9D0",
-  },
-  {
-    link: "game",
-    title: "게임",
-    color: "#F9DAA0",
-  },
-];
-const Categories = ({ marginTop }) => {
+const Categories = ({ marginTop, setCurrentCategory }) => {
+  const user = useSelector(({ user }) => user.user);
+  const interests = useSelector(({ user }) => user.interest);
+
+  const handleShowCategory = ({ target }) => {
+    setCurrentCategory(target.value);
+  };
+
   return (
-    <CategoryUl marginTop={marginTop}>
-      {tempCategory.map(({ link, title, color }) => (
-        <CategoryLi key={title} color={color}>
-          <Link to={link}>#{title}</Link>
-        </CategoryLi>
-      ))}
-    </CategoryUl>
+    <StyledCategory marginTop={marginTop}>
+      <ul>
+        {user ? {} : <></>}
+        {/* {interests?.map(({ link, title, color }) => (
+          <CategoryLi key={title} color={color}>
+            <Link to={link}>#{title}</Link>
+          </CategoryLi>
+        ))} */}
+      </ul>
+      <CategorySelect onChange={handleShowCategory}>
+        <option value="전체">전체</option>
+        <option value="여자">여자</option>
+        <option value="남자">남자</option>
+        <option value="우리동네">우리동네</option>
+      </CategorySelect>
+    </StyledCategory>
   );
 };
 
 export default Categories;
 
-const CategoryUl = styled.ul`
+const StyledCategory = styled.div`
   margin-top: ${(props) => props.marginTop};
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
+
 const CategoryLi = styled.li`
   display: inline-block;
-  margin: 0 2px;
-  a {
-    border-radius: 10px;
-    display: inline-block;
-    height: 20px;
-    background-color: ${(props) => props.color};
-    padding: 1px 10px;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 22px;
-  }
+  background-color: ${(props) => props.color};
+  background-color: blue;
+`;
+
+const CategorySelect = styled.select`
+  background-color: #3d3d3d;
+  color: white;
+  height: 27px;
+  font-weight: 600;
+  border-radius: 5px;
+  outline: none;
+  padding: 3px 5px;
 `;

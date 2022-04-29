@@ -6,7 +6,7 @@ import styled from "styled-components";
 import Union from "./assets/Union.svg";
 
 const Header = () => {
-  const user = useSelector(({ user }) => user.user);
+  const user = useSelector(({ user }) => user);
 
   return (
     <StyledHeader>
@@ -17,17 +17,19 @@ const Header = () => {
         </h1>
         {user ? (
           <div className="header__userProfile">
-            <span>빙고</span>
-            <div className="profile__img"></div>
+            <span>{user.nickname}</span>
+            <div className="profile__img">
+              {/* <img src={user.thumbsnail} alt="프로필 이미지" /> */}
+            </div>
           </div>
         ) : (
           <></>
         )}
       </HeaderWrapper>
       <HeaderGreeting>
-        {user ? (
+        {user.user ? (
           <div>
-            <span className="greeting_bold">빙고</span>
+            <span className="greeting_bold">{user.nickname}</span>
             <span className="greeting_mid">님,</span>
           </div>
         ) : (

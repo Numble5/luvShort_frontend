@@ -20,7 +20,6 @@ const VideoItem = ({
     const month = currentDate.getMonth() + 1;
     const day = currentDate.getDate();
 
-    console.log(updatedDate);
     let result = "1시간";
     return result;
   };
@@ -29,7 +28,9 @@ const VideoItem = ({
 
   return (
     <StyledLi key={video_idx}>
-      <Link to={`/${video_idx}`}></Link>
+      <Link to={`/${video_idx}`}>
+        <img src={thumbnailUrl} alt="썸네일 이미지" />
+      </Link>
       <div className="wrapper">
         <div className="thumbnail_wrapper">
           {/* <img src={thumbnailUrl} alt={`${nickname}동영상`} /> */}
