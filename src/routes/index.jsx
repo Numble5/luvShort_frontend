@@ -10,12 +10,13 @@ import Interests from "@pages/Interests/noInterests";
 import LoginCallbackPage from "@pages/login/LoginCallbackPage";
 import FileUploadPage from "@pages/file-upload/FileUploadPage";
 import Detail from "@pages/detail";
+import Alarm from "@/pages/alarm";
+import MyPage from "@/pages/mypage";
 
 const Routers = (props) => {
   return (
     <>
       <Routes>
-        {/* <Route to="" element={}/> */}
         <Route path="/" element={<Main />} />
         <Route path="/:id" element={<Detail />} />
         <Route path="/step1" element={<Step1Page />} />
@@ -23,8 +24,11 @@ const Routers = (props) => {
         <Route path="/register-success" element={<RegisterSuccessPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/naver/auth/callback" element={<LoginCallbackPage />} />
-        <Route path="/interest" element={<Interests />} />
         <Route path="/file-upload" element={<FileUploadPage />} />
+        {/* 아래에서부터는 링크 */}
+        <Route path="/liked" element={<Interests />} />
+        <Route path="/alarm" element={<Alarm />} />
+        <Route path="/mypage" element={<MyPage />} />
       </Routes>
     </>
   );
