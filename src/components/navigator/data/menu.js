@@ -33,12 +33,12 @@ export const menu = [
     icon: `${alarm}`,
     focus: `${focusalarm}`,
     title: "알림",
-    link: "/alarm",
+    link: "alarm",
   },
   {
     icon: `${my}`,
     focus: `${focusmy}`,
     title: "MY",
-    link: "/myPage",
+    link: "mypage",
   },
 ];
