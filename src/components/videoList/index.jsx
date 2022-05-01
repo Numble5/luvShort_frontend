@@ -1,31 +1,12 @@
-import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import VideoItem from "../videoItem.jsx";
-import request from "@/api/request";
 
-const VideoList = (props) => {
-  const [videos, setVideos] = useState([]);
-
-  const fetchData = async () => {
-    try {
-      const result = await request("/api/videos", "get");
-      console.log(result);
-
-      setVideos([...videos, ...result]);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
+const VideoList = ({ videos }) => {
   return (
     <VideoListWrapper>
       <h2 className="sr-only">영상리스트</h2>
       <StyledUl>
-        {videos?.map((video) => {
+        {videos.map((video) => {
           return <VideoItem key={video.video_idx} video={video} />;
         })}
       </StyledUl>
