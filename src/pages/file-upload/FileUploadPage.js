@@ -2,10 +2,8 @@ import styled from "styled-components";
 import React, { useEffect, useState } from "react";
 import LeftArrow from "@/static/step/Vector 3.svg";
 import Navigator from "@components/navigator";
-import AWS from "aws-sdk";
 import FileUploadIcon from "@/pages/file-upload/assets/file-upload-icon.svg";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 import { client } from "@/lib/api";
 
 const FileUploadPageBlock = styled.div`
