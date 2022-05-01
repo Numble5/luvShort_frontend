@@ -23,6 +23,10 @@ const Routers = (props) => {
         <Route path="/naver/auth/callback" element={<LoginCallbackPage />} />
         <Route path="/" element={<Main />} />
         <Route path="/file-upload" element={<FileUploadPage />} />
+        <Route
+          path="/file-upload/embed"
+          element={<FileUploadPage embed="embed" />}
+        />
       </Routes>
     </>
   );
