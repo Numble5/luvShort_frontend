@@ -13,6 +13,7 @@ const Carousel = ({ items }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
   };
+
   return (
     <Slider {...settings}>
       {items.map((item) => {
@@ -23,7 +24,10 @@ const Carousel = ({ items }) => {
             />
             <div className="carousel__content-wrapper">
               <h2>{item.title}</h2>
-              <div>{item.content}</div>
+              <div>
+                <div>{item.content1}</div>
+                <div>{item.content2}</div>
+              </div>
             </div>
           </CarouselWrapper>
         );
@@ -36,7 +40,7 @@ export default Carousel;
 
 const CarouselWrapper = styled.div`
   .carousel__content-wrapper {
-    width: 95%;
+    // width: 98%;
     margin: 10px auto 0 auto;
 
     > h2 {
@@ -46,7 +50,7 @@ const CarouselWrapper = styled.div`
     }
 
     > div {
-      font-size: 15px;
+      font-size: 14px;
       line-height: 1.5;
     }
   }
@@ -57,5 +61,5 @@ const CarouselImgWrapper = styled.div`
   min-height: 160px;
   background-image: url(${(props) => props.img});
   background-repeat: no-repeat;
-  bakcground-size: cover;
+  background-size: cover;
 `;

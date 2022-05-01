@@ -1,10 +1,13 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import styled from "styled-components";
 import Union from "./assets/Union.svg";
 
 const Header = () => {
+  const user = useSelector(({ user }) => user);
+
   return (
     <StyledHeader>
       <HeaderWrapper>
@@ -12,16 +15,26 @@ const Header = () => {
           <img src="assets/logo+name(white).svg" alt="로고" />
           <span className="sr-only">럽쇼츠</span>
         </h1>
-        <div className="header__userProfile">
-          <span>빙고</span>
-          <div className="profile__img"></div>
-        </div>
+        {user ? (
+          <div className="header__userProfile">
+            <span>{user.nickname}</span>
+            <div className="profile__img">
+              {/* <img src={user.thumbsnail} alt="프로필 이미지" /> */}
+            </div>
+          </div>
+        ) : (
+          <></>
+        )}
       </HeaderWrapper>
       <HeaderGreeting>
-        <div>
-          <span className="greeting_bold">빙고</span>
-          <span className="greeting_mid">님,</span>
-        </div>
+        {user.user ? (
+          <div>
+            <span className="greeting_bold">{user.nickname}</span>
+            <span className="greeting_mid">님,</span>
+          </div>
+        ) : (
+          <div className="greeting_mid">로그인후,</div>
+        )}
         <div className="greeting_mid">짧은 영상을 업로드하고</div>
         <div className="greeting_mid">신개념 랜선 소개팅을 경험해 보세요!</div>
         <Link to="">{`업로드 하러가기`}</Link>
