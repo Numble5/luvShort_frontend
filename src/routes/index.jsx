@@ -25,6 +25,10 @@ const Routers = (props) => {
         <Route path="/login" element={<Login />} />
         <Route path="/naver/auth/callback" element={<LoginCallbackPage />} />
         <Route path="/file-upload" element={<FileUploadPage />} />
+        <Route
+          path="/file-upload/embed"
+          element={<FileUploadPage embed="embed" />}
+        />
         {/* 아래에서부터는 링크 */}
         <Route path="/liked" element={<Interests />} />
         <Route path="/alarm" element={<Alarm />} />
