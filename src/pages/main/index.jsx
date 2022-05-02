@@ -5,7 +5,6 @@ import Header from "@components/header";
 import VideoList from "@components/videoList";
 import Navigator from "@components/navigator";
 import Categories from "@/components/common/categories";
-import OnBoarding from "../onBoarding";
 
 import { FixedUploadBtn } from "@components/common/button";
 import MainLoginModal from "@components/common/modal/modal";
