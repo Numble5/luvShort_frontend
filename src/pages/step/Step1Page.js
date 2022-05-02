@@ -9,10 +9,10 @@ import NicknameError from "@pages/step/assets-step1/Group 39570.svg";
 import { useDispatch, useSelector } from "react-redux";
 import {
   changeBirthday,
-  changeCity,
+  changeDistrict,
   changeGender,
   changeNickname,
-  changeState,
+  changeCity,
 } from "@redux/reducers/user";
 import Modal from "@components/step1/modal";
 import {
@@ -233,13 +233,36 @@ const Step1Page = () => {
   const onChangeBirthday = useCallback((e) => {
     const onlyNumber = e.target.value.replace(/[^0-9]/g, "");
     dispatch(changeBirthday(onlyNumber));
-    if (e.target.value.length === 6) {
+    if (e.target.value.length === 8) {
       birthdayCheck(e.target.value);
     }
   }, []);
 
   const birthdayCheck = (birth) => {
-    var format = /([0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[1,2][0-9]|3[0,1]))/;
+    var format =
+      /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/;
+    if (
+      Number(birth.substring(0, 2)) !== 19 &&
+      Number("20" + birth.substring(2, 4)) > Number(new Date().getFullYear())
+    ) {
+      return dispatch(changeBirtdayError(true));
+    }
+    if (
+      Number(birth.substring(0, 2)) !== 19 &&
+      Number(birth.substring(4, 6)) > new Date().getMonth() + 1
+    ) {
+      return dispatch(changeBirtdayError(true));
+    }
+    if (
+      Number(birth.substring(0, 2)) !== 19 &&
+      Number(birth.substring(4, 6)) === new Date().getMonth() + 1 &&
+      Number(birth.substring(6, 8)) > new Date().getDay() + 1
+    ) {
+      return dispatch(changeBirtdayError(true));
+    }
+    if (Number(birth.substring(4, 6)) === 0) {
+      return dispatch(changeBirtdayError(true));
+    }
     if (format.test(birth)) {
       dispatch(changeBirtdayError(false));
     } else {
@@ -251,12 +274,12 @@ const Step1Page = () => {
     dispatch(changeGender(gender));
   };
 
-  const onChangeState = useCallback((e) => {
-    dispatch(changeState(e.target.value));
+  const onChangeCity = useCallback((e) => {
+    dispatch(changeCity(e.target.value));
   }, []);
 
-  const onChangeCity = (e) => {
-    dispatch(changeCity(e.target.value));
+  const onChangeDistrict = (e) => {
+    dispatch(changeDistrict(e.target.value));
   };
 
   const nicknameReset = () => {
@@ -357,23 +380,23 @@ const Step1Page = () => {
                 <input
                   type="text"
                   value={birthday}
-                  placeholder="YY MM DD"
+                  placeholder="YYYY MM DD"
                   pattern="[0-9]+"
-                  maxLength={6}
+                  maxLength={8}
                   onChange={onChangeBirthday}
                 />
               </div>
               <div className="gender-checkbox-container">
-                <div className="male" onClick={() => checkGender("남")}>
-                  {gender === "남" ? (
+                <div className="male" onClick={() => checkGender("MALE")}>
+                  {gender === "MALE" ? (
                     <img src={GenderGreenCheckButton} alt="체크박스" />
                   ) : (
                     <img src={GenderGrayCheckButton} alt="체크박스" />
                   )}
                   <span>남</span>
                 </div>
-                <div className="female" onClick={() => checkGender("여")}>
-                  {gender === "여" ? (
+                <div className="female" onClick={() => checkGender("FEMALE")}>
+                  {gender === "FEMALE" ? (
                     <img src={GenderGreenCheckButton} alt="체크박스" />
                   ) : (
                     <img src={GenderGrayCheckButton} alt="체크박스" />
@@ -388,7 +411,7 @@ const Step1Page = () => {
             <label>거주지역</label>
             <div className="location-select-container">
               <div className="location-si">
-                <select onChange={onChangeState}>
+                <select onChange={onChangeCity}>
                   <option value="서울">서울</option>
                   <option value="인천">인천</option>
                   <option value="대전">대전</option>
@@ -397,7 +420,7 @@ const Step1Page = () => {
                 </select>
               </div>
               <div className="location-gu">
-                <select onChange={onChangeCity} defaultValue="강동구">
+                <select onChange={onChangeDistrict} defaultValue="강동구">
                   <option value="강동구">강동구</option>
                   <option value="송파구">송파구</option>
                   <option value="용산구">용산구</option>

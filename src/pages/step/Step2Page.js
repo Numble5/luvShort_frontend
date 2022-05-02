@@ -126,11 +126,12 @@ const Step2PageBlock = styled.div`
 const Step2Page = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const email = useSelector(({ user }) => user.email);
   const nickname = useSelector(({ user }) => user.nickname);
   const birthday = useSelector(({ user }) => user.birthday);
   const gender = useSelector(({ user }) => user.gender);
-  const state = useSelector(({ user }) => user.state);
   const city = useSelector(({ user }) => user.city);
+  const district = useSelector(({ user }) => user.district);
   const user = useSelector(({ user }) => user.user);
   const submitUserInfoError = useSelector(
     ({ user }) => user.submitUserInfoError
@@ -207,13 +208,15 @@ const Step2Page = () => {
       .map((item) => item.name);
 
     const user_info = {
+      email,
       nickname,
       birthday,
       gender,
-      state,
       city,
+      district,
       selectedInterests: selectedInterests,
     };
+    console.log(user_info);
     dispatch(submitUserInfo(user_info));
   };
 
