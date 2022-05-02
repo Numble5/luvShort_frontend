@@ -9,7 +9,6 @@ const GlobalStyle = createGlobalStyle`
   * {
     margin: 0;
     padding: 0;  
-    font-family: 'Noto Sans KR', sans-serif;
     color:#3D3D3D;
   }
 
@@ -20,6 +19,7 @@ const GlobalStyle = createGlobalStyle`
 
   html, body {
     position:relative;
+    font-family: 'Noto Sans KR', sans-serif;
     height: 100%;
   }
 

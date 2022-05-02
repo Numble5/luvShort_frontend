@@ -38,6 +38,7 @@ const initialState = {
   city: "서울",
   district: "강동구",
   interests: "",
+  thumbnail: null,
 };
 
 const userSlice = createSlice({
