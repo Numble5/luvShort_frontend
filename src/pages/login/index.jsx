@@ -9,6 +9,7 @@ import { useNavigate } from "react-router";
 import { client } from "@/lib/api";
 import { userCheck } from "@/redux/reducers/user";
 import { useDispatch, useSelector } from "react-redux";
+import { setEmail } from "@/redux/reducers/user";
 
 const LoginBlock = styled.div`
   .illust {
@@ -109,8 +110,18 @@ const Login = () => {
         if (result.data.redirectUrl === "/") {
           dispatch(userCheck());
         } else if (result.data.redirectUrl === "/step1") {
+          Kakao.API.request({
+            url: "/v2/user/me",
+            success: (res) => {
+              const kakao_account = res.kakao_account;
+              dispatch(setEmail(kakao_account.email));
+            },
+          });
           navigate("/step1");
         }
+      },
+      fail: function (error) {
+        console.log(error);
       },
     });
   };

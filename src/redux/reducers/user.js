@@ -23,6 +23,7 @@ export const nicknameCheck = createAsyncThunk(
 );
 
 const initialState = {
+  email: null,
   user: null,
   userCheckError: null,
   userCheckLoading: null,
@@ -34,8 +35,8 @@ const initialState = {
   nickname: "",
   birthday: "",
   gender: "",
-  state: "서울",
-  city: "강동구",
+  city: "서울",
+  district: "강동구",
   interests: "",
   thumbnail: null,
 };
@@ -47,6 +48,9 @@ const userSlice = createSlice({
     tempSetUser(state, action) {
       state.user = action.payload;
     },
+    setEmail(state, action) {
+      state.email = action.payload;
+    },
     changeNickname(state, action) {
       state.nickname = action.payload;
     },
@@ -56,11 +60,11 @@ const userSlice = createSlice({
     changeGender(state, action) {
       state.gender = action.payload;
     },
-    changeState(state, action) {
-      state.state = action.payload;
-    },
     changeCity(state, action) {
       state.city = action.payload;
+    },
+    changeDistrict(state, action) {
+      state.district = action.payload;
     },
     changeBirtdayError(state, action) {
       state.birthdayError = action.payload;
@@ -89,6 +93,7 @@ const userSlice = createSlice({
       })
       .addCase(userCheck.fulfilled, (state, action) => {
         state.userCheckLoading = false;
+        console.log(action.payload);
         state.user = action.payload;
       })
       .addCase(userCheck.rejected, (state, action) => {
@@ -101,21 +106,22 @@ const userSlice = createSlice({
       })
       .addCase(nicknameCheck.fulfilled, (state, action) => {
         state.nicknameCheckLoading = false;
-        state.nicknameCheckError = true;
+        state.nicknameCheckError = false;
       })
       .addCase(nicknameCheck.rejected, (state, action) => {
         state.nicknameCheckLoading = false;
-        state.nicknameCheckError = false;
+        state.nicknameCheckError = true;
       });
   },
 });
 
 export const {
+  setEmail,
   changeNickname,
   changeBirthday,
   changeGender,
-  changeState,
   changeCity,
+  changeDistrict,
   changeBirtdayError,
   setNicknameCheckNull,
   tempSetUser,
