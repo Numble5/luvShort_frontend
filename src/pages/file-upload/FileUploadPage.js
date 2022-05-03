@@ -46,9 +46,16 @@ const FileUploadPageBlock = styled.div`
           margin-right: 1em;
           border-radius: 8px;
           border: 1px solid #c4c4c4;
+          input {
+            border: none;
+            outline: none;
+          }
           &.error {
             border: 1px solid red;
             color: #f3576c;
+            input {
+              color: #f3576c;
+            }
             span {
               color: #f3576c;
             }
@@ -182,8 +189,12 @@ const FileUploadPageBlock = styled.div`
         width: 90%;
         height: 50px;
         color: white;
-        background: #5dccc6;
+        background: #c4c4c4;
         border-radius: 8px;
+        cursor: pointer;
+        &.selected {
+          background: #5dccc6;
+        }
         @media screen and (min-width: 800px) {
           width: 98%;
           left: 1%;
@@ -201,6 +212,7 @@ const FileUploadPage = ({ embed }) => {
   const [videoFileError, setVideoFileError] = useState("");
   const useremail = useSelector(({ user }) => user.user?.email);
   const [thumbnailSrc, setThumbnailSrc] = useState("");
+  const [embedUrl, setEmbedUrl] = useState("");
 
   const onChangeVideoFile = (e) => {
     const file = e.target.files[0];
@@ -210,6 +222,17 @@ const FileUploadPage = ({ embed }) => {
       return;
     }
     setSelectedVideoFile(file);
+    setVideoFileError(null);
+  };
+
+  const onChangeEmbedUrl = (e) => {
+    setEmbedUrl(e.target.value);
+    const youtubeEmd = e.target.value;
+    const result = youtubeEmd.includes("youtube.com/watch?v=");
+    if (result === false) {
+      setVideoFileError("유튜브 영상 주소만 업로드 가능합니다!");
+      return;
+    }
     setVideoFileError(null);
   };
 
@@ -297,7 +320,12 @@ const FileUploadPage = ({ embed }) => {
                 className={videoFileError ? "video-info error" : "video-info"}
               >
                 {embed ? (
-                  <span>임베드 링크를 적어주세요</span>
+                  <input
+                    type="text"
+                    placeholder="유튜브 주소를 적어주세요!"
+                    value={embedUrl}
+                    onChange={onChangeEmbedUrl}
+                  />
                 ) : (
                   <>
                     <span>
@@ -360,10 +388,54 @@ const FileUploadPage = ({ embed }) => {
               </div>
             </div>
           </main>
-          <div className="submit-button-box">
-            <button type="submit" onClick={(e) => submitVideoFile(e)}>
-              업로드 하기
-            </button>
+          <div className={"submit-button-box"}>
+            {embed ? (
+              <button
+                type="submit"
+                className={
+                  videoFileError === null &&
+                  embedUrl &&
+                  videoTitle &&
+                  videoDescription &&
+                  thumbnailSrc &&
+                  "selected"
+                }
+                onClick={(e) => submitVideoFile(e)}
+                disabled={
+                  videoFileError === null &&
+                  embedUrl &&
+                  videoTitle &&
+                  videoDescription &&
+                  thumbnailSrc
+                    ? false
+                    : true
+                }
+              >
+                업로드 하기
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className={
+                  selectedVideoFile &&
+                  videoTitle &&
+                  videoDescription &&
+                  thumbnailSrc &&
+                  "selected"
+                }
+                onClick={(e) => submitVideoFile(e)}
+                disabled={
+                  selectedVideoFile &&
+                  videoTitle &&
+                  videoDescription &&
+                  thumbnailSrc
+                    ? false
+                    : true
+                }
+              >
+                업로드 하기
+              </button>
+            )}
           </div>
         </form>
       </FileUploadPageBlock>
