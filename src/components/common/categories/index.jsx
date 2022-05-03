@@ -2,10 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import { AddCategoryBtn } from "../button";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Categories = ({ marginTop, setCurrentCategory }) => {
   const user = useSelector(({ user }) => user.user);
-  const interests = useSelector(({ user }) => user.interest);
+  const interests = useSelector(({ user }) => user.interests);
 
   const handleShowCategory = ({ target }) => {
     setCurrentCategory(target.value);
@@ -15,11 +16,15 @@ const Categories = ({ marginTop, setCurrentCategory }) => {
     <StyledCategory marginTop={marginTop}>
       <ul>
         {user ? {} : <></>}
-        {/* {interests?.map(({ link, title, color }) => (
-          <CategoryLi key={title} color={color}>
-            <Link to={link}>#{title}</Link>
-          </CategoryLi>
-        ))} */}
+        {interests ? (
+          interests.map(({ link, title, color }) => (
+            <CategoryLi key={title} color={color}>
+              <Link to={link}>#{title}</Link>
+            </CategoryLi>
+          ))
+        ) : (
+          <></>
+        )}
       </ul>
       <CategorySelect onChange={handleShowCategory}>
         <option value="전체">전체</option>

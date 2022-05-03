@@ -8,22 +8,38 @@ import Navigator from "@components/navigator";
 import Categories from "@/components/common/categories";
 import MainLoginModal from "@components/common/modal/modal";
 import { FixedUploadBtn } from "@components/common/button";
+import request from "@/api/request";
 
 const Main = () => {
-  const user = useSelector(({ user }) => user.user);
-  const [currentCateogry, setCurrentCategory] = useState("전체");
+  const user = useSelector(({ user }) => user);
+  const [currentCategory, setCurrentCategory] = useState("전체");
   const [videoList, setVideoList] = useState([]);
 
   const fetchData = async () => {
     try {
+      const payload = {
+        category1: user.interests[0],
+        category2: user.interests[1],
+        category3: user.interests[2],
+        gender:
+          currentCategory === "여자" || currentCategory === "남자"
+            ? currentCategory
+            : null,
+        city: currentCategory === "우리동네" ? user.state : null,
+        district: currentCategory === "우리동네" ? user.city : null,
+      };
+
+      const result = await request("/api/videos/filter", "post", {}, payload);
+
+      setVideoList(result);
     } catch (e) {
       console.log(e);
     }
   };
 
   useEffect(() => {
-    console.log(currentCateogry);
-  }, []);
+    fetchData();
+  }, [currentCategory]);
 
   return (
     <>
@@ -42,7 +58,7 @@ const Main = () => {
           marginTop={"23px"}
           setCurrentCategory={setCurrentCategory}
         />
-        {/* <VideoList currentCateogry={currentCateogry} /> */}
+        <VideoList videos={videoList} />
       </Wrapper>
       <FixedUploadBtn />
     </>
