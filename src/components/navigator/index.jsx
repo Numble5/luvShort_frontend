@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router";
 import styled from "styled-components";
+
 import { changeNavigator, selectedNavigator } from "@/redux/reducers/navigator";
 
 import { menu } from "./data/menu";
@@ -11,12 +13,17 @@ const Navigator = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [, pathname] = useLocation().pathname.split("/");
 
   const changeMenu = ({ target }) => {
     const id = target.dataset.id;
     dispatch(changeNavigator(id));
     navigate(`/${id}`);
   };
+
+  useEffect(() => {
+    dispatch(changeNavigator(pathname));
+  }, []);
 
   return (
     <Navigation>
