@@ -1,35 +1,50 @@
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 import Header from "@components/header";
 import VideoList from "@components/videoList";
 import Navigator from "@components/navigator";
 import Categories from "@/components/common/categories";
-import OnBoarding from "../onBoarding";
-
-import { FixedUploadBtn } from "@components/common/button";
 import MainLoginModal from "@components/common/modal/modal";
+import { FixedUploadBtn } from "@components/common/button";
 
 const Main = () => {
-  let [isLogin, setIsLogin] = useState(false);
+  const user = useSelector(({ user }) => user.user);
+  const [currentCateogry, setCurrentCategory] = useState("전체");
+  const [videoList, setVideoList] = useState([]);
+
+  const fetchData = async () => {
+    try {
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    console.log(currentCateogry);
+  }, []);
+
   return (
     <>
-      {/* <Suspense fallback={<OnBoarding />}> */}
       <Header />
       <Navigator />
-      {isLogin ? (
-        <Wrapper>
-          <Categories marginTop={"23px"} />
-          <VideoList />
-        </Wrapper>
+      {/* {user ? (
+        <></>
       ) : (
         <>
           <TempBackground />
           <MainLoginModal />
         </>
-      )}
+      )} */}
+      <Wrapper>
+        <Categories
+          marginTop={"23px"}
+          setCurrentCategory={setCurrentCategory}
+        />
+        {/* <VideoList currentCateogry={currentCateogry} /> */}
+      </Wrapper>
       <FixedUploadBtn />
-      {/* </Suspense> */}
     </>
   );
 };
@@ -37,7 +52,7 @@ const Main = () => {
 export default Main;
 
 const Wrapper = styled.div`
-  width: 90%;
+  width: 97%;
   margin: 0 auto;
 `;
 
