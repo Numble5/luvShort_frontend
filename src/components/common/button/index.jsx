@@ -12,7 +12,7 @@ const UploadButtonWrapper = styled.div`
   position: fixed;
   right: 5%;
   bottom: 90px;
-  z-index: 2;
+  z-index: 0;
 
   img {
     width: 45px;

@@ -57,15 +57,8 @@ const Main = () => {
     <>
       <Header />
       <Navigator />
-      {/* {user.user ? (
-        <FixedUploadBtn />
-      ) : (
-        <>
-          <ModalBackground />
-          <MainLoginModal />
-        </>
-      )} */}
-      <ModalBackground children={<MainLoginModal />} />
+      {/* <ModalBackground children={<MainLoginModal />} /> */}
+      <FixedUploadBtn />
       <Wrapper>
         <Categories
           marginTop={"23px"}
