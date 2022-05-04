@@ -7,7 +7,6 @@ const ModalBackground = ({ children }) => {
   const selected = useSelector(selectedModal);
 
   useEffect(() => {
-    console.log(selected);
     if (selected) {
       document.body.style.overflow = "hidden";
     } else {
@@ -17,8 +16,14 @@ const ModalBackground = ({ children }) => {
 
   return (
     <>
-      {children}
-      <TempBackground />;
+      {selected ? (
+        <>
+          {children}
+          <TempBackground />;
+        </>
+      ) : (
+        <></>
+      )}
     </>
   );
 };
