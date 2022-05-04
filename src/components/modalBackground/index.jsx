@@ -1,10 +1,13 @@
-import { selectedModal } from "@/redux/reducers/modal";
+import { changeModalFalse, selectedModal } from "@/redux/reducers/modal";
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 const ModalBackground = ({ children }) => {
   const selected = useSelector(selectedModal);
+  const user = useSelector(({ user }) => user.user);
+
+  const dispath = useDispatch();
 
   useEffect(() => {
     if (selected) {
@@ -14,12 +17,18 @@ const ModalBackground = ({ children }) => {
     }
   }, [selected]);
 
+  const closeModal = () => {
+    if (user) {
+      dispath(changeModalFalse());
+    }
+  };
+
   return (
     <>
       {selected ? (
         <>
           {children}
-          <TempBackground />;
+          <TempBackground onClick={closeModal} />;
         </>
       ) : (
         <></>
