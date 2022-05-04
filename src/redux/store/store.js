@@ -5,10 +5,12 @@ import storage from "redux-persist/lib/storage";
 
 import user from "@redux/reducers/user";
 import navigator from "@redux/reducers/navigator";
+import modal from "@redux/reducers/modal";
 
 const reducers = combineReducers({
   user,
   navigator,
+  modal,
 });
 
 const persistConfig = {

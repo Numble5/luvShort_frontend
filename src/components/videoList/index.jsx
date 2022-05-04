@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import VideoItem from "../videoItem.jsx";
+import VideoItem from "../videoItem";
 
 const VideoList = ({ videos }) => {
   return (
