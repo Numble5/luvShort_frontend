@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-
+import { debounce } from "lodash";
 import heart from "./assets/heart.svg";
+import request from "@/api/request";
 
 const VideoItem = ({
   video: {
@@ -14,17 +15,14 @@ const VideoItem = ({
     updatedDate,
   },
 }) => {
-  const calUpdateDate = () => {
-    const currentDate = new Date();
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth() + 1;
-    const day = currentDate.getDate();
-
-    let result = "1시간";
-    return result;
-  };
-
-  const date = calUpdateDate();
+  const toggleLiked = debounce(async ({ target }) => {
+    try {
+      const id = target.parentNode.dataset.id;
+      const result = await request(`/api/hearts/${id}`, "post");
+    } catch (e) {
+      console.log(e);
+    }
+  }, 200);
 
   return (
     <StyledLi key={video_idx}>
@@ -41,8 +39,8 @@ const VideoItem = ({
             <span>{nickname}</span>
           </div>
           <div className="video_info">
-            <span>{date}전</span>
-            <span>
+            <span></span>
+            <span onClick={toggleLiked} data-id={video_idx}>
               <img src={heart} alt="하트"></img>
             </span>
           </div>
@@ -55,78 +53,7 @@ const VideoItem = ({
 
 export default VideoItem;
 
-const StyledLi = styled.li`
-  background-color: #e3e3e3;
-  position: relative;
-  min-height: 260px;
-  min-width: 158px;
-  margin-top: 20px;
-  border-radius: 10px;
-  overflow: hidden;
-
-  a {
-    width: 100%;
-    height: 100%;
-    div {
-      display: block;
-      background-color: green;
-      width: 100%;
-      height: 100%;
-    }
-  }
-
-  .wrapper {
-    background: rgba(0, 0, 0, 0.7);
-    position: absolute;
-    width: 100%;
-    height: 65px;
-    bottom: 0;
-  }
-
-  .info_wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .video_info,
-  .user_wrapper,
-  .item_title {
-    color: #ffffff;
-    > span {
-      color: #ffffff;
-    }
-  }
-
-  .user_wrapper {
-    margin-left: 5px;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-
-    > span {
-      margin-left: 2px;
-    }
-  }
-
-  .video_info {
-    display: flex;
-    align-items: center;
-
-    > span {
-      font-size: 13px;
-      > img {
-        width: 28px;
-        padding: 5px;
-      }
-    }
-  }
-
-  .item_title {
-    font-size: 14px;
-    margin: 0 5px;
-  }
-`;
+const StyledLi = styled.li``;
 
 const UserProfileImgWrpper = styled.div`
   width: 25px;

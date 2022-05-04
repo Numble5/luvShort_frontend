@@ -19,13 +19,4 @@ const VideoListWrapper = styled.section`
   padding-bottom: 100px;
 `;
 
-const StyledUl = styled.ul`
-  @media ${({ theme }) => theme.mobile} {
-    justify-content: space-around;
-  }
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-`;
+const StyledUl = styled.ul``;
