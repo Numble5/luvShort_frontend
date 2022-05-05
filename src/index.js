@@ -1,12 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
+import Routers from "@routes";
 
 import { ThemeProvider } from "styled-components";
 import { Provider } from "react-redux";
 import { theme, GlobalStyle } from "@styles";
-import Routers from "@routes";
-import store from "@redux/store/configureStore";
+
+import store from "@redux/store/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
+
 import { tempSetUser, userCheck } from "./redux/reducers/user";
 
 function loadUser() {
@@ -22,13 +26,17 @@ function loadUser() {
 
 loadUser();
 
+const persistor = persistStore(store);
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
   <BrowserRouter>
     <ThemeProvider theme={theme}>
       <Provider store={store}>
-        <Routers />
+        <PersistGate loading={null} persistor={persistor}>
+          <Routers />
+        </PersistGate>
       </Provider>
       <GlobalStyle />
     </ThemeProvider>
