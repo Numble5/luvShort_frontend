@@ -1,8 +1,31 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Carousel from "../../carousel/carousel";
 
-const MainLoginModal = () => {
+import base_circle from "./assets/base_circle.svg";
+import plus_circle from "./assets/plus_circle.svg";
+
+export const UploadModal = () => {
+  return (
+    <StyledUploadModal>
+      <Link to="/file-upload/embed" className="embeded__btn">
+        <div className="embeded__btn-wrapper">
+          <img src={plus_circle} alt="임베드" />
+          <span>임베드 영상 업로드</span>
+        </div>
+      </Link>
+      <Link to="/file-upload" className="self__btn">
+        <div>
+          <img src={base_circle} alt="직접" />
+          <span>직접 영상 업로드</span>
+        </div>
+      </Link>
+    </StyledUploadModal>
+  );
+};
+
+export const MainLoginModal = () => {
   const items = [
     {
       idx: "carousel1",
@@ -33,8 +56,6 @@ const MainLoginModal = () => {
     </StyledModal>
   );
 };
-
-export default MainLoginModal;
 
 const StyledModal = styled.div`
   position: absolute;
@@ -75,5 +96,46 @@ const StyledModal = styled.div`
 
   .slick-dots li {
     margin: 0;
+  }
+`;
+
+const StyledUploadModal = styled.div`
+  position: absolute;
+  width: 90%;
+  top: 30%;
+  z-index: 2;
+  left: 50%;
+  transform: translateX(-50%);
+
+  .embeded__btn,
+  .self__btn {
+    display: block;
+    font-size: 24px;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 48px 50px;
+
+    * {
+      color: white;
+      text-align: center;
+    }
+
+    div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        margin-right: 4px;
+      }
+    }
+  }
+
+  .embeded__btn {
+    background-color: #5dccc6;
+    margin-bottom: 15px;
+  }
+  .self__btn {
+    background-color: #f3576c;
   }
 `;
