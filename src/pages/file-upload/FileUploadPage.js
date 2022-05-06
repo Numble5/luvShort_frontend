@@ -43,7 +43,6 @@ const FileUploadPageBlock = styled.div`
           font-size: 14px;
           justify-content: space-between;
           padding: 0.7em 1em;
-          margin-right: 1em;
           border-radius: 8px;
           border: 1px solid #c4c4c4;
           input {
@@ -66,6 +65,7 @@ const FileUploadPageBlock = styled.div`
         }
 
         .filebox {
+          margin-left: 1em;
           > label {
             cursor: pointer;
           }
@@ -248,6 +248,7 @@ const FileUploadPage = ({ embed }) => {
       alert("jpg, png 파일만 업로드 가능합니다.");
       return;
     }
+
     setSelectedThumbnailFile(file);
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -276,30 +277,42 @@ const FileUploadPage = ({ embed }) => {
   const submitVideoFile = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    const info = {
-      email: useremail,
-      title: videoTitle,
-      content: videoDescription,
-      videoUrl: "",
-      thumbUrl: "",
-      videoType: "EMBED",
-    };
-    formData.append("videoFile", selectedVideoFile);
-    formData.append("thumbFile", selectedThumbnailFile);
-    formData.append(
-      "info",
-      new Blob([JSON.stringify(info)], { type: "application/json" })
-    );
+    if (!embed) {
+      const info = {
+        email: "pm5555pm@naver.com",
+        title: videoTitle,
+        content: videoDescription,
+        videoUrl: "",
+        thumbUrl: "",
+        videoType: "",
+      };
+      formData.append("videoFile", selectedVideoFile);
+      formData.append("thumbFile", selectedThumbnailFile);
+      formData.append(
+        "info",
+        new Blob([JSON.stringify(info)], { type: "application/json" })
+      );
 
-    const config = {
-      header: { "content-type": "multipart/form-data" },
-    };
-    const result = await client.post(
-      "/api/videos/upload/new",
-      formData,
-      config
-    );
-    console.log(result.data);
+      const config = {
+        headers: { "content-type": "multipart/form-data" },
+      };
+      const result = await client.post(
+        "/api/videos/upload/direct",
+        formData,
+        config
+      );
+      console.log(result);
+    } else if (embed) {
+      const result = await client.post("/api/videos/upload/embed", {
+        email: "pm5555pm@naver.com",
+        title: videoTitle,
+        content: videoDescription,
+        videoUrl: embedUrl,
+        thumbUrl: "",
+        videoType: "",
+      });
+      console.log(result);
+    }
   };
 
   return (
@@ -336,13 +349,14 @@ const FileUploadPage = ({ embed }) => {
                   </>
                 )}
               </div>
-
-              <div class="filebox">
-                <label htmlFor="file">
-                  <img src={FileUploadIcon} alt="파일업로드아이콘" />
-                </label>
-                <input type="file" id="file" onChange={onChangeVideoFile} />
-              </div>
+              {!embed && (
+                <div class="filebox">
+                  <label htmlFor="file">
+                    <img src={FileUploadIcon} alt="파일업로드아이콘" />
+                  </label>
+                  <input type="file" id="file" onChange={onChangeVideoFile} />
+                </div>
+              )}
             </div>
             <div className="video-file-upload-error">
               {videoFileError && videoFileError}
@@ -373,20 +387,22 @@ const FileUploadPage = ({ embed }) => {
                 />
               </div>
             </div>
-            <div className="video-thumnail">
-              <p>썸네일 이미지</p>
-              <div>
-                <div className="video-thumnail-image" />
+            {!embed && (
+              <div className="video-thumnail">
+                <p>썸네일 이미지</p>
+                <div>
+                  <div className="video-thumnail-image" />
+                </div>
+                <div className="filebox2">
+                  <label htmlFor="file2">썸네일 이미지 변경</label>
+                  <input
+                    type="file"
+                    id="file2"
+                    onChange={onChangeThumbnailFile}
+                  />
+                </div>
               </div>
-              <div className="filebox2">
-                <label htmlFor="file2">썸네일 이미지 변경</label>
-                <input
-                  type="file"
-                  id="file2"
-                  onChange={onChangeThumbnailFile}
-                />
-              </div>
-            </div>
+            )}
           </main>
           <div className={"submit-button-box"}>
             {embed ? (
@@ -397,7 +413,6 @@ const FileUploadPage = ({ embed }) => {
                   embedUrl &&
                   videoTitle &&
                   videoDescription &&
-                  thumbnailSrc &&
                   "selected"
                 }
                 onClick={(e) => submitVideoFile(e)}
@@ -405,8 +420,7 @@ const FileUploadPage = ({ embed }) => {
                   videoFileError === null &&
                   embedUrl &&
                   videoTitle &&
-                  videoDescription &&
-                  thumbnailSrc
+                  videoDescription
                     ? false
                     : true
                 }
