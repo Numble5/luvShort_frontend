@@ -13,17 +13,12 @@ const Navigator = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [, pathname] = useLocation().pathname.split("/");
 
   const changeMenu = ({ target }) => {
     const id = target.dataset.id;
     dispatch(changeNavigator(id));
     navigate(`/${id}`);
   };
-
-  useEffect(() => {
-    dispatch(changeNavigator(pathname));
-  }, []);
 
   return (
     <Navigation>
@@ -67,6 +62,7 @@ const NavigationList = styled.ul`
 
 const NavigationItem = styled.li`
   text-align: center;
+  cursor: pointer;
 
   a {
     padding: 8px;
