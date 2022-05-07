@@ -4,7 +4,17 @@ import { AddCategoryBtn } from "../button";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-const Categories = ({ marginTop, setCurrentCategory }) => {
+import { CategoryBackgroundColor } from "@/utils/interestColor";
+
+export const Cateogories = ({ category }) => {
+  return (
+    <CategoryLi color={CategoryBackgroundColor.category}>
+      #{category}
+    </CategoryLi>
+  );
+};
+
+export const MainCategory = ({ marginTop, setCurrentCategory }) => {
   const user = useSelector(({ user }) => user.user);
   const interests = useSelector(({ user }) => user.interests);
 
@@ -17,10 +27,8 @@ const Categories = ({ marginTop, setCurrentCategory }) => {
       <ul>
         {user ? {} : <></>}
         {interests ? (
-          interests.map(({ link, title, color }) => (
-            <CategoryLi key={title} color={color}>
-              <Link to={link}>#{title}</Link>
-            </CategoryLi>
+          interests.map((interest) => (
+            <Cateogories key={interest} category={interest} />
           ))
         ) : (
           <></>
@@ -35,8 +43,6 @@ const Categories = ({ marginTop, setCurrentCategory }) => {
     </StyledCategory>
   );
 };
-
-export default Categories;
 
 const StyledCategory = styled.div`
   margin-top: ${(props) => props.marginTop};
