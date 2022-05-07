@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { debounce } from "lodash";
 import heart from "./assets/heart.svg";
 import request from "@/api/request";
+import calDate from "@/utils/calDate";
 
 const VideoItem = ({
   video: {
@@ -15,6 +16,8 @@ const VideoItem = ({
     updatedDate,
   },
 }) => {
+  const date = calDate(updatedDate);
+
   const toggleLiked = debounce(async ({ target }) => {
     try {
       const id = target.parentNode.dataset.id;
@@ -39,7 +42,7 @@ const VideoItem = ({
             <span>{nickname}</span>
           </div>
           <div className="video_info">
-            <span></span>
+            <span>{date}</span>
             <span onClick={toggleLiked} data-id={video_idx}>
               <img src={heart} alt="하트"></img>
             </span>

@@ -4,10 +4,10 @@ import TitlePrevHeader from "../common/titlePrevHeader";
 
 const ProfileHeader = () => {
   const user = useSelector(({ user }) => user);
-  console.log(user);
+
   return (
     <>
-      <TitlePrevHeader title={"MY"} />
+      <TitlePrevHeader title={"MY"} background={"black"} />
       <div>
         <div>
           <img src={user.thumbnail} alt="프로필 이미지" />
