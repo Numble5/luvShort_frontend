@@ -21,7 +21,7 @@ const UploadButtonWrapper = styled.div`
   position: fixed;
   right: 5%;
   bottom: 90px;
-  z-index: 0;
+  z-index: 1;
   cursor: pointer;
 
   img {
