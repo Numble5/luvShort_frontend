@@ -1,10 +1,11 @@
+import Header from "@/components/header";
 import Navigator from "@/components/navigator";
 import React from "react";
 
-const MyPage = (props) => {
+const MyPage = () => {
   return (
     <>
-      마이페이지입니다.
+      <Header type={"my"} />
       <Navigator />
     </>
   );
