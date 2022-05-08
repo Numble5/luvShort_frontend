@@ -66,14 +66,18 @@ const ModalBlock = styled.div`
   }
 `;
 
-const Modal = ({ onClickModal }) => {
+const Modal = ({ onClickModal, step2 = null }) => {
   const navigate = useNavigate();
   return (
     <ModalBlock>
       <div className="modal-box">
         <p className="modal-box-top">회원가입을 중단할까요?</p>
         <div className="modal-box-bottom">
-          <button onClick={() => navigate("/login")}>나중에 하기</button>
+          <button
+            onClick={() => (step2 ? navigate("/step1") : navigate("/login"))}
+          >
+            나중에 하기
+          </button>
           <button onClick={onClickModal}>이어서 진행하기</button>
         </div>
       </div>
