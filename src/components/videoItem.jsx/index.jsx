@@ -12,7 +12,6 @@ const VideoItem = ({
     thumbnailUrl,
     profileImgUrl,
     updatedDate,
-    isExist, //interest
   },
 }) => {
   const calUpdateDate = () => {
