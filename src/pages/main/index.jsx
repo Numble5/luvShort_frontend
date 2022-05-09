@@ -12,6 +12,7 @@ import ModalBackground from "@components/modalBackground";
 import { changeModalFalse, changeModalTrue } from "@redux/reducers/modal";
 import { UploadModal } from "@components/common/modal/modal";
 import { MainCategory } from "@components/common/categories";
+import { changeNavigator } from "@/redux/reducers/navigator";
 
 const Main = () => {
   const user = useSelector(({ user }) => user);
@@ -41,6 +42,10 @@ const Main = () => {
   };
 
   useEffect(() => {
+    dispatch(changeNavigator(""));
+  }, []);
+
+  useEffect(() => {
     const userInfo = user.user;
     if (userInfo) {
       dispatch(changeModalFalse());
@@ -65,7 +70,7 @@ const Main = () => {
           setCurrentCategory={setCurrentCategory}
         />
       </Wrapper>
-      <VideoList videos={videoList} />
+      {/* <VideoList videos={videoList} /> */}
 
       {/* {user.user ? (
         <ModalBackground children={<UploadModal />} />

@@ -10,8 +10,10 @@ import Interests from "@pages/Interests/noInterests";
 import LoginCallbackPage from "@pages/login/LoginCallbackPage";
 import FileUploadPage from "@pages/file-upload/FileUploadPage";
 import Detail from "@pages/detail";
-import Alarm from "@/pages/alarm";
-import MyPage from "@/pages/mypage";
+import Alarm from "@pages/alarm";
+import MyPage from "@pages/mypage";
+import Profile from "@pages/profile";
+import ProfileEdit from "@pages/profileEdit";
 
 const Routers = (props) => {
   return (
@@ -33,6 +35,8 @@ const Routers = (props) => {
         <Route path="/liked" element={<Interests />} />
         <Route path="/alarm" element={<Alarm />} />
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mypage/edit" element={<ProfileEdit />} />
+        <Route path="/mypage/:id" element={<Profile />} />
       </Routes>
     </>
   );

@@ -14,6 +14,16 @@ export const Cateogories = ({ category }) => {
   );
 };
 
+export const ProfileCategory = ({ categoryList }) => {
+  return (
+    <ul>
+      {categoryList.map((category) => (
+        <Cateogories key={category} category={category} />
+      ))}
+    </ul>
+  );
+};
+
 export const MainCategory = ({ marginTop, setCurrentCategory }) => {
   const user = useSelector(({ user }) => user.user);
   const interests = useSelector(({ user }) => user.interests);

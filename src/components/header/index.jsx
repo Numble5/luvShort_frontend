@@ -8,7 +8,7 @@ import ProfileHeader from "./profileHeader";
 const Header = ({ type }) => {
   return (
     <StyledHeader>
-      {type === "main" ? <MainHeader /> : <ProfileHeader />}
+      {type === "main" ? <MainHeader /> : <ProfileHeader type={type} />}
     </StyledHeader>
   );
 };
