@@ -10,8 +10,11 @@ import Interests from "@pages/Interests/noInterests";
 import LoginCallbackPage from "@pages/login/LoginCallbackPage";
 import FileUploadPage from "@pages/file-upload/FileUploadPage";
 import Detail from "@pages/detail";
-import Alarm from "@/pages/alarm";
-import MyPage from "@/pages/mypage";
+import Alarm from "@pages/alarm";
+import MyPage from "@pages/mypage";
+import Profile from "@pages/profile";
+import ProfileEdit from "@pages/profileEdit";
+import Chatting from "@/pages/chatting";
 
 const Routers = (props) => {
   return (
@@ -32,7 +35,10 @@ const Routers = (props) => {
         {/* 아래에서부터는 링크 */}
         <Route path="/liked" element={<Interests />} />
         <Route path="/alarm" element={<Alarm />} />
+        <Route path="/chatting" element={<Chatting />} />
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mypage/edit" element={<ProfileEdit />} />
+        <Route path="/mypage/:id" element={<Profile />} />
       </Routes>
     </>
   );
