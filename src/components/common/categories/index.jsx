@@ -46,8 +46,8 @@ export const MainCategory = ({ marginTop, setCurrentCategory }) => {
       </ul>
       <CategorySelect onChange={handleShowCategory}>
         <option value="전체">전체</option>
-        <option value="여성">여자</option>
-        <option value="남성">남자</option>
+        <option value="FEMALE">여자</option>
+        <option value="MALE">남자</option>
         <option value="우리동네">우리동네</option>
       </CategorySelect>
     </StyledCategory>
