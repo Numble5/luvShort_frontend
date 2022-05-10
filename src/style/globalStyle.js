@@ -21,6 +21,9 @@ const GlobalStyle = createGlobalStyle`
     position:relative;
     font-family: 'Noto Sans KR', sans-serif;
     height: 100%;
+    #root {
+      height: 100%;
+    }
   }
 
   body {
