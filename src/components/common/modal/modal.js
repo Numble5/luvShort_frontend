@@ -1,10 +1,57 @@
+import { changeModalFalse } from "@/redux/reducers/modal";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { createGlobalStyle } from "styled-components";
 import Carousel from "../../carousel/carousel";
 
 import base_circle from "./assets/base_circle.svg";
 import plus_circle from "./assets/plus_circle.svg";
+
+export const ChattingModal = ({
+  title,
+  description,
+  leftButton,
+  rightButton,
+}) => {
+  const dispatch = useDispatch();
+  const modal = useSelector(({ modal }) => modal.value);
+  const GlobalStyle = createGlobalStyle`
+    body {
+      overflow: ${(props) => props.modal && "hidden"}
+    }
+  `;
+
+  const closeModal = () => {
+    dispatch(changeModalFalse());
+  };
+
+  return (
+    <>
+      <GlobalStyle modal={modal} />
+      <ModalBlock>
+        <div id="modal-background" onClick={closeModal}></div>
+        <div className="modal-box">
+          <div className="modal-question">
+            <div className="modal-question-container">
+              <h1 className="title">{title}</h1>
+              <p>{description}</p>
+            </div>
+          </div>
+          <div className="modal-button-container">
+            <div className="cancel" onClick={closeModal}>
+              <button>{leftButton}</button>
+            </div>
+            <div className="exit">
+              <button>{rightButton}</button>
+            </div>
+          </div>
+        </div>
+      </ModalBlock>
+    </>
+  );
+};
 
 export const UploadModal = () => {
   return (
@@ -137,5 +184,78 @@ const StyledUploadModal = styled.div`
   }
   .self__btn {
     background-color: #f3576c;
+  }
+`;
+
+const ModalBlock = styled.div`
+  #modal-background {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    background: rgba(1, 1, 1, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .modal-box {
+    position: fixed;
+    top: 35%;
+    left: 2.5%;
+    z-index: 2;
+    width: 95%;
+    height: 133px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    .modal-question {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      &-container {
+        text-align: center;
+        > h1 {
+          font-size: 14px;
+          margin-bottom: 10px;
+          color: #3d3d3d;
+        }
+        > p {
+          font-size: 11px;
+          color: #f3576c;
+        }
+      }
+    }
+    .modal-button-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      button {
+        outline: none;
+        border: none;
+      }
+      .cancel {
+        flex: 0.5;
+        button {
+          width: 100%;
+          background: #f6f6f6;
+          color: #777777;
+          height: 43px;
+        }
+      }
+      .exit {
+        flex: 0.5;
+        button {
+          width: 100%;
+          background: #3d3d3d;
+          color: #ffffff;
+          height: 43px;
+        }
+      }
+    }
   }
 `;
