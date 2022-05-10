@@ -111,8 +111,9 @@ const SelectInterest = () => {
       <div className="interest">
         <span className="speech-bubble">최소1개~최대3개 선택해주세요.</span>
         <div className="interest-list">
-          {interests.map((item) => (
+          {interests.map((item, index) => (
             <div
+              key={index}
               className={
                 item.checked ? "interest-item selected" : "interest-item"
               }
