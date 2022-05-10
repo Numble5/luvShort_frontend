@@ -18,22 +18,6 @@ const Detail = (props) => {
     setShowContent(!showContent);
   };
 
-  const temp = {
-    video_idx: 1,
-    title: "토토와 함께하는 즐거운 하루입니다",
-    content:
-      "안녕하세요!  도토리 닯아서 도토리 39입니다.이번 영상에서는 제 귀여운 강아지 토토와 함께 지내는 일상을 찍어봤어요 :)",
-    createdDate: "2022-04-24T03:37:06",
-    videoUrl: "",
-    categories: ["여행", "스포츠", "쇼핑"],
-    uploader: {
-      nickname: "김씨",
-      profileImgUrl:
-        "https://www.epnnews.com/news/photo/202008/5216_6301_1640.jpg",
-      interest: [],
-    },
-  };
-
   const fetchData = async () => {
     try {
       const data = await request(`/api/videos/${pathname}`, "get");
@@ -44,8 +28,7 @@ const Detail = (props) => {
   };
 
   useEffect(() => {
-    // fetchData();
-    setVideoInfo(temp);
+    fetchData();
   }, []);
 
   return (
