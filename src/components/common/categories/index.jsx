@@ -8,9 +8,19 @@ import { CategoryBackgroundColor } from "@/utils/interestColor";
 
 export const Cateogories = ({ category }) => {
   return (
-    <CategoryLi color={CategoryBackgroundColor.category}>
+    <CategoryLi color={CategoryBackgroundColor[category]}>
       #{category}
     </CategoryLi>
+  );
+};
+
+export const ProfileCategory = ({ categoryList }) => {
+  return (
+    <ul>
+      {categoryList.map((category) => (
+        <Cateogories key={category} category={category} />
+      ))}
+    </ul>
   );
 };
 
@@ -53,8 +63,10 @@ const StyledCategory = styled.div`
 
 const CategoryLi = styled.li`
   display: inline-block;
+  padding: 3px 8px;
+  font-size: 14px;
+  border-radius: 20px;
   background-color: ${(props) => props.color};
-  background-color: blue;
 `;
 
 const CategorySelect = styled.select`
