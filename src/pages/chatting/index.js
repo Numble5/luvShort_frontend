@@ -13,13 +13,14 @@ const ChattingBlock = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
+  padding-top: 56px;
   header {
     position: relative;
     margin-bottom: 24px;
     > button {
       outline: none;
       border: none;
-      position: absolute;
+      position: fixed;
       top: 1.5em;
       right: 4%;
       font-size: 14px;
@@ -54,7 +55,9 @@ const ChattingBlock = styled.div`
       align-items: center;
       margin-bottom: 29px;
       .checkbox {
-        margin-right: 9px;
+        img {
+          margin-right: 9px;
+        }
       }
       .profile_img {
         margin-right: 8px;
@@ -100,7 +103,7 @@ const Chatting = () => {
   const isModal = useSelector(({ modal }) => modal.value);
   const [rooms, setRooms] = useState([
     {
-      id: "1",
+      roomId: "1",
       profileImg: "https://ifh.cc/g/f3hBfs.png",
       nickname: "89wlalsrkd",
       lastMessage: "좋은 아침이에요! 날씨도 좋은데 오늘 오후에 뭐할거에요?",
@@ -108,7 +111,7 @@ const Chatting = () => {
       alarmCount: "2",
     },
     {
-      id: "2",
+      roomId: "2",
       profileImg: "https://ifh.cc/g/Q9m4jO.jpg",
       nickname: "보라스프",
       lastMessage: "안녕하세요:)",
@@ -116,7 +119,7 @@ const Chatting = () => {
       alarmCount: "1",
     },
     {
-      id: "3",
+      roomId: "3",
       profileImg: "https://ifh.cc/g/361cfs.png",
       nickname: "개굴",
       lastMessage: "아마도 그럴거에요..!ㅎㅎ",
@@ -124,7 +127,7 @@ const Chatting = () => {
       alarmCount: "",
     },
     {
-      id: "4",
+      roomId: "4",
       profileImg: "https://ifh.cc/g/AJtqvA.png",
       nickname: "몬스테라",
       lastMessage: "굿모닝!",
@@ -132,7 +135,7 @@ const Chatting = () => {
       alarmCount: "1",
     },
     {
-      id: "5",
+      roomId: "5",
       profileImg: "https://ifh.cc/g/f3hBfs.png",
       nickname: "89wlalsrkd",
       lastMessage: "좋은 아침이에요! 날씨도 좋은데 오늘 오후에 뭐할거에요?",
@@ -140,7 +143,7 @@ const Chatting = () => {
       alarmCount: "2",
     },
     {
-      id: "6",
+      roomId: "6",
       profileImg: "https://ifh.cc/g/Q9m4jO.jpg",
       nickname: "보라스프",
       lastMessage: "안녕하세요:)",
@@ -148,7 +151,7 @@ const Chatting = () => {
       alarmCount: "1",
     },
     {
-      id: "7",
+      roomId: "7",
       profileImg: "https://ifh.cc/g/361cfs.png",
       nickname: "개굴",
       lastMessage: "아마도 그럴거에요..!ㅎㅎ",
@@ -156,7 +159,7 @@ const Chatting = () => {
       alarmCount: "",
     },
     {
-      id: "8",
+      roomId: "8",
       profileImg: "https://ifh.cc/g/AJtqvA.png",
       nickname: "몬스테라",
       lastMessage: "굿모닝!",
@@ -164,7 +167,7 @@ const Chatting = () => {
       alarmCount: "1",
     },
     {
-      id: "9",
+      roomId: "9",
       profileImg: "https://ifh.cc/g/f3hBfs.png",
       nickname: "89wlalsrkd",
       lastMessage: "좋은 아침이에요! 날씨도 좋은데 오늘 오후에 뭐할거에요?",
@@ -172,7 +175,7 @@ const Chatting = () => {
       alarmCount: "2",
     },
     {
-      id: "10",
+      roomId: "10",
       profileImg: "https://ifh.cc/g/Q9m4jO.jpg",
       nickname: "보라스프",
       lastMessage: "안녕하세요:)",
@@ -180,7 +183,7 @@ const Chatting = () => {
       alarmCount: "1",
     },
     {
-      id: "11",
+      roomId: "11",
       profileImg: "https://ifh.cc/g/361cfs.png",
       nickname: "개굴",
       lastMessage: "아마도 그럴거에요..!ㅎㅎ",
@@ -188,7 +191,7 @@ const Chatting = () => {
       alarmCount: "",
     },
     {
-      id: "12",
+      roomId: "12",
       profileImg: "https://ifh.cc/g/AJtqvA.png",
       nickname: "몬스테라",
       lastMessage: "굿모닝!",
@@ -245,17 +248,17 @@ const Chatting = () => {
             <div className="room">
               <div className="checkbox">
                 {isEdit ? (
-                  editCheckList.includes(room.id) ? (
+                  editCheckList.includes(room.roomId) ? (
                     <img
                       src={CheckedIcon}
                       alt="체크아이콘"
-                      onClick={() => toggleEditCheck(room.id)}
+                      onClick={() => toggleEditCheck(room.roomId)}
                     />
                   ) : (
                     <img
                       src={EmptyCheck}
                       alt="빈칸체크아이콘"
-                      onClick={() => toggleEditCheck(room.id)}
+                      onClick={() => toggleEditCheck(room.roomId)}
                     />
                   )
                 ) : (
