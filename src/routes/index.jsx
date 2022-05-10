@@ -15,6 +15,7 @@ import MyPage from "@pages/mypage";
 import Profile from "@pages/profile";
 import ProfileEdit from "@pages/profileEdit";
 import Chatting from "@/pages/chatting";
+import ChatScreen from "@/pages/chatScreen";
 
 const Routers = (props) => {
   return (
@@ -36,6 +37,7 @@ const Routers = (props) => {
         <Route path="/liked" element={<Interests />} />
         <Route path="/alarm" element={<Alarm />} />
         <Route path="/chatting" element={<Chatting />} />
+        <Route path="/chatting/:roomid" element={<ChatScreen />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/mypage/edit" element={<ProfileEdit />} />
         <Route path="/mypage/:id" element={<Profile />} />
