@@ -6,7 +6,7 @@ import Step1Page from "@pages/step/Step1Page";
 import Main from "@pages/main";
 import Step2Page from "@pages/step/Step2Page";
 import RegisterSuccessPage from "@/pages/step/RegisterSuccessPage";
-import Interests from "@pages/Interests/noInterests";
+import Interests from "@pages/Interests";
 import LoginCallbackPage from "@pages/login/LoginCallbackPage";
 import FileUploadPage from "@pages/file-upload/FileUploadPage";
 import Detail from "@pages/detail";
@@ -14,9 +14,10 @@ import Alarm from "@pages/alarm";
 import MyPage from "@pages/mypage";
 import Profile from "@pages/profile";
 import ProfileEdit from "@pages/profileEdit";
+import AccountManage from "@pages/accountManage";
 import Chatting from "@/pages/chatting";
 
-const Routers = (props) => {
+const Routers = () => {
   return (
     <>
       <Routes>
@@ -39,6 +40,7 @@ const Routers = (props) => {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/mypage/edit" element={<ProfileEdit />} />
         <Route path="/mypage/:id" element={<Profile />} />
+        <Route path="/manage" element={<AccountManage />} />
       </Routes>
     </>
   );
