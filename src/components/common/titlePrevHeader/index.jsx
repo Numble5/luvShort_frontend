@@ -21,7 +21,7 @@ export default TitlePrevHeader;
 
 const StyledTitlePrev = styled.div`
   padding-top: ${({ title }) =>
-    title === "MY" || title === "프로필" ? "0px;" : "20px;"}
+    title === "MY" || title === "프로필" ? "0px;" : "20px;"};
   padding-bottom: 18px;
   background-color: ${({ background }) =>
     background === "black" ? "#3D3D3D;" : "#FFFFFF;"};
@@ -39,7 +39,7 @@ const StyledTitlePrev = styled.div`
     left: 2%;
     top: 13px;
     padding: 3px 8px;
-    cursor:pointer;
+    cursor: pointer;
   }
 
   h2 {
