@@ -39,6 +39,7 @@ const StyledTitlePrev = styled.div`
     left: 2%;
     top: 13px;
     padding: 3px 8px;
+    cursor:pointer;
   }
 
   h2 {
