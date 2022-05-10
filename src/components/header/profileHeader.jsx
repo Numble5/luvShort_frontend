@@ -1,4 +1,5 @@
 import request from "@/api/request";
+import { calAge } from "@/utils/calAge";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -41,7 +42,9 @@ const ProfileHeader = ({ type }) => {
             <img src={user.thumbnail} alt="프로필 이미지" />
             <div>
               <div>{user.nickname}</div>
-              <div>{`${user.gender}/${user.city}/${user.district}`}</div>
+              <div>{`${calAge(user.birthday)}세/${
+                user.gender === "FEMALE" ? "여" : "남"
+              }/${user.city} ${user.district}`}</div>
             </div>
           </div>
           <div>
