@@ -17,6 +17,7 @@ import ProfileEdit from "@pages/profileEdit";
 //import AccountManage from "@pages/accountManage";
 import Chatting from "@/pages/chatting";
 import ChatScreen from "@/pages/chatScreen";
+import ErrorPage from "@/pages/404Error";
 
 const Routers = () => {
   return (
@@ -43,6 +44,8 @@ const Routers = () => {
         <Route path="/mypage/edit" element={<ProfileEdit />} />
         <Route path="/mypage/:id" element={<Profile />} />
         {/*<Route path="/manage" element={<AccountManage />} />*/}
+        
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </>
   );
