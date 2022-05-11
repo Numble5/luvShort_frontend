@@ -10,6 +10,7 @@ import RegisterSuccessPage from "@/pages/step/RegisterSuccessPage";
 import Interests from "@/pages/Interests/noInterests";
 import LoginCallbackPage from "@/pages/login/LoginCallbackPage";
 import FileUploadPage from "@/pages/file-upload/FileUploadPage";
+import ErrorPage from "@/pages/404Error/index";
 
 const Routers = (props) => {
   return (
@@ -25,6 +26,7 @@ const Routers = (props) => {
         <Route path="/" element={<Main />} />
         <Route path="/interest" element={<Interests/>} />
         <Route path="/file-upload" element={<FileUploadPage />} />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </>
   );
