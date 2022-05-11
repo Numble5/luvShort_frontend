@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 
-const TitlePrevHeader = ({ title, background }) => {
+const TitlePrevHeader = ({ title, background, rightComponent, topPx }) => {
   const navigate = useNavigate();
 
   const moveGoBack = () => {
@@ -13,12 +13,18 @@ const TitlePrevHeader = ({ title, background }) => {
     <StyledTitlePrev title={title} background={background}>
       <span onClick={moveGoBack}>{`<`}</span>
       <h2>{title}</h2>
+      <RightComponent top={topPx}>{rightComponent}</RightComponent>
     </StyledTitlePrev>
   );
 };
 
 export default TitlePrevHeader;
 
+const RightComponent = styled.div`
+  position: absolute;
+  top: ${({ top }) => top};
+  right: 3%;
+`;
 const StyledTitlePrev = styled.div`
   padding-top: ${({ title }) =>
     title === "MY" || title === "프로필" ? "0px;" : "20px;"};
@@ -37,7 +43,7 @@ const StyledTitlePrev = styled.div`
     font-weight: 700;
     position: absolute;
     left: 2%;
-    top: 13px;
+    top: 14px;
     padding: 3px 8px;
     cursor: pointer;
   }

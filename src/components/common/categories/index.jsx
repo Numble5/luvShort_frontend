@@ -16,11 +16,11 @@ export const Cateogories = ({ category }) => {
 
 export const ProfileCategory = ({ categoryList }) => {
   return (
-    <ul>
+    <StyledProfileCategory>
       {categoryList.map((category) => (
         <Cateogories key={category} category={category} />
       ))}
-    </ul>
+    </StyledProfileCategory>
   );
 };
 
@@ -77,4 +77,14 @@ const CategorySelect = styled.select`
   border-radius: 5px;
   outline: none;
   padding: 3px 5px;
+`;
+
+const StyledProfileCategory = styled.ul`
+  width: 93%;
+  margin: 0 auto;
+  margin-top: 20px;
+
+  li {
+    margin-right: 6px;
+  }
 `;

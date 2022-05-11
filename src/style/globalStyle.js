@@ -10,6 +10,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;  
     color:#3D3D3D;
+    font-size:16px;
   }
 
  a{
