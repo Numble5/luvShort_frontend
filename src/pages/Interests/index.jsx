@@ -41,7 +41,7 @@ const Interests = () => {
           <br /> 관심영상을 업데이트해보세요!
         </h3>
         {videoList ? (
-          <VideoList videos={videoList} />
+          <VideoList videos={videoList} type={"interest"} />
         ) : (
           <NoVideoList background={noInterests} />
         )}

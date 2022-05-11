@@ -25,11 +25,8 @@ const RightComponent = styled.div`
   top: ${({ top }) => top};
   right: 3%;
 `;
+
 const StyledTitlePrev = styled.div`
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
   padding-top: ${({ title }) =>
     title === "MY" || title === "프로필" ? "0px;" : "20px;"};
   padding-bottom: 18px;

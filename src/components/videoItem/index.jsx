@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { debounce } from "lodash";
 
 import request from "@/api/request";
 import calDate from "@/utils/calDate";
+import { ChattingModal } from "../common/modal";
 
 const VideoItem = ({
   video: {
@@ -15,22 +16,45 @@ const VideoItem = ({
     createdDate,
     uploader: { user_idx, nickname, profileImgUrl },
   },
+  type,
 }) => {
   const date = calDate(createdDate);
   const [heartState, setHeartState] = useState(heart);
   const [modal, setModal] = useState(false);
+  const navigate = useNavigate();
+
+  const toggleModalOk = () => {
+    setModal(false);
+    setHeartState(false);
+  };
+
+  const toggleModalClose = () => {
+    setModal(false);
+    setHeartState(true);
+  };
+
+  const toggleModalInterestPage = () => {
+    setModal(false);
+    navigate("/liked");
+  };
 
   const toggleLiked = debounce(async ({ target }) => {
     try {
       const id = target.dataset.id;
 
-      if (heart) {
+      console.log(heartState);
+      if (heartState) {
         // 트루면 삭제
         // setModal(true);
+        // await request(`/api/hearts/${id}`, "put", {
+        //   userEmail: "syhan97@naver.com",
+        // });
+        setModal(true);
       } else {
-        await request(`/api/hearts/${id}`, "post", {
-          userEmail: "syhan97@naver.com",
-        });
+        console.log("ehllo");
+        // await request(`/api/hearts/${id}`, "post", {
+        //   userEmail: "syhan97@naver.com",
+        // });
         setHeartState(true);
       }
     } catch (e) {
@@ -40,13 +64,35 @@ const VideoItem = ({
 
   return (
     <StyledLi key={video_idx}>
-      {/* {modal ? <div>안녕하세요</div> : <></>} */}
+      {modal ? (
+        type === "interest" ? (
+          <ChattingModal
+            title={"해당 영상을 관심영상에서 삭제할까요?"}
+            description={"*취소해도 상대방에게 간 알림은 회수되지 않습니다."}
+            leftButton={"아니요"}
+            leftFunction={toggleModalClose}
+            rightButton={"네, 삭제할래요"}
+            rightFunction={toggleModalInterestPage}
+          />
+        ) : (
+          <ChattingModal
+            title={"하트를 취소할까요?"}
+            description={"*취소해도 상대방에게 간 알림은 회수되지 않습니다."}
+            leftButton={"아니요"}
+            leftFunction={toggleModalClose}
+            rightButton={"취소하기"}
+            rightFunction={toggleModalOk}
+          />
+        )
+      ) : (
+        <></>
+      )}
       <Link to={`/${video_idx}`} className="thumbnails">
         <img src={thumbnailUrl} alt="썸네일 이미지" />
       </Link>
       <div className="wrapper">
         <div className="info_wrapper">
-          <Link to={`mypage/${user_idx}`} className="user_wrapper">
+          <Link to={`/mypage/${user_idx}`} className="user_wrapper">
             <UserProfileImgWrpper profileImgUrl={profileImgUrl} />
             <span>{nickname}</span>
           </Link>
@@ -115,7 +161,7 @@ const StyledLi = styled.li`
   .info_wrapper {
     display: flex;
     justify-content: space-between;
-
+    cursor: pointer;
     padding: 0 4px;
   }
 
