@@ -6,11 +6,11 @@ import request from "@/api/request";
 import Header from "@components/header";
 import VideoList from "@components/videoList";
 import Navigator from "@components/navigator";
-import { MainLoginModal } from "@components/common/modal/modal";
+import { MainLoginModal } from "@components/common/modal/index";
 import { FixedUploadBtn } from "@components/common/button";
 import ModalBackground from "@components/modalBackground";
 import { changeModalFalse, changeModalTrue } from "@redux/reducers/modal";
-import { UploadModal } from "@components/common/modal/modal";
+import { UploadModal } from "@components/common/modal/index";
 import { MainCategory } from "@components/common/categories";
 import { changeNavigator } from "@/redux/reducers/navigator";
 
