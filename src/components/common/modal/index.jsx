@@ -13,7 +13,9 @@ export const ChattingModal = ({
   title,
   description,
   leftButton,
+  leftFunction = () => {},
   rightButton,
+  rightFunction,
 }) => {
   const dispatch = useDispatch();
   const modal = useSelector(({ modal }) => modal.value);
@@ -25,6 +27,7 @@ export const ChattingModal = ({
 
   const closeModal = () => {
     dispatch(changeModalFalse());
+    leftFunction();
   };
 
   return (
@@ -44,7 +47,7 @@ export const ChattingModal = ({
               <button>{leftButton}</button>
             </div>
             <div className="exit">
-              <button>{rightButton}</button>
+              <button onClick={rightFunction}>{rightButton}</button>
             </div>
           </div>
         </div>

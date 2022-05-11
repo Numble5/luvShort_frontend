@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import VideoItem from "../videoItem";
 
-const VideoList = ({ videos }) => {
+const VideoList = ({ videos, type }) => {
   return (
     <VideoListWrapper>
       <h2 className="sr-only">영상리스트</h2>
       <StyledUl>
         {videos.map((video) => {
-          return <VideoItem key={video.video_idx} video={video} />;
+          return <VideoItem key={video.video_idx} video={video} type={type} />;
         })}
       </StyledUl>
     </VideoListWrapper>
