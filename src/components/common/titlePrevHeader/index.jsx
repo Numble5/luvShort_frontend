@@ -20,11 +20,16 @@ const TitlePrevHeader = ({ title, background }) => {
 export default TitlePrevHeader;
 
 const StyledTitlePrev = styled.div`
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
   padding-top: ${({ title }) =>
     title === "MY" || title === "프로필" ? "0px;" : "20px;"};
   padding-bottom: 18px;
   background-color: ${({ background }) =>
     background === "black" ? "#3D3D3D;" : "#FFFFFF;"};
+  background: ${({ background }) => background === "#fce8eb" && background};
 
   span,
   h2 {
