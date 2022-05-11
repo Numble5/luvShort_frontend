@@ -24,10 +24,7 @@ export const ProfileCategory = ({ categoryList }) => {
   );
 };
 
-export const MainCategory = ({ marginTop, setCurrentCategory }) => {
-  const user = useSelector(({ user }) => user.user);
-  const interests = useSelector(({ user }) => user.interests);
-
+export const MainCategory = ({ marginTop, setCurrentCategory, interests }) => {
   const handleShowCategory = ({ target }) => {
     setCurrentCategory(target.value);
   };
@@ -35,7 +32,6 @@ export const MainCategory = ({ marginTop, setCurrentCategory }) => {
   return (
     <StyledCategory marginTop={marginTop}>
       <ul>
-        {user ? {} : <></>}
         {interests ? (
           interests.map((interest) => (
             <Cateogories key={interest} category={interest} />
@@ -55,10 +51,17 @@ export const MainCategory = ({ marginTop, setCurrentCategory }) => {
 };
 
 const StyledCategory = styled.div`
+  width: 97%;
   margin-top: ${(props) => props.marginTop};
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  > ul {
+    li {
+      margin-right: 8px;
+    }
+  }
 `;
 
 const CategoryLi = styled.li`
