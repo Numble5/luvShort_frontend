@@ -8,6 +8,7 @@ import "moment/locale/ko";
 const AlarmBlock = styled.div`
   padding: 90px 23px 0;
   main {
+    padding-bottom: 95px;
     .alarm-created {
       font-size: 12px;
       padding-bottom: 4px;
@@ -89,6 +90,52 @@ const Alarm = (props) => {
         {
           profileImg: "https://ifh.cc/g/f3hBfs.png",
           nickname: "89wlalsrkd",
+          contentImg: "https://ifh.cc/g/XY7nPo.png",
+          createdAt: "2022.05.09.12.24",
+        },
+      ],
+    },
+    {
+      createdAt: "2022.05.09",
+      notiList: [
+        {
+          profileImg: "https://ifh.cc/g/f3hBfs.png",
+          nickname: "89wlalsrkd",
+          contentImg: "https://ifh.cc/g/XY7nPo.png",
+          createdAt: "2022.05.09.12.24",
+        },
+        {
+          profileImg: "https://ifh.cc/g/f3hBfs.png",
+          nickname: "89wlalsrkd",
+          contentImg: "https://ifh.cc/g/XY7nPo.png",
+          createdAt: "2022.05.09.12.24",
+        },
+        {
+          profileImg: "https://ifh.cc/g/f3hBfs.png",
+          nickname: "89wlalsrkd",
+          contentImg: "https://ifh.cc/g/XY7nPo.png",
+          createdAt: "2022.05.09.12.24",
+        },
+      ],
+    },
+    {
+      createdAt: "2022.05.09",
+      notiList: [
+        {
+          profileImg: "https://ifh.cc/g/f3hBfs.png",
+          nickname: "89wlalsrkd",
+          contentImg: "https://ifh.cc/g/XY7nPo.png",
+          createdAt: "2022.05.09.12.24",
+        },
+        {
+          profileImg: "https://ifh.cc/g/f3hBfs.png",
+          nickname: "89wlalsrkd",
+          contentImg: "https://ifh.cc/g/XY7nPo.png",
+          createdAt: "2022.05.09.12.24",
+        },
+        {
+          profileImg: "https://ifh.cc/g/f3hBfs.png",
+          nickname: "89wlfdsfalsrkd",
           contentImg: "https://ifh.cc/g/XY7nPo.png",
           createdAt: "2022.05.09.12.24",
         },
