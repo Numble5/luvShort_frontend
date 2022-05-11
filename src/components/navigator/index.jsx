@@ -1,17 +1,23 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router";
 import styled from "styled-components";
+
+import { changeNavigator, selectedNavigator } from "@/redux/reducers/navigator";
 
 import { menu } from "./data/menu";
 
 const Navigator = () => {
-  const [selcted, setSelected] = useState("");
+  const selected = useSelector(selectedNavigator);
 
-  const changeMenu = (e) => {
-    while (e.target.nodeName !== "LI") {
-      e.target = e.target.parentNode;
-    }
-    setSelected(e.target.dataset.id);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const changeMenu = ({ target }) => {
+    const id = target.dataset.id;
+    dispatch(changeNavigator(id));
+    navigate(`/${id}`);
   };
 
   return (
@@ -23,14 +29,12 @@ const Navigator = () => {
             data-id={link}
             onClick={(e) => changeMenu(e)}
           >
-            <Link to={`/${link}`}>
-              {selcted === link ? (
-                <img src={focus} alt={`${title}아이콘`} />
-              ) : (
-                <img src={icon} alt={`${title}아이콘`} />
-              )}
-              <h2>{title}</h2>
-            </Link>
+            {selected === link ? (
+              <img src={focus} alt={`${title}아이콘`} />
+            ) : (
+              <img src={icon} alt={`${title}아이콘`} />
+            )}
+            <h2>{title}</h2>
           </NavigationItem>
         ))}
       </NavigationList>
@@ -57,16 +61,26 @@ const NavigationList = styled.ul`
 `;
 
 const NavigationItem = styled.li`
-  padding: 8px;
   text-align: center;
+  cursor: pointer;
+
+  a {
+    padding: 8px;
+
+    display: block;
+    width: 100%;
+  }
+
   h2 {
     margin-top: 2px;
     font-size: 12px;
     font-weight: 700;
+    pointer-events: none;
     color: #4d4d4d;
   }
 
   img {
+    pointer-events: none;
     width: 33px;
     height: 33px;
   }

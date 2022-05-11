@@ -1,35 +1,82 @@
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import request from "@/api/request";
 
 import Header from "@components/header";
 import VideoList from "@components/videoList";
 import Navigator from "@components/navigator";
-import Categories from "@/components/common/categories";
-import OnBoarding from "../onBoarding";
-
+import { MainLoginModal } from "@components/common/modal/modal";
 import { FixedUploadBtn } from "@components/common/button";
-import MainLoginModal from "@components/common/modal/modal";
+import ModalBackground from "@components/modalBackground";
+import { changeModalFalse, changeModalTrue } from "@redux/reducers/modal";
+import { UploadModal } from "@components/common/modal/modal";
+import { MainCategory } from "@components/common/categories";
+import { changeNavigator } from "@/redux/reducers/navigator";
 
 const Main = () => {
-  let [isLogin, setIsLogin] = useState(false);
+  const user = useSelector(({ user }) => user);
+  console.log(user);
+  const dispatch = useDispatch();
+  const [currentCategory, setCurrentCategory] = useState("전체");
+  const [videoList, setVideoList] = useState([]);
+
+  const fetchData = async () => {
+    try {
+      const payload = {
+        category1: user.interests[0],
+        category2: user.interests[1],
+        category3: user.interests[2],
+        gender:
+          currentCategory === "여성" || currentCategory === "남성"
+            ? currentCategory
+            : null,
+        city: currentCategory === "우리동네" ? user.city : null,
+        district: currentCategory === "우리동네" ? user.district : null,
+      };
+      const result = await request("/api/videos/filter", "post", {}, payload);
+      setVideoList(result);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    dispatch(changeNavigator(""));
+  }, []);
+
+  useEffect(() => {
+    const userInfo = user.user;
+    if (userInfo) {
+      dispatch(changeModalFalse());
+    } else {
+      dispatch(changeModalTrue());
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [currentCategory]);
+
   return (
     <>
-      {/* <Suspense fallback={<OnBoarding />}> */}
-      <Header />
+      <Header type={"main"} />
       <Navigator />
-      {isLogin ? (
-        <Wrapper>
-          <Categories marginTop={"23px"} />
-          <VideoList />
-        </Wrapper>
-      ) : (
-        <>
-          <TempBackground />
-          <MainLoginModal />
-        </>
-      )}
+
       <FixedUploadBtn />
-      {/* </Suspense> */}
+      <Wrapper>
+        <MainCategory
+          marginTop={"23px"}
+          setCurrentCategory={setCurrentCategory}
+        />
+      </Wrapper>
+      {/* <VideoList videos={videoList} /> */}
+
+      {/* {user.user ? (
+        <ModalBackground children={<UploadModal />} />
+      ) : (
+        <ModalBackground children={<MainLoginModal />} />
+      )} */}
     </>
   );
 };
@@ -37,16 +84,6 @@ const Main = () => {
 export default Main;
 
 const Wrapper = styled.div`
-  width: 90%;
+  width: 97%;
   margin: 0 auto;
-`;
-
-const TempBackground = styled.div`
-  width: 100%;
-  height: 100%;
-  background-color: black;
-  position: absolute;
-  top: 0;
-  z-index: 1;
-  opacity: 0.7;
 `;
