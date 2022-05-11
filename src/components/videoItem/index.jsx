@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { debounce } from "lodash";
@@ -10,17 +10,29 @@ const VideoItem = ({
   video: {
     video_idx,
     title,
+    heart,
     thumbnailUrl,
     createdDate,
-    uploader: { nickname, profileImgUrl },
+    uploader: { user_idx, nickname, profileImgUrl },
   },
 }) => {
   const date = calDate(createdDate);
+  const [heartState, setHeartState] = useState(heart);
+  const [modal, setModal] = useState(false);
 
   const toggleLiked = debounce(async ({ target }) => {
     try {
-      const id = target.parentNode.dataset.id;
-      const result = await request(`/api/hearts/${id}`, "post");
+      const id = target.dataset.id;
+
+      if (heart) {
+        // 트루면 삭제
+        // setModal(true);
+      } else {
+        await request(`/api/hearts/${id}`, "post", {
+          userEmail: "syhan97@naver.com",
+        });
+        setHeartState(true);
+      }
     } catch (e) {
       console.log(e);
     }
@@ -28,23 +40,33 @@ const VideoItem = ({
 
   return (
     <StyledLi key={video_idx}>
-      <Link to={`/${video_idx}`}>
+      {/* {modal ? <div>안녕하세요</div> : <></>} */}
+      <Link to={`/${video_idx}`} className="thumbnails">
         <img src={thumbnailUrl} alt="썸네일 이미지" />
       </Link>
       <div className="wrapper">
         <div className="info_wrapper">
-          <div className="user_wrapper">
+          <Link to={`mypage/${user_idx}`} className="user_wrapper">
             <UserProfileImgWrpper profileImgUrl={profileImgUrl} />
             <span>{nickname}</span>
-          </div>
+          </Link>
           <div className="video_info">
             <span>{date}</span>
-            <img
-              src="assets/heart.svg"
-              onClick={toggleLiked}
-              data-id={video_idx}
-              alt="하트"
-            />
+            {heartState ? (
+              <img
+                src="assets/fullheart.svg"
+                onClick={toggleLiked}
+                data-id={video_idx}
+                alt="하트"
+              />
+            ) : (
+              <img
+                src="assets/heart.svg"
+                onClick={toggleLiked}
+                data-id={video_idx}
+                alt="하트"
+              />
+            )}
           </div>
         </div>
         <div className="item_title">{title}</div>
@@ -63,10 +85,9 @@ const StyledLi = styled.li`
   margin-bottom: 20px;
   border-radius: 5px;
 
-  a {
+  .thumbnails {
     display: block;
     width: 100%;
-    background-color: blue;
     height: 240px;
     position: relative;
 

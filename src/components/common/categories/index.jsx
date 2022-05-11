@@ -16,11 +16,11 @@ export const Cateogories = ({ category }) => {
 
 export const ProfileCategory = ({ categoryList }) => {
   return (
-    <ul>
+    <StyledProfileCategory>
       {categoryList.map((category) => (
         <Cateogories key={category} category={category} />
       ))}
-    </ul>
+    </StyledProfileCategory>
   );
 };
 
@@ -46,8 +46,8 @@ export const MainCategory = ({ marginTop, setCurrentCategory }) => {
       </ul>
       <CategorySelect onChange={handleShowCategory}>
         <option value="전체">전체</option>
-        <option value="여성">여자</option>
-        <option value="남성">남자</option>
+        <option value="FEMALE">여자</option>
+        <option value="MALE">남자</option>
         <option value="우리동네">우리동네</option>
       </CategorySelect>
     </StyledCategory>
@@ -77,4 +77,14 @@ const CategorySelect = styled.select`
   border-radius: 5px;
   outline: none;
   padding: 3px 5px;
+`;
+
+const StyledProfileCategory = styled.ul`
+  width: 93%;
+  margin: 0 auto;
+  margin-top: 20px;
+
+  li {
+    margin-right: 6px;
+  }
 `;
