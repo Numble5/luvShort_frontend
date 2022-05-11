@@ -6,6 +6,7 @@ import { debounce } from "lodash";
 import request from "@/api/request";
 import calDate from "@/utils/calDate";
 import { ChattingModal } from "../common/modal";
+import { useSelector } from "react-redux";
 
 const VideoItem = ({
   video: {
@@ -19,9 +20,9 @@ const VideoItem = ({
   type,
 }) => {
   const date = calDate(createdDate);
+  const { email } = useSelector(({ user }) => user);
   const [heartState, setHeartState] = useState(heart);
   const [modal, setModal] = useState(false);
-  const navigate = useNavigate();
 
   const toggleModalOk = () => {
     setModal(false);
@@ -35,26 +36,22 @@ const VideoItem = ({
 
   const toggleModalInterestPage = () => {
     setModal(false);
-    navigate("/liked");
+    window.location.replace("/liked");
   };
 
   const toggleLiked = debounce(async ({ target }) => {
     try {
       const id = target.dataset.id;
-
-      console.log(heartState);
       if (heartState) {
         // 트루면 삭제
-        // setModal(true);
-        // await request(`/api/hearts/${id}`, "put", {
-        //   userEmail: "syhan97@naver.com",
-        // });
+        await request(`/api/hearts/${id}`, "put", {
+          userEmail: email,
+        });
         setModal(true);
       } else {
-        console.log("ehllo");
-        // await request(`/api/hearts/${id}`, "post", {
-        //   userEmail: "syhan97@naver.com",
-        // });
+        await request(`/api/hearts/${id}`, "post", {
+          userEmail: email,
+        });
         setHeartState(true);
       }
     } catch (e) {

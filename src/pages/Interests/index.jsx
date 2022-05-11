@@ -9,11 +9,12 @@ import TitlePrevHeader from "@/components/common/titlePrevHeader";
 import { useDispatch } from "react-redux";
 import { changeNavigator } from "@/redux/reducers/navigator";
 import request from "@/api/request";
+import { useSelector } from "react-redux";
 
 const Interests = () => {
+  const { email } = useSelector(({ user }) => user.user);
   const [videoList, setVideoList] = useState([]);
   const dispatch = useDispatch();
-  const email = "syhan97@naver.com";
 
   const fetchData = async () => {
     try {
@@ -27,20 +28,18 @@ const Interests = () => {
   }, []);
 
   useEffect(() => {
-    // 데이터 패치
     dispatch(changeNavigator("liked"));
   }, []);
 
   return (
     <InterestBlock>
       <TitlePrevHeader title={"관심영상"} background={"white"} />
-
       <div className="contents">
         <h3>
           마음에 드는 영상에 하트를 누르고
           <br /> 관심영상을 업데이트해보세요!
         </h3>
-        {videoList ? (
+        {videoList.length !== 0 ? (
           <VideoList videos={videoList} type={"interest"} />
         ) : (
           <NoVideoList background={noInterests} />
@@ -83,5 +82,11 @@ const InterestBlock = styled.div`
 `;
 
 const NoVideoList = styled.div`
+  margin: 100px auto 0 auto;
+
+  width: 80px;
+  height: 135px;
   background-image: url(${(props) => props.background});
+  background-repeat: no-repeat;
+  bakcground-size: cover;
 `;

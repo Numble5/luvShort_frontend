@@ -6,17 +6,17 @@ import request from "@/api/request";
 import Header from "@components/header";
 import VideoList from "@components/videoList";
 import Navigator from "@components/navigator";
-import { MainLoginModal } from "@components/common/modal/modal";
+import { MainLoginModal } from "@components/common/modal";
 import { FixedUploadBtn } from "@components/common/button";
 import ModalBackground from "@components/modalBackground";
 import { changeModalFalse, changeModalTrue } from "@redux/reducers/modal";
-import { UploadModal } from "@components/common/modal/modal";
+import { UploadModal } from "@components/common/modal";
 import { MainCategory } from "@components/common/categories";
 import { changeNavigator } from "@/redux/reducers/navigator";
+import infiniteScroll from "@/hooks/infiniteScroll";
 
 const Main = () => {
   const user = useSelector(({ user }) => user);
-  console.log(user);
   const dispatch = useDispatch();
   const [currentCategory, setCurrentCategory] = useState("전체");
   const [videoList, setVideoList] = useState([]);
@@ -24,22 +24,35 @@ const Main = () => {
   const fetchData = async () => {
     try {
       const payload = {
-        category1: user.interests[0],
-        category2: user.interests[1],
-        category3: user.interests[2],
+        category: user.interests,
         gender:
-          currentCategory === "여성" || currentCategory === "남성"
+          currentCategory === "FEMALE" || currentCategory === "MALE"
             ? currentCategory
             : null,
         city: currentCategory === "우리동네" ? user.city : null,
         district: currentCategory === "우리동네" ? user.district : null,
       };
-      const result = await request("/api/videos/filter", "post", {}, payload);
+
+      const result = await request(
+        "/api/videos/filter",
+        "post",
+        { lastVideoIdx: 100, userEmail: user.user.email, size: 4 },
+        payload
+      );
+
       setVideoList(result);
     } catch (e) {
       console.log(e);
     }
   };
+
+  useEffect(() => {
+    window.addEventListener("scroll", infiniteScroll);
+
+    return () => {
+      window.removeEventListener("scroll", infiniteScroll);
+    };
+  }, []);
 
   useEffect(() => {
     dispatch(changeNavigator(""));
@@ -62,21 +75,21 @@ const Main = () => {
     <>
       <Header type={"main"} />
       <Navigator />
-
       <FixedUploadBtn />
       <Wrapper>
         <MainCategory
           marginTop={"23px"}
           setCurrentCategory={setCurrentCategory}
+          interests={user.user.interests}
         />
       </Wrapper>
-      {/* <VideoList videos={videoList} /> */}
+      <VideoList videos={videoList} />
 
-      {/* {user.user ? (
+      {user.user ? (
         <ModalBackground children={<UploadModal />} />
       ) : (
         <ModalBackground children={<MainLoginModal />} />
-      )} */}
+      )}
     </>
   );
 };
