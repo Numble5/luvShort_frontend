@@ -27,7 +27,7 @@ const ModalBackground = ({ children }) => {
     <>
       {selected ? (
         <>
-          {children}
+          <ModalChild>{children}</ModalChild>
           <TempBackground onClick={closeModal} />;
         </>
       ) : (
@@ -42,8 +42,16 @@ const TempBackground = styled.div`
   width: 100%;
   height: 100%;
   background-color: black;
-  position: absolute;
+  position: fixed;
   top: 0;
   z-index: 1;
   opacity: 0.7;
+`;
+
+const ModalChild = styled.div`
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
 `;

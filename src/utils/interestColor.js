@@ -7,5 +7,5 @@ export const CategoryBackgroundColor = {
   독서: "#bdebb1",
   요리: "#ffc9d0",
   영화시청: "#bcc3ff",
-  반료동물: "#e4b1be",
+  반려동물: "#e4b1be",
 };
