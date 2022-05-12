@@ -5,8 +5,8 @@ import axios from "axios";
      await request("/api/auth/kakao-login","post,{access_token: accesstoke});
 
      보내야하는 query string이 없을 경우 세번째는 비워두셔도 됩니다.
-     
 */
+
 const BASE_URL = "https://luvshort.tk";
 
 const request = async (req, option, qs = {}, payload = {}) => {
