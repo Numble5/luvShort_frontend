@@ -1,10 +1,9 @@
 import styled from "styled-components";
 import React, { useEffect, useState } from "react";
-import LeftArrow from "@/static/step/Vector 3.svg";
-import RightArrow from "@/static/step/Vector 2.svg";
+import LeftArrow from "@/pages/step/assets/Vector 3.svg";
+import RightArrow from "@/pages/step/assets/Vector 2.svg";
 
 import { useDispatch, useSelector } from "react-redux";
-import { submitUserInfo } from "@redux/reducers/user";
 import { useNavigate } from "react-router";
 import { userCheck } from "@/redux/reducers/user";
 import Modal from "@/components/step1/modal";
