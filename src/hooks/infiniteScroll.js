@@ -11,8 +11,8 @@ const useFetch = (query, page) => {
       setLoading(true);
       setError(false);
       // axios 통신부분 const res = await axios
-      await setList((prev) => [new Set([...prev, ...res.data])]);
-      setHasMore(res.data.docs.length > 0);
+      // await setList((prev) => [new Set([...prev, ...res.data])]);
+      // setHasMore(res.data.docs.length > 0);
       setLoading(false);
     } catch (error) {
       setError(error);
