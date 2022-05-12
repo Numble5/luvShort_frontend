@@ -61,7 +61,7 @@ const RegisterSuccessPage = () => {
   // const interests = useSelector(({user}) => user.interests); 서버 통신 완성되면 이거 사용하기
   const navigate = useNavigate();
   const nickname = useSelector(({ user }) => user.nickname);
-  const interests = useSelector(({ user }) => user.interests);
+  const interests = useSelector(({ user }) => user.user.interests);
 
   return (
     <RegisterSuccessPageBlock>
@@ -69,7 +69,7 @@ const RegisterSuccessPage = () => {
         <h1>
           <span>'{nickname}'</span>님,
           <br />
-          회원가입을 축하해요
+          회원가입을 축하해요🎉
         </h1>
       </div>
       <div className="sub-title">

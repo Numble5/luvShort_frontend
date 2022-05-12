@@ -21,12 +21,8 @@ const VideoItem = ({
 }) => {
   const date = calDate(createdDate);
   const { email } = useSelector(({ user }) => user.user);
-  const [heartState, setHeartState] = useState(false);
+  const [heartState, setHeartState] = useState(heart);
   const [modal, setModal] = useState(false);
-
-  useEffect(() => {
-    setHeartState(heart);
-  }, []);
 
   const toggleModalOk = () => {
     setModal(false);
