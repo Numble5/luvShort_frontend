@@ -7,7 +7,7 @@ import Header from "@components/header";
 import VideoList from "@components/videoList";
 import Navigator from "@components/navigator";
 import { MainLoginModal, UploadModal } from "@components/common/modal";
-import { FixedUploadBtn } from "@components/common/button";
+import { FixedUploadBtn, FixedTopBtn } from "@components/common/button";
 import ModalBackground from "@components/modalBackground";
 import { changeModalFalse, changeModalTrue } from "@redux/reducers/modal";
 import { MainCategory } from "@components/common/categories";
@@ -76,6 +76,7 @@ const Main = () => {
     <>
       <Header type={"main"} />
       <Navigator />
+      <FixedTopBtn />
       <FixedUploadBtn />
       <Wrapper>
         {user.user ? (
