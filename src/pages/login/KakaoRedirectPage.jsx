@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import Spinner from "@/components/common/Spinner";
 import { client } from "@/lib/api";
 import { useNavigate } from "react-router";
 import { setEmail, userCheck } from "@/redux/reducers/user";
 import axios from "axios";
 
-const KakaoRedirect = (props) => {
+const KakaoRedirect = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { Kakao } = window;
   let code = new URL(window.location.href).searchParams.get("code");
 
   const sendAccessToken = async function (authObj) {
@@ -35,33 +33,6 @@ const KakaoRedirect = (props) => {
       navigate("/step1");
     }
   };
-
-  // const getKakaoTokenHandler = async (code) => {
-  //   console.log(code);
-  //   const data = {
-  //     grant_type: "authorization_code",
-  //     client_id: process.env.REACT_APP_KAKAO_REST_API_KEY,
-  //     redirect_uri: process.env.REACT_APP_REDIRECT_URI,
-  //     code: code,
-  //   };
-  //   const queryString = Object.keys(data)
-  //     .map((k) => encodeURIComponent(k) + "=" + encodeURIComponent(data[k]))
-  //     .join("&");
-
-  //   //토큰 발급 REST API
-  //   client
-  //     .post("https://kauth.kakao.com/oauth/token", queryString, {
-  //       headers: {
-  //         "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
-  //       },
-  //     })
-  //     .then((res) => {
-  //       //서버에 토큰 전송
-  //       // sendKakaoTokenToServer(res.data.access_token);
-  //       console.log(res);
-  //       sendAccessToken(res.data);
-  //     });
-  // };
 
   function requestToken(code) {
     const JS_APP_KEY = "42f138356c44e8bdcbcae522929a5117";
@@ -88,9 +59,6 @@ const KakaoRedirect = (props) => {
         code,
       }),
     }).then((res) => {
-      //서버에 토큰 전송
-      // sendKakaoTokenToServer(res.data.access_token);
-      console.log(res);
       sendAccessToken(res.data);
     });
   }
