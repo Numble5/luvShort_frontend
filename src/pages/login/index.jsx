@@ -1,10 +1,7 @@
 import styled from "styled-components";
 import React, { useEffect, useRef } from "react";
-import WaveIllust from "../../static/login/Vector 9.jpg";
-import LogoIllust from "../../static/login/Group 39520.jpg";
-import Template from "@/components/common/Template";
-import KakaoButton3 from "@/static/login/kakaotalk.svg";
-import axios from "axios";
+import WaveIllust from "@/pages/login/assets/Vector 9.jpg";
+import KakaoButton3 from "@/pages/login/assets/kakaotalk.svg";
 import { useNavigate } from "react-router";
 import { client } from "@/lib/api";
 import { userCheck } from "@/redux/reducers/user";

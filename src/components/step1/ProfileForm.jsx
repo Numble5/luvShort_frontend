@@ -12,8 +12,8 @@ import {
   setNicknameCheckNull,
 } from "@/redux/reducers/user";
 import { useNavigate } from "react-router";
-import NicknameCheck from "@/static/step/alert_circle.svg";
-import GenderGrayCheckButton from "@/static/step/Group 39531.svg";
+import NicknameCheck from "@/pages/step/assets/alert_circle.svg";
+import GenderGrayCheckButton from "@/pages/step/assets/Group 39531.svg";
 import GenderGreenCheckButton from "@/pages/step/assets-step1/Group 39571.svg";
 import NicknameError from "@pages/step/assets-step1/Group 39570.svg";
 import Select from "react-select";
