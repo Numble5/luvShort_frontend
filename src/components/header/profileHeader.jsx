@@ -1,72 +1,12 @@
-import request from "@/api/request";
+import React from "react";
 import { calAge } from "@/utils/calAge";
-import React, { useEffect } from "react";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { ProfileCategory } from "../common/categories";
-import TitlePrevHeader from "../common/titlePrevHeader";
 
-const ProfileHeader = ({ type }) => {
-  const userIdx = useLocation().pathname.split("mypage")[1].slice(1);
-  const user = useSelector(({ user }) => user.user);
-
-  const [userInfo, setUserInfo] = useState({
-    nickname: "",
-    email: "",
-    profileImg: "",
-    city: "",
-    district: "",
-    age: "",
-    genderType: "",
-    interests: [],
-  });
-
-  const fetchUserData = async () => {
-    try {
-      const result = await request(`/api/user/${userIdx}`, "get");
-      setUserInfo(result);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const fetchLoginUserData = async () => {
-    try {
-      const result = await request(`/api/user/${user.email}`, "get");
-
-      setUserInfo(result);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  useEffect(() => {
-    if (userIdx) {
-      fetchUserData();
-    } else {
-      fetchLoginUserData();
-    }
-  }, [userIdx, user]);
-
+const ProfileHeader = ({ type, userInfo }) => {
   return (
     <>
-      {userIdx ? (
-        <TitlePrevHeader
-          title={type}
-          background={"black"}
-          rightComponent={<button>메시지</button>}
-        />
-      ) : (
-        <TitlePrevHeader
-          title={type}
-          background={"black"}
-          rightComponent={<ProfileTopButton>로그아웃</ProfileTopButton>}
-          topPx={"19px"}
-        />
-      )}
       <ProfileWrapper>
         <div className="profile_info">
           <div className="profile_info-Imgwrapper">
@@ -75,15 +15,18 @@ const ProfileHeader = ({ type }) => {
           <div className="profile_infoType">
             <div className="profile_infoType-nickname">{userInfo.nickname}</div>
             <div className="profile_infoType-others">{`${calAge(
-              userInfo.age
-            )}세/${userInfo.genderType === "FEMALE" ? "여" : "남"}/${
+              userInfo.birthday
+            )}세/${userInfo.gender === "FEMALE" ? "여" : "남"}/${
               userInfo.city
             } ${userInfo.district}`}</div>
           </div>
           <div>
-            {userIdx ? (
-              <ProfileResult result={"매칭성공"} className="profile_side">
-                매칭성공
+            {type === "프로필" ? (
+              <ProfileResult
+                result={userInfo.isMatched}
+                className="profile_side"
+              >
+                {userInfo.isMatched}
               </ProfileResult>
             ) : (
               <Link to="/mypage/edit" className="profile_side-edit">
@@ -93,19 +36,12 @@ const ProfileHeader = ({ type }) => {
           </div>
         </div>
         <ProfileCategory categoryList={userInfo.interests} />
-        <div> 소개글 </div>
+        <div className="profile__introduce">{userInfo.introduce}</div>
       </ProfileWrapper>
     </>
   );
 };
 export default ProfileHeader;
-
-const ProfileTopButton = styled.button`
-  color: white;
-  background-color: transparent;
-  border: none;
-  font-weight: 600;
-`;
 
 const ProfileWrapper = styled.div`
   .profile_side-edit,
@@ -118,7 +54,7 @@ const ProfileWrapper = styled.div`
   .profile_info {
     display: flex;
     align-items: center;
-    width: 93%;
+    width: 90%;
     justify-content: space-between;
     margin: 0 auto;
   }
@@ -160,6 +96,12 @@ const ProfileWrapper = styled.div`
     border: none;
     border-radius: 5px;
     padding: 2px 8px;
+  }
+
+  .profile__introduce {
+    color: white;
+    width: 90%;
+    margin: 20px auto 0 auto;
   }
 `;
 

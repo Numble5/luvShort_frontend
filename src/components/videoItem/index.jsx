@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import calDate from "@/utils/calDate";
 import { ChattingModal } from "../common/modal";
 import { useSelector } from "react-redux";
 import { toggleLiked } from "@/utils/toggleHeartState";
+import { useEffect } from "react";
 
 const VideoItem = ({
   video: {
@@ -20,8 +21,12 @@ const VideoItem = ({
 }) => {
   const date = calDate(createdDate);
   const { email } = useSelector(({ user }) => user.user);
-  const [heartState, setHeartState] = useState(heart);
+  const [heartState, setHeartState] = useState(false);
   const [modal, setModal] = useState(false);
+
+  useEffect(() => {
+    setHeartState(heart);
+  }, []);
 
   const toggleModalOk = () => {
     setModal(false);
@@ -76,7 +81,7 @@ const VideoItem = ({
             <span>{date}</span>
             {heartState ? (
               <img
-                src="assets/fullheart.svg"
+                src="/assets/fullheart.svg"
                 onClick={({ target }) => {
                   toggleLiked({
                     target,
@@ -91,7 +96,7 @@ const VideoItem = ({
               />
             ) : (
               <img
-                src="assets/heart.svg"
+                src="/assets/heart.svg"
                 onClick={({ target }) => {
                   toggleLiked({
                     target,
@@ -102,7 +107,7 @@ const VideoItem = ({
                   });
                 }}
                 data-id={video_idx}
-                alt="하트"
+                alt="빈하트"
               />
             )}
           </div>

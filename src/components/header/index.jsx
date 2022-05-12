@@ -5,10 +5,14 @@ import Union from "./assets/Union.svg";
 import MainHeader from "./mainHeader";
 import ProfileHeader from "./profileHeader";
 
-const Header = ({ type }) => {
+const Header = ({ type, userInfo }) => {
   return (
     <StyledHeader>
-      {type === "main" ? <MainHeader /> : <ProfileHeader type={type} />}
+      {type === "main" ? (
+        <MainHeader />
+      ) : (
+        <ProfileHeader type={type} userInfo={userInfo} />
+      )}
     </StyledHeader>
   );
 };
