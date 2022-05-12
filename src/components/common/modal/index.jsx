@@ -108,12 +108,7 @@ export const MainLoginModal = () => {
 };
 
 const StyledModal = styled.div`
-  position: absolute;
-  width: 95%;
-  z-index: 2;
-  top: 20%;
-  left: 50%;
-  transform: translateX(-50%);
+  width: 350px;
   background-color: #ffffff;
   border-radius: 10px;
   overflow: hidden;
@@ -150,20 +145,15 @@ const StyledModal = styled.div`
 `;
 
 const StyledUploadModal = styled.div`
-  position: absolute;
-  width: 90%;
-  top: 30%;
-  z-index: 2;
-  left: 50%;
-  transform: translateX(-50%);
-
   .embeded__btn,
   .self__btn {
     display: block;
+    width: 330px;
+    height: 126px;
     font-size: 24px;
     font-weight: 600;
     border-radius: 10px;
-    padding: 48px 50px;
+    line-height: 126px;
 
     * {
       color: white;
