@@ -7,7 +7,7 @@ import axios from "axios";
      보내야하는 query string이 없을 경우 세번째는 비워두셔도 됩니다.
      
 */
-const BASE_URL = "http://13.209.236.146:8080";
+const BASE_URL = "https://luvshort.tk";
 
 const request = async (req, option, qs = {}, payload = {}) => {
   try {
