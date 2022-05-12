@@ -35,7 +35,7 @@ const initialState = {
   nickname: "",
   birthday: "",
   gender: "",
-  city: "서울",
+  city: "서울특별시",
   district: "강동구",
   interests: "",
   thumbnail: null,

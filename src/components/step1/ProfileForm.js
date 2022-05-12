@@ -16,6 +16,8 @@ import NicknameCheck from "@/static/step/alert_circle.svg";
 import GenderGrayCheckButton from "@/static/step/Group 39531.svg";
 import GenderGreenCheckButton from "@/pages/step/assets-step1/Group 39571.svg";
 import NicknameError from "@pages/step/assets-step1/Group 39570.svg";
+import Select from "react-select";
+import { options } from "@/utils/selectOptions";
 
 const ProfileFormBlock = styled.div`
   .profile {
@@ -27,6 +29,11 @@ const ProfileFormBlock = styled.div`
         label {
           display: inline-block;
           margin-bottom: 8px;
+          span {
+            margin-left: 4px;
+            font-size: 12px;
+            color: #b1b1b1;
+          }
         }
         span {
           font-size: 12p;
@@ -68,6 +75,12 @@ const ProfileFormBlock = styled.div`
           color: white;
           font-size: 14px;
           cursor: pointer;
+          &.nickcheck-success {
+            box-sizing: border-box;
+            background: #c4c4c4;
+            margin-right: 3em;
+            pointer-events: none;
+          }
           &.error {
             box-sizing: border-box;
             background: #c4c4c4;
@@ -137,7 +150,7 @@ const ProfileFormBlock = styled.div`
     }
   }
 
-  .location-select {
+  /* .location-select {
     .location-select-container {
       display: flex;
       justify-content: space-between;
@@ -169,7 +182,7 @@ const ProfileFormBlock = styled.div`
       -moz-appearance: none;
       appearance: none;
     }
-  }
+  } */
   .next-step-button {
     position: absolute;
     box-sizing: border-box;
@@ -200,8 +213,13 @@ const ProfileForm = () => {
   const gender = useSelector(({ user }) => user.gender);
   const nicknameCheckError = useSelector(({ user }) => user.nicknameCheckError);
   const birthdayError = useSelector(({ user }) => user.birthdayError);
+  const city = useSelector(({ user }) => user.city);
+  const district = useSelector(({ user }) => user.district);
+  const cityValue = { value: city, label: city };
+  const districtValue = { value: district, label: district };
 
   const onChangeNickname = useCallback((e) => {
+    dispatch(setNicknameCheckNull());
     dispatch(changeNickname(e.target.value));
   }, []);
 
@@ -250,11 +268,65 @@ const ProfileForm = () => {
   };
 
   const onChangeCity = useCallback((e) => {
-    dispatch(changeCity(e.target.value));
+    dispatch(changeCity(e.value));
+    switch (e.value) {
+      case "서울특별시":
+        dispatch(changeDistrict("강동구"));
+        break;
+      case "강원도":
+        dispatch(changeDistrict("강릉시"));
+        break;
+      case "경기도":
+        dispatch(changeDistrict("고양시"));
+        break;
+      case "경상남도":
+        dispatch(changeDistrict("거제시"));
+        break;
+      case "경상북도":
+        dispatch(changeDistrict("경산시"));
+        break;
+      case "광주광역시":
+        dispatch(changeDistrict("광산구"));
+        break;
+      case "대구광역시":
+        dispatch(changeDistrict("남구"));
+        break;
+      case "대전광역시":
+        dispatch(changeDistrict("대덕구"));
+        break;
+      case "부산광역시":
+        dispatch(changeDistrict("강서구"));
+        break;
+      case "세종특별자치시":
+        dispatch(changeDistrict("조치원읍"));
+        break;
+      case "울산광역시":
+        dispatch(changeDistrict("남구"));
+        break;
+      case "인천광역시":
+        dispatch(changeDistrict("강화군"));
+        break;
+      case "전라남도":
+        dispatch(changeDistrict("광양시"));
+        break;
+      case "전라북도":
+        dispatch(changeDistrict("군산시"));
+        break;
+      case "제주특별자치도":
+        dispatch(changeDistrict("서귀포시"));
+        break;
+      case "충청남도":
+        dispatch(changeDistrict("계롱시"));
+        break;
+      case "충청북도":
+        dispatch(changeDistrict("영동군"));
+        break;
+      default:
+    }
   }, []);
 
   const onChangeDistrict = (e) => {
-    dispatch(changeDistrict(e.target.value));
+    dispatch(changeDistrict(e.value));
   };
 
   const nicknameReset = () => {
@@ -266,7 +338,14 @@ const ProfileForm = () => {
     if (!nickname) {
       return;
     }
-    dispatch(nicknameCheck(nickname));
+    const regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
+    if (regex.test(nickname)) {
+      dispatch(nicknameCheck(nickname));
+    } else {
+      alert(
+        "한글, 영어, 숫자만 입력할 수 있습니다. (공백은 허용하지 않습니다!)"
+      );
+    }
   };
 
   return (
@@ -274,7 +353,13 @@ const ProfileForm = () => {
       <form className="profile">
         <div className="nickname-container">
           <div className="nickname_title">
-            <label>닉네임</label>
+            <label>
+              닉네임
+              <span>
+                (한글, 영어, 숫자만 입력할 수 있습니다. 공백은 허용하지
+                않습니다!)
+              </span>
+            </label>
             {nicknameCheckError === false && (
               <span className="success">사용 가능한 닉네임이에요.</span>
             )}
@@ -289,7 +374,7 @@ const ProfileForm = () => {
                 type="text"
                 value={nickname}
                 onChange={onChangeNickname}
-                disabled
+                maxLength="6"
               />
             ) : (
               <input
@@ -297,6 +382,7 @@ const ProfileForm = () => {
                 className={nicknameCheckError === true ? "error" : ""}
                 value={nickname}
                 onChange={onChangeNickname}
+                maxLength="6"
               />
             )}
 
@@ -304,7 +390,16 @@ const ProfileForm = () => {
               <span onClick={onClickCheckNickname}>중복확인</span>
             )}
             {nicknameCheckError === false && (
-              <img src={NicknameCheck} alt="닉네임중복체크기능" />
+              <>
+                <span
+                  className="nickcheck-success"
+                  onClick={onClickCheckNickname}
+                  disabled
+                >
+                  중복확인
+                </span>
+                <img src={NicknameCheck} alt="닉네임중복체크기능" />
+              </>
             )}
             {nicknameCheckError === true && (
               <>
@@ -362,22 +457,132 @@ const ProfileForm = () => {
           <label>거주지역</label>
           <div className="location-select-container">
             <div className="location-si">
-              <select onChange={onChangeCity}>
-                <option value="서울">서울</option>
-                <option value="인천">인천</option>
-                <option value="대전">대전</option>
-                <option value="대구">대구</option>
-                <option value="부산">부산</option>
-              </select>
+              <Select
+                options={options.cityOptions}
+                onChange={onChangeCity}
+                value={cityValue}
+              />
             </div>
             <div className="location-gu">
-              <select onChange={onChangeDistrict} defaultValue="강동구">
-                <option value="강동구">강동구</option>
-                <option value="송파구">송파구</option>
-                <option value="용산구">용산구</option>
-                <option value="은평구">은평구</option>
-                <option value="동작구">동작구</option>
-              </select>
+              {city === "서울특별시" && (
+                <Select
+                  options={options.seoulOptions}
+                  onChange={onChangeDistrict}
+                  value={districtValue}
+                />
+              )}
+              {city === "강원도" && (
+                <Select
+                  options={options.gangWonDoOptions}
+                  onChange={onChangeDistrict}
+                  value={districtValue}
+                />
+              )}
+              {city === "경기도" && (
+                <Select
+                  options={options.GyeonggiDoOptions}
+                  onChange={onChangeDistrict}
+                  value={districtValue}
+                />
+              )}
+              {city === "경상남도" && (
+                <Select
+                  options={options.GyeongsangnamDoOptions}
+                  onChange={onChangeDistrict}
+                  value={districtValue}
+                />
+              )}
+              {city === "경상북도" && (
+                <Select
+                  options={options.GyeongsangbukDoOptions}
+                  onChange={onChangeDistrict}
+                  value={districtValue}
+                />
+              )}
+              {city === "광주광역시" && (
+                <Select
+                  options={options.GwangjuOptions}
+                  onChange={onChangeDistrict}
+                  value={districtValue}
+                />
+              )}
+              {city === "대구광역시" && (
+                <Select
+                  options={options.DaeguOptions}
+                  onChange={onChangeDistrict}
+                  value={districtValue}
+                />
+              )}
+              {city === "대전광역시" && (
+                <Select
+                  options={options.DaejeonOptions}
+                  onChange={onChangeDistrict}
+                  value={districtValue}
+                />
+              )}
+              {city === "부산광역시" && (
+                <Select
+                  options={options.BusanOptions}
+                  onChange={onChangeDistrict}
+                  value={districtValue}
+                />
+              )}
+              {city === "세종특별자치시" && (
+                <Select
+                  options={options.SejongOptions}
+                  onChange={onChangeDistrict}
+                  value={districtValue}
+                />
+              )}
+              {city === "울산광역시" && (
+                <Select
+                  options={options.UlsanOptions}
+                  onChange={onChangeDistrict}
+                  value={districtValue}
+                />
+              )}
+              {city === "인천광역시" && (
+                <Select
+                  options={options.IncheonOptions}
+                  onChange={onChangeDistrict}
+                  value={districtValue}
+                />
+              )}
+              {city === "전라남도" && (
+                <Select
+                  options={options.JeollanamDoOptions}
+                  onChange={onChangeDistrict}
+                  value={districtValue}
+                />
+              )}
+              {city === "전라북도" && (
+                <Select
+                  options={options.JeollabukDoOptions}
+                  onChange={onChangeDistrict}
+                  value={districtValue}
+                />
+              )}
+              {city === "제주특별자치도" && (
+                <Select
+                  options={options.JejuOptions}
+                  onChange={onChangeDistrict}
+                  value={districtValue}
+                />
+              )}
+              {city === "충청남도" && (
+                <Select
+                  options={options.ChungcheongnamDoOptions}
+                  onChange={onChangeDistrict}
+                  value={districtValue}
+                />
+              )}
+              {city === "충청북도" && (
+                <Select
+                  options={options.ChungcheongbukDoOptions}
+                  onChange={onChangeDistrict}
+                  value={districtValue}
+                />
+              )}
             </div>
           </div>
         </div>
