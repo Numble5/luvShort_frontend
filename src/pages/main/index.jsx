@@ -6,11 +6,10 @@ import request from "@/api/request";
 import Header from "@components/header";
 import VideoList from "@components/videoList";
 import Navigator from "@components/navigator";
-import { MainLoginModal } from "@components/common/modal";
+import { MainLoginModal, UploadModal } from "@components/common/modal";
 import { FixedUploadBtn } from "@components/common/button";
 import ModalBackground from "@components/modalBackground";
 import { changeModalFalse, changeModalTrue } from "@redux/reducers/modal";
-import { UploadModal } from "@components/common/modal";
 import { MainCategory } from "@components/common/categories";
 import { changeNavigator } from "@/redux/reducers/navigator";
 import infiniteScroll from "@/hooks/infiniteScroll";
@@ -68,7 +67,9 @@ const Main = () => {
   }, []);
 
   useEffect(() => {
-    fetchData();
+    if (user.user) {
+      fetchData();
+    }
   }, [currentCategory]);
 
   return (
@@ -77,12 +78,17 @@ const Main = () => {
       <Navigator />
       <FixedUploadBtn />
       <Wrapper>
-        <MainCategory
-          marginTop={"23px"}
-          setCurrentCategory={setCurrentCategory}
-          interests={user.user.interests}
-        />
+        {user.user ? (
+          <MainCategory
+            marginTop={"23px"}
+            setCurrentCategory={setCurrentCategory}
+            interests={user.user.interests}
+          />
+        ) : (
+          <></>
+        )}
       </Wrapper>
+
       <VideoList videos={videoList} />
 
       {user.user ? (

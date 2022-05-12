@@ -14,12 +14,15 @@ const MainHeader = () => {
           <span className="sr-only">럽쇼츠</span>
         </h1>
         {user.user ? (
-          <div className="header__userProfile">
-            <span>{user.nickname}</span>
+          <Link to="/mypage" className="header__userProfile">
+            <span>{user.user.nickname}</span>
             <div className="profile__img">
-              <img src={user.thumbsnail} alt="프로필 이미지" />
+              <img
+                src="https://www.epnnews.com/news/photo/202008/5216_6301_1640.jpg"
+                alt="프로필 이미지"
+              />
             </div>
-          </div>
+          </Link>
         ) : (
           <></>
         )}
@@ -27,7 +30,7 @@ const MainHeader = () => {
       <HeaderGreeting>
         {user.user ? (
           <div>
-            <span className="greeting_bold">{user.nickname}</span>
+            <span className="greeting_bold">{user.user.nickname}</span>
             <span className="greeting_mid">님,</span>
           </div>
         ) : (
@@ -51,8 +54,29 @@ const HeaderWrapper = styled.div`
   margin: 0 auto;
 
   .header__userProfile {
+    display: flex;
+    align-items: center;
+
     > span {
       color: #d4d4d4;
+    }
+  }
+
+  .profile__img {
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+    position: relative;
+    margin-left: 5px;
+    border-radius: 50%;
+    background-color: white;
+
+    img {
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
     }
   }
 `;
