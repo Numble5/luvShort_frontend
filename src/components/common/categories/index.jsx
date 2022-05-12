@@ -83,7 +83,7 @@ const CategorySelect = styled.select`
 `;
 
 const StyledProfileCategory = styled.ul`
-  width: 93%;
+  width: 90%;
   margin: 0 auto;
   margin-top: 20px;
 

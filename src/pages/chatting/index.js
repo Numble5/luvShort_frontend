@@ -7,7 +7,7 @@ import ExitButton from "@/components/chatting/ExitButton";
 import EmptyCheck from "@/pages/chatting/assets/empty-check.svg";
 import CheckedIcon from "@/pages/chatting/assets/checked.svg";
 import { useSelector } from "react-redux";
-import { ChattingModal } from "@/components/common/modal/index";
+import { ChattingModal } from "@/components/common/modal";
 
 const ChattingBlock = styled.div`
   height: 100vh;
