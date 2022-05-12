@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { debounce } from "lodash";
 
-import request from "@/api/request";
 import calDate from "@/utils/calDate";
 import { ChattingModal } from "../common/modal";
 import { useSelector } from "react-redux";
+import { toggleLiked } from "@/utils/toggleHeartState";
 
 const VideoItem = ({
   video: {
@@ -20,7 +19,7 @@ const VideoItem = ({
   type,
 }) => {
   const date = calDate(createdDate);
-  const { email } = useSelector(({ user }) => user);
+  const { email } = useSelector(({ user }) => user.user);
   const [heartState, setHeartState] = useState(heart);
   const [modal, setModal] = useState(false);
 
@@ -38,26 +37,6 @@ const VideoItem = ({
     setModal(false);
     window.location.replace("/liked");
   };
-
-  const toggleLiked = debounce(async ({ target }) => {
-    try {
-      const id = target.dataset.id;
-      if (heartState) {
-        // 트루면 삭제
-        await request(`/api/hearts/${id}`, "put", {
-          userEmail: email,
-        });
-        setModal(true);
-      } else {
-        await request(`/api/hearts/${id}`, "post", {
-          userEmail: email,
-        });
-        setHeartState(true);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  }, 200);
 
   return (
     <StyledLi key={video_idx}>
@@ -98,14 +77,30 @@ const VideoItem = ({
             {heartState ? (
               <img
                 src="assets/fullheart.svg"
-                onClick={toggleLiked}
+                onClick={({ target }) => {
+                  toggleLiked({
+                    target,
+                    heartState,
+                    setModal,
+                    setHeartState,
+                    email,
+                  });
+                }}
                 data-id={video_idx}
                 alt="하트"
               />
             ) : (
               <img
                 src="assets/heart.svg"
-                onClick={toggleLiked}
+                onClick={({ target }) => {
+                  toggleLiked({
+                    target,
+                    heartState,
+                    setModal,
+                    setHeartState,
+                    email,
+                  });
+                }}
                 data-id={video_idx}
                 alt="하트"
               />
