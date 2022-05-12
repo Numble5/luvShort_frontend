@@ -1,10 +1,16 @@
+import { changeModalTrue } from "@/redux/reducers/modal";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const MainHeader = () => {
   const user = useSelector(({ user }) => user);
+  const dispatch = useDispatch();
+
+  const openUploadModal = () => {
+    dispatch(changeModalTrue());
+  };
 
   return (
     <>
@@ -14,12 +20,15 @@ const MainHeader = () => {
           <span className="sr-only">럽쇼츠</span>
         </h1>
         {user.user ? (
-          <div className="header__userProfile">
-            <span>{user.nickname}</span>
+          <Link to="/mypage" className="header__userProfile">
+            <span>{user.user.nickname}</span>
             <div className="profile__img">
-              <img src={user.thumbsnail} alt="프로필 이미지" />
+              <img
+                src="https://www.epnnews.com/news/photo/202008/5216_6301_1640.jpg"
+                alt="프로필 이미지"
+              />
             </div>
-          </div>
+          </Link>
         ) : (
           <></>
         )}
@@ -27,7 +36,7 @@ const MainHeader = () => {
       <HeaderGreeting>
         {user.user ? (
           <div>
-            <span className="greeting_bold">{user.nickname}</span>
+            <span className="greeting_bold">{user.user.nickname}</span>
             <span className="greeting_mid">님,</span>
           </div>
         ) : (
@@ -35,7 +44,7 @@ const MainHeader = () => {
         )}
         <div className="greeting_mid">짧은 영상을 업로드하고</div>
         <div className="greeting_mid">신개념 랜선 소개팅을 경험해 보세요!</div>
-        <Link to="">업로드 하러가기 ▶</Link>
+        <button onClick={openUploadModal}>업로드 하러가기 ▶</button>
       </HeaderGreeting>
     </>
   );
@@ -51,8 +60,29 @@ const HeaderWrapper = styled.div`
   margin: 0 auto;
 
   .header__userProfile {
+    display: flex;
+    align-items: center;
+
     > span {
       color: #d4d4d4;
+    }
+  }
+
+  .profile__img {
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+    position: relative;
+    margin-left: 5px;
+    border-radius: 50%;
+    background-color: white;
+
+    img {
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
     }
   }
 `;
@@ -74,7 +104,10 @@ const HeaderGreeting = styled.div`
     font-size: 18px;
   }
 
-  a {
+  button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
     font-size: 16px;
     display: block;
     margin-top: 10px;

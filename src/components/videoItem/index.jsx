@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { debounce } from "lodash";
 
-import request from "@/api/request";
 import calDate from "@/utils/calDate";
+import { ChattingModal } from "../common/modal";
+import { useSelector } from "react-redux";
+import { toggleLiked } from "@/utils/toggleHeartState";
 
 const VideoItem = ({
   video: {
@@ -15,38 +16,59 @@ const VideoItem = ({
     createdDate,
     uploader: { user_idx, nickname, profileImgUrl },
   },
+  type,
 }) => {
   const date = calDate(createdDate);
+  const { email } = useSelector(({ user }) => user.user);
   const [heartState, setHeartState] = useState(heart);
   const [modal, setModal] = useState(false);
 
-  const toggleLiked = debounce(async ({ target }) => {
-    try {
-      const id = target.dataset.id;
+  const toggleModalOk = () => {
+    setModal(false);
+    setHeartState(false);
+  };
 
-      if (heart) {
-        // 트루면 삭제
-        // setModal(true);
-      } else {
-        await request(`/api/hearts/${id}`, "post", {
-          userEmail: "syhan97@naver.com",
-        });
-        setHeartState(true);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  }, 200);
+  const toggleModalClose = () => {
+    setModal(false);
+    setHeartState(true);
+  };
+
+  const toggleModalInterestPage = () => {
+    setModal(false);
+    window.location.replace("/liked");
+  };
 
   return (
     <StyledLi key={video_idx}>
-      {/* {modal ? <div>안녕하세요</div> : <></>} */}
+      {modal ? (
+        type === "interest" ? (
+          <ChattingModal
+            title={"해당 영상을 관심영상에서 삭제할까요?"}
+            description={"*취소해도 상대방에게 간 알림은 회수되지 않습니다."}
+            leftButton={"아니요"}
+            leftFunction={toggleModalClose}
+            rightButton={"네, 삭제할래요"}
+            rightFunction={toggleModalInterestPage}
+          />
+        ) : (
+          <ChattingModal
+            title={"하트를 취소할까요?"}
+            description={"*취소해도 상대방에게 간 알림은 회수되지 않습니다."}
+            leftButton={"아니요"}
+            leftFunction={toggleModalClose}
+            rightButton={"취소하기"}
+            rightFunction={toggleModalOk}
+          />
+        )
+      ) : (
+        <></>
+      )}
       <Link to={`/${video_idx}`} className="thumbnails">
         <img src={thumbnailUrl} alt="썸네일 이미지" />
       </Link>
       <div className="wrapper">
         <div className="info_wrapper">
-          <Link to={`mypage/${user_idx}`} className="user_wrapper">
+          <Link to={`/mypage/${user_idx}`} className="user_wrapper">
             <UserProfileImgWrpper profileImgUrl={profileImgUrl} />
             <span>{nickname}</span>
           </Link>
@@ -55,14 +77,30 @@ const VideoItem = ({
             {heartState ? (
               <img
                 src="assets/fullheart.svg"
-                onClick={toggleLiked}
+                onClick={({ target }) => {
+                  toggleLiked({
+                    target,
+                    heartState,
+                    setModal,
+                    setHeartState,
+                    email,
+                  });
+                }}
                 data-id={video_idx}
                 alt="하트"
               />
             ) : (
               <img
                 src="assets/heart.svg"
-                onClick={toggleLiked}
+                onClick={({ target }) => {
+                  toggleLiked({
+                    target,
+                    heartState,
+                    setModal,
+                    setHeartState,
+                    email,
+                  });
+                }}
                 data-id={video_idx}
                 alt="하트"
               />
@@ -115,7 +153,7 @@ const StyledLi = styled.li`
   .info_wrapper {
     display: flex;
     justify-content: space-between;
-
+    cursor: pointer;
     padding: 0 4px;
   }
 
