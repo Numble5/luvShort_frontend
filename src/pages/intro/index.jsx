@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import waveImg from "./assets/wave.svg";
 
-const OnBoarding = () => {
+const Intro = () => {
   return (
     <Wrapper>
       <Logo>
@@ -19,7 +19,7 @@ const OnBoarding = () => {
   );
 };
 
-export default OnBoarding;
+export default Intro;
 
 const Wrapper = styled.section`
   .sublogo {

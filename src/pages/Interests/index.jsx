@@ -10,25 +10,30 @@ import { useDispatch } from "react-redux";
 import { changeNavigator } from "@/redux/reducers/navigator";
 import request from "@/api/request";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 
 const Interests = () => {
-  const { email } = useSelector(({ user }) => user.user);
+  const user = useSelector(({ user }) => user);
   const [videoList, setVideoList] = useState([]);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const fetchData = async () => {
     try {
-      const result = await request("/api/hearts", "get", { userEmail: email });
+      const result = await request("/api/hearts", "get", {
+        userEmail: user.user.email,
+      });
       setVideoList(result);
     } catch (e) {}
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    dispatch(changeNavigator("liked"));
+    if (user.user) {
+      dispatch(changeNavigator("liked"));
+      fetchData();
+    } else {
+      navigate("/");
+    }
   }, []);
 
   return (

@@ -1,10 +1,16 @@
+import { changeModalTrue } from "@/redux/reducers/modal";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const MainHeader = () => {
   const user = useSelector(({ user }) => user);
+  const dispatch = useDispatch();
+
+  const openUploadModal = () => {
+    dispatch(changeModalTrue());
+  };
 
   return (
     <>
@@ -38,7 +44,7 @@ const MainHeader = () => {
         )}
         <div className="greeting_mid">짧은 영상을 업로드하고</div>
         <div className="greeting_mid">신개념 랜선 소개팅을 경험해 보세요!</div>
-        <Link to="">업로드 하러가기 ▶</Link>
+        <button onClick={openUploadModal}>업로드 하러가기 ▶</button>
       </HeaderGreeting>
     </>
   );
@@ -98,7 +104,10 @@ const HeaderGreeting = styled.div`
     font-size: 18px;
   }
 
-  a {
+  button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
     font-size: 16px;
     display: block;
     margin-top: 10px;

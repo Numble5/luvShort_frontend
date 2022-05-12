@@ -13,10 +13,17 @@ import { changeModalFalse, changeModalTrue } from "@redux/reducers/modal";
 import { MainCategory } from "@components/common/categories";
 import { changeNavigator } from "@/redux/reducers/navigator";
 import infiniteScroll from "@/hooks/infiniteScroll";
+import userAccessCount, {
+  accessAplication,
+  selectUserAccess,
+} from "@/redux/reducers/userAccessCount";
+import Intro from "@pages/intro";
 
 const Main = () => {
-  const user = useSelector(({ user }) => user);
   const dispatch = useDispatch();
+
+  const user = useSelector(({ user }) => user);
+  const accessCount = useSelector(selectUserAccess);
   const [currentCategory, setCurrentCategory] = useState("전체");
   const [videoList, setVideoList] = useState([]);
 
@@ -67,6 +74,14 @@ const Main = () => {
   }, []);
 
   useEffect(() => {
+    if (!accessCount) {
+      setTimeout(() => {
+        dispatch(accessAplication());
+      }, 1000);
+    }
+  }, []);
+
+  useEffect(() => {
     if (user.user) {
       fetchData();
     }
@@ -74,28 +89,34 @@ const Main = () => {
 
   return (
     <>
-      <Header type={"main"} />
-      <Navigator />
-      <FixedTopBtn />
-      <FixedUploadBtn />
-      <Wrapper>
-        {user.user ? (
-          <MainCategory
-            marginTop={"23px"}
-            setCurrentCategory={setCurrentCategory}
-            interests={user.user.interests}
-          />
-        ) : (
-          <></>
-        )}
-      </Wrapper>
+      {accessCount ? (
+        <>
+          <Header type={"main"} />
+          <Navigator />
+          <FixedTopBtn />
+          <FixedUploadBtn />
+          <Wrapper>
+            {user.user ? (
+              <MainCategory
+                marginTop={"23px"}
+                setCurrentCategory={setCurrentCategory}
+                interests={user.user.interests}
+              />
+            ) : (
+              <></>
+            )}
+          </Wrapper>
 
-      <VideoList videos={videoList} />
+          <VideoList videos={videoList} />
 
-      {user.user ? (
-        <ModalBackground children={<UploadModal />} />
+          {user.user ? (
+            <ModalBackground children={<UploadModal />} />
+          ) : (
+            <ModalBackground children={<MainLoginModal />} />
+          )}
+        </>
       ) : (
-        <ModalBackground children={<MainLoginModal />} />
+        <Intro />
       )}
     </>
   );
