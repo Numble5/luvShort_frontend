@@ -1,9 +1,11 @@
 import styled from "styled-components";
-import React, { useCallback, useState } from "react";
-import LeftArrow from "@/static/step/Vector 3.svg";
-import RightArrow from "@/static/step/Vector 2.svg";
+import React, { useCallback, useEffect, useState } from "react";
+import LeftArrow from "@/pages/step/assets/Vector 3.svg";
+import RightArrow from "@/pages/step/assets/Vector 2.svg";
 import Modal from "@components/step1/modal";
 import ProfileForm from "@/components/step1/ProfileForm";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 
 const Step1PageBlock = styled.div`
   padding: 53px 30px 0 30px;
@@ -201,6 +203,8 @@ const Step1PageBlock = styled.div`
 
 const Step1Page = () => {
   const [isModal, setIsModal] = useState(false);
+  const user = useSelector(({ user }) => user.user);
+  const navigate = useNavigate();
 
   const onClickModal = () => {
     if (isModal === true) {
@@ -210,6 +214,11 @@ const Step1Page = () => {
     }
   };
 
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user]);
   return (
     <>
       <Step1PageBlock>
