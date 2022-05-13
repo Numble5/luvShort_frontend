@@ -101,6 +101,7 @@ const SelectInterest = () => {
       city,
       district,
       selectedInterests: selectedInterests,
+      introduce: "",
     };
     console.log(user_info);
     dispatch(submitUserInfo(user_info));
