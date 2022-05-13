@@ -12,7 +12,6 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 
 import { tempSetUser, userCheck } from "./redux/reducers/user";
-import App from "./App";
 
 function loadUser() {
   try {
