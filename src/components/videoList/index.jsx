@@ -16,7 +16,6 @@ const VideoList = ({ videos, type }) => {
 export default VideoList;
 
 const VideoListWrapper = styled.section`
-  padding-bottom: 100px;
   width: 97%;
   margin: 20px auto;
 `;
