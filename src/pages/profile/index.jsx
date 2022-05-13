@@ -18,7 +18,7 @@ const Profile = () => {
   const fetchUserData = async () => {
     try {
       const result = await request(`/api/user/profile/${userIdx}`, "get", {
-        userEmail: user.email,
+        userEmail: user.user.email,
       });
 
       if (result) {
