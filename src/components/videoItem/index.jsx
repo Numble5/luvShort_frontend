@@ -20,7 +20,7 @@ const VideoItem = ({
   type,
 }) => {
   const date = calDate(createdDate);
-  const { email } = useSelector(({ user }) => user.user);
+  const user = useSelector(({ user }) => user.user);
   const [heartState, setHeartState] = useState(heart);
   const [modal, setModal] = useState(false);
 
@@ -84,7 +84,7 @@ const VideoItem = ({
                     heartState,
                     setModal,
                     setHeartState,
-                    email,
+                    email: user?.email,
                   });
                 }}
                 data-id={video_idx}
@@ -99,7 +99,7 @@ const VideoItem = ({
                     heartState,
                     setModal,
                     setHeartState,
-                    email,
+                    email: user?.email,
                   });
                 }}
                 data-id={video_idx}
