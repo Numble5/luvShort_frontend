@@ -42,44 +42,62 @@ const Main = () => {
     return payload;
   };
 
+  const NonMemberDataFetch = async () => {
+    try {
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
-    const payload = makePayload();
-    MainFirstFetchData({
-      email: user.user.email,
-      payload: payload,
-      lastIdx: lastIdx,
-      setLastIdx: setlastIdx,
-      setVideoList: setVideoList,
-    });
+    if (user.user) {
+      const payload = makePayload();
+      MainFirstFetchData({
+        email: user.user.email,
+        payload: payload,
+        lastIdx: lastIdx,
+        setLastIdx: setlastIdx,
+        setVideoList: setVideoList,
+      });
+    }
   }, [currentCategory]);
 
   useEffect(() => {
-    const payload = makePayload();
     let observer;
-    if (target) {
-      observer = new IntersectionObserver(
-        ([entry], observer) => {
-          if (videoList.length === 0) {
-            return;
+
+    if (user.user) {
+      const payload = makePayload();
+      if (target) {
+        observer = new IntersectionObserver(
+          ([entry], observer) => {
+            if (videoList.length === 0) {
+              return;
+            }
+            MainFetchData({
+              entry,
+              payload,
+              email: user.user.email,
+              lastIdx: lastIdx,
+              setLastIdx: setlastIdx,
+              setVideoList: setVideoList,
+            });
+          },
+          {
+            rootMargin: "0px",
+            threshold: 0.4,
           }
-          MainFetchData({
-            entry,
-            payload,
-            email: user.user.email,
-            lastIdx: lastIdx,
-            setLastIdx: setlastIdx,
-            setVideoList: setVideoList,
-          });
-        },
-        {
-          rootMargin: "0px",
-          threshold: 0.4,
-        }
-      );
-      observer.observe(target);
+        );
+        observer.observe(target);
+      }
+      return () => observer && observer.disconnect();
     }
-    return () => observer && observer.disconnect();
   }, [target, videoList.length]);
+
+  useEffect(() => {
+    if (!user.user) {
+      NonMemberDataFetch();
+    }
+  }, []);
 
   useEffect(() => {
     dispatch(changeNavigator(""));
@@ -119,7 +137,7 @@ const Main = () => {
             )}
           </Wrapper>
 
-          <VideoList videos={videoList} />
+          {videoList.length !== 0 ? <VideoList videos={videoList} /> : <></>}
           <Infinite className="infinite" ref={setTarget}></Infinite>
           {user.user ? (
             <ModalBackground children={<UploadModal />} />
