@@ -18,18 +18,8 @@ const KakaoRedirect = () => {
     if (result.data.redirectUrl === "/") {
       dispatch(userCheck());
     } else if (result.data.redirectUrl === "/step1") {
-      console.log(authObj.access_token);
-      axios
-        .get("https://kapi.kakao.com/v2/user/me", {
-          headers: {
-            Authorization: "Bearer " + authObj.access_token,
-            "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-          },
-        })
-        .then((res) => {
-          const kakao_account = res.kakao_account;
-          dispatch(setEmail(kakao_account.email));
-        });
+      console.log(result.data);
+      dispatch(setEmail(result.data.user_email));
       navigate("/step1");
     }
   };
