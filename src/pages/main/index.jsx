@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import request from "@/api/request";
@@ -12,61 +12,79 @@ import ModalBackground from "@components/modalBackground";
 import { changeModalFalse, changeModalTrue } from "@redux/reducers/modal";
 import { MainCategory } from "@components/common/categories";
 import { changeNavigator } from "@/redux/reducers/navigator";
-import infiniteScroll from "@/hooks/infiniteScroll";
-import userAccessCount, {
+import {
   accessAplication,
   selectUserAccess,
 } from "@/redux/reducers/userAccessCount";
 import Intro from "@pages/intro";
+import { MainFetchData, MainFirstFetchData } from "@/hooks/infiniteScroll";
 
 const Main = () => {
   const dispatch = useDispatch();
-
   const user = useSelector(({ user }) => user);
   const accessCount = useSelector(selectUserAccess);
+  const [target, setTarget] = useState(null);
   const [currentCategory, setCurrentCategory] = useState("전체");
   const [videoList, setVideoList] = useState([]);
+  const [lastIdx, setlastIdx] = useState(100000);
 
-  const fetchData = async () => {
-    try {
-      const payload = {
-        category: user.interests,
-        gender:
-          currentCategory === "FEMALE" || currentCategory === "MALE"
-            ? currentCategory
-            : null,
-        city: currentCategory === "우리동네" ? user.city : null,
-        district: currentCategory === "우리동네" ? user.district : null,
-      };
+  const makePayload = () => {
+    const payload = {
+      category: user.user.interests,
+      gender:
+        currentCategory === "FEMALE" || currentCategory === "MALE"
+          ? currentCategory
+          : null,
+      city: currentCategory === "우리동네" ? user.city : null,
+      district: currentCategory === "우리동네" ? user.district : null,
+    };
 
-      const result = await request(
-        "/api/videos/filter",
-        "post",
-        { lastVideoIdx: 100, userEmail: user.user.email, size: 4 },
-        payload
-      );
-
-      setVideoList(result);
-    } catch (e) {
-      console.log(e);
-    }
+    return payload;
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", infiniteScroll);
+    const payload = makePayload();
+    MainFirstFetchData({
+      email: user.user.email,
+      payload: payload,
+      lastIdx: lastIdx,
+      setLastIdx: setlastIdx,
+      setVideoList: setVideoList,
+    });
+  }, [currentCategory]);
 
-    return () => {
-      window.removeEventListener("scroll", infiniteScroll);
-    };
-  }, []);
+  useEffect(() => {
+    const payload = makePayload();
+    let observer;
+    if (target) {
+      observer = new IntersectionObserver(
+        ([entry], observer) => {
+          if (videoList.length === 0) {
+            return;
+          }
+          MainFetchData({
+            entry,
+            payload,
+            email: user.user.email,
+            lastIdx: lastIdx,
+            setLastIdx: setlastIdx,
+            setVideoList: setVideoList,
+          });
+        },
+        {
+          rootMargin: "0px",
+          threshold: 0.4,
+        }
+      );
+      observer.observe(target);
+    }
+    return () => observer && observer.disconnect();
+  }, [target, videoList.length]);
 
   useEffect(() => {
     dispatch(changeNavigator(""));
-  }, []);
 
-  useEffect(() => {
-    const userInfo = user.user;
-    if (userInfo) {
+    if (user.user) {
       dispatch(changeModalFalse());
     } else {
       dispatch(changeModalTrue());
@@ -80,12 +98,6 @@ const Main = () => {
       }, 1000);
     }
   }, []);
-
-  useEffect(() => {
-    if (user.user) {
-      fetchData();
-    }
-  }, [currentCategory]);
 
   return (
     <>
@@ -108,7 +120,7 @@ const Main = () => {
           </Wrapper>
 
           <VideoList videos={videoList} />
-
+          <Infinite className="infinite" ref={setTarget}></Infinite>
           {user.user ? (
             <ModalBackground children={<UploadModal />} />
           ) : (
@@ -127,4 +139,9 @@ export default Main;
 const Wrapper = styled.div`
   width: 97%;
   margin: 0 auto;
+`;
+
+const Infinite = styled.div`
+  width: 100%;
+  height: 60px;
 `;
