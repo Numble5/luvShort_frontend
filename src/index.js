@@ -12,6 +12,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 
 import { tempSetUser, userCheck } from "./redux/reducers/user";
+import App from "./App";
 
 function loadUser() {
   try {
@@ -30,16 +31,16 @@ const persistor = persistStore(store);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  // <React.StrictMode>
-  <BrowserRouter>
-    <ThemeProvider theme={theme}>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
+  <React.StrictMode>
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <Provider store={store}>
+          {/* <PersistGate loading={null} persistor={persistor}> */}
           <Routers />
-        </PersistGate>
-      </Provider>
-      <GlobalStyle />
-    </ThemeProvider>
-  </BrowserRouter>
-  // </React.StrictMode>
+          {/* </PersistGate> */}
+        </Provider>
+        <GlobalStyle />
+      </ThemeProvider>
+    </BrowserRouter>
+  </React.StrictMode>
 );
