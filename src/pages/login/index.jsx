@@ -7,6 +7,7 @@ import { client } from "@/lib/api";
 import { userCheck } from "@/redux/reducers/user";
 import { useDispatch, useSelector } from "react-redux";
 import { setEmail } from "@/redux/reducers/user";
+import { KAKAO_AUTH_URL } from "@/data/kakao";
 
 const LoginBlock = styled.div`
   .illust {
@@ -89,39 +90,12 @@ const LoginBlock = styled.div`
   }
 `;
 
-const { Kakao } = window;
 const { naver } = window;
 
 const Login = () => {
   const naverRef = useRef(null);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const user = useSelector(({ user }) => user.user);
-
-  const kakaoLoginClickHandler = () => {
-    Kakao.Auth.login({
-      success: async function (authObj) {
-        let result = await client.post("/api/auth/kakao-login", {
-          access_token: authObj.access_token,
-        });
-        if (result.data.redirectUrl === "/") {
-          dispatch(userCheck());
-        } else if (result.data.redirectUrl === "/step1") {
-          Kakao.API.request({
-            url: "/v2/user/me",
-            success: (res) => {
-              const kakao_account = res.kakao_account;
-              dispatch(setEmail(kakao_account.email));
-            },
-          });
-          navigate("/step1");
-        }
-      },
-      fail: function (error) {
-        console.log(error);
-      },
-    });
-  };
 
   const naverLoginInitial = () => {
     const naverLogin = new naver.LoginWithNaverId({
@@ -174,13 +148,10 @@ const Login = () => {
         </div>
         <div className="sns-login-container">
           <p>SNS 계정으로 간편하기 시작하기</p>
-          <div
-            className="kakao-login-container"
-            onClick={kakaoLoginClickHandler}
-          >
+          <a href={KAKAO_AUTH_URL} className="kakao-login-container">
             <img src={KakaoButton3} alt="카카오로그인버튼" />
             <span>카카오로 시작하기</span>
-          </div>
+          </a>
           <div className="naver-login-container" onClick={onNaverLogin}>
             <div id="naverIdLogin" ref={naverRef} />
             <span>네이버로 시작하기</span>
