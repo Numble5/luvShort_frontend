@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import request from "@/api/request";
 
+import img from "./assets/img.svg";
 import Header from "@components/header";
 import VideoList from "@components/videoList";
 import Navigator from "@components/navigator";
@@ -137,7 +138,14 @@ const Main = () => {
             )}
           </Wrapper>
 
-          {videoList.length !== 0 ? <VideoList videos={videoList} /> : <></>}
+          {videoList.length !== 0 ? (
+            <VideoList videos={videoList} />
+          ) : (
+            <NoItemBackground back={img}>
+              <div></div>
+            </NoItemBackground>
+          )}
+
           <Infinite className="infinite" ref={setTarget}></Infinite>
           {user.user ? (
             <ModalBackground children={<UploadModal />} />
@@ -162,4 +170,20 @@ const Wrapper = styled.div`
 const Infinite = styled.div`
   width: 100%;
   height: 60px;
+`;
+
+const NoItemBackground = styled.div`
+  position: relative;
+  width: 100%;
+  height: 300px;
+
+  div {
+    width: 166px;
+    height: 110px;
+    position: absolute;
+    background-image: url(${({ back }) => back});
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 `;
