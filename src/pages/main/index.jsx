@@ -28,6 +28,7 @@ const Main = () => {
   const [currentCategory, setCurrentCategory] = useState("전체");
   const [videoList, setVideoList] = useState([]);
   const [lastIdx, setlastIdx] = useState(100000);
+  const [userInfo, setUserInfo] = useState();
 
   const makePayload = () => {
     const payload = {
@@ -41,6 +42,11 @@ const Main = () => {
     };
 
     return payload;
+  };
+
+  const fetchUserInfo = async () => {
+    const result = await request(`/api/user/${user.user.email}`, "get");
+    setUserInfo(result);
   };
 
   const NonMemberDataFetch = async () => {
@@ -101,6 +107,7 @@ const Main = () => {
     if (!user.user) {
       NonMemberDataFetch();
     }
+    fetchUserInfo();
   }, []);
 
   useEffect(() => {
@@ -125,7 +132,7 @@ const Main = () => {
     <>
       {accessCount ? (
         <>
-          <Header type={"main"} />
+          <Header type={"main"} userInfo={userInfo} />
           <Navigator />
           <FixedTopBtn />
           <FixedUploadBtn />
