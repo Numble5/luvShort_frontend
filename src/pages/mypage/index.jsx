@@ -23,6 +23,10 @@ const MyPage = () => {
   const [userInfo, setUserInfo] = useState({ interests: [] });
   const [videos, setVideos] = useState([]);
 
+  const handleModal = () => {
+    dispatch(changeModalTrue());
+  };
+
   const fetchData = async () => {
     try {
       const { profile, videos } = await request("/api/user/profile", "get", {
@@ -61,14 +65,17 @@ const MyPage = () => {
             topPx={"19px"}
           />
           <Header type={"MY"} userInfo={userInfo} />
+          <ModalBackground children={<UploadModal />} />
           {videos.length === 0 ? (
-            <Upload>
-              <img src={upload} alt="업로드" />
-              <div>
-                새로운 영상을
-                <br /> 업로드해보세요!
-              </div>
-            </Upload>
+            <>
+              <Upload onClick={handleModal}>
+                <img src={upload} alt="업로드" />
+                <div>
+                  새로운 영상을
+                  <br /> 업로드해보세요!
+                </div>
+              </Upload>
+            </>
           ) : (
             <VideoList videos={videos} />
           )}
