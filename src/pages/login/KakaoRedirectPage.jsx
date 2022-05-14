@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Spinner from "@/components/common/Spinner";
 import { client } from "@/lib/api";
 import { useNavigate } from "react-router";
@@ -8,6 +8,7 @@ import axios from "axios";
 
 const KakaoRedirect = () => {
   const dispatch = useDispatch();
+  const user = useSelector(({ user }) => user.user);
   const navigate = useNavigate();
   let code = new URL(window.location.href).searchParams.get("code");
 
@@ -55,6 +56,17 @@ const KakaoRedirect = () => {
   useEffect(() => {
     requestToken(code);
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+      try {
+        localStorage.setItem("user", JSON.stringify(user));
+      } catch (e) {
+        console.log("로컬스토리지가 작동 안해요.");
+      }
+    }
+  }, [user]);
 
   return (
     <>
