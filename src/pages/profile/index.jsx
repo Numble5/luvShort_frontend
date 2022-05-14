@@ -80,7 +80,7 @@ const SpinnerWrapper = styled.div`
   transform: translateX(-50%);
 `;
 
-const NoVideos = styled.div`
+const NoVideos = styled.button`
   width: 100%;
   height: 110px;
   position: relative;
