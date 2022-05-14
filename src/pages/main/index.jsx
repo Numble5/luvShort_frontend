@@ -45,6 +45,9 @@ const Main = () => {
 
   const NonMemberDataFetch = async () => {
     try {
+      const result = await request("/api/videos/basic", "get");
+
+      setVideoList(result);
     } catch (e) {
       console.log(e);
     }

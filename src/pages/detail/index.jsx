@@ -9,7 +9,8 @@ import { toggleLiked } from "@/utils/toggleHeartState";
 import { Cateogories } from "@/components/common/categories";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
-import { ChattingModal } from "@/components/common/modal";
+import { ChattingModal, DeletedModal } from "@/components/common/modal";
+import Spinner from "@/components/common/Spinner";
 
 const Detail = () => {
   const user = useSelector(({ user }) => user);
@@ -19,6 +20,7 @@ const Detail = () => {
   const [showContent, setShowContent] = useState(false);
   const [heartState, setHeartState] = useState(false);
   const [modal, setModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const changeShowContent = () => {
     setShowContent(!showContent);
@@ -40,9 +42,11 @@ const Detail = () => {
         userEmail: user.user.email,
       });
 
+      setIsLoading(false);
       setHeartState(data.heart);
       setVideoInfo(data);
     } catch (e) {
+      navigate("/error/404");
       console.log(e);
     }
   };
@@ -72,84 +76,99 @@ const Detail = () => {
       ) : (
         <></>
       )}
-      <TitlePrevHeader title={"View"} background={"black"} />
-      <StyledDetail>
-        <div className="videoInfo">
-          <div className="videoInfo__user-info">
-            <div className="videoInfo__img-wrapper">
-              <img
-                src={videoInfo?.uploader?.profileImgUrl}
-                alt="프로필 이미지"
-              />
-            </div>
-            <div>
-              <span className="videoInfo_nickname">
-                {videoInfo?.uploader?.nickname}
-              </span>
-              <ul className="videoInfo__category">
-                {videoInfo?.categories.map((category) => (
-                  <Cateogories key={category} category={category} />
-                ))}
-              </ul>
-            </div>
-          </div>
-          <div className="videoInfo__heart">
-            {heartState ? (
-              <img
-                data-id={videoInfo?.video_idx}
-                src="assets/fullheart.svg"
-                onClick={({ target }) =>
-                  toggleLiked({
-                    target,
-                    heartState,
-                    setModal,
-                    setHeartState,
-                    email: user.user.email,
-                  })
-                }
-                alt="하트"
-              />
-            ) : (
-              <img
-                data-id={videoInfo?.video_idx}
-                src="assets/heart.svg"
-                onClick={({ target }) =>
-                  toggleLiked({
-                    target,
-                    heartState,
-                    setModal,
-                    setHeartState,
-                    email: user.user.email,
-                  })
-                }
-                alt="빈하트"
-              />
-            )}
-          </div>
-        </div>
 
-        <div className="videoContent">
-          <div>{videoInfo?.title}</div>
-          <div className="videoCotent__left">
+      {isLoading ? (
+        <SpinnerWrapper>
+          <Spinner />
+        </SpinnerWrapper>
+      ) : (
+        <>
+          {videoInfo?.controlType !== "AVAIL" ? (
+            <DeletedModal title={"관리자에 의해 삭제된 영상입니다."} />
+          ) : (
+            <></>
+          )}
+
+          <TitlePrevHeader title={"View"} background={"black"} />
+          <StyledDetail>
+            <div className="videoInfo">
+              <div className="videoInfo__user-info">
+                <div className="videoInfo__img-wrapper">
+                  <img
+                    src={videoInfo?.uploader?.profileImgUrl}
+                    alt="프로필 이미지"
+                  />
+                </div>
+                <div>
+                  <span className="videoInfo_nickname">
+                    {videoInfo?.uploader?.nickname}
+                  </span>
+                  <ul className="videoInfo__category">
+                    {videoInfo?.categories.map((category) => (
+                      <Cateogories key={category} category={category} />
+                    ))}
+                  </ul>
+                </div>
+              </div>
+              <div className="videoInfo__heart">
+                {heartState ? (
+                  <img
+                    data-id={videoInfo?.video_idx}
+                    src="assets/fullheart.svg"
+                    onClick={({ target }) =>
+                      toggleLiked({
+                        target,
+                        heartState,
+                        setModal,
+                        setHeartState,
+                        email: user.user.email,
+                      })
+                    }
+                    alt="하트"
+                  />
+                ) : (
+                  <img
+                    data-id={videoInfo?.video_idx}
+                    src="assets/heart.svg"
+                    onClick={({ target }) =>
+                      toggleLiked({
+                        target,
+                        heartState,
+                        setModal,
+                        setHeartState,
+                        email: user.user.email,
+                      })
+                    }
+                    alt="빈하트"
+                  />
+                )}
+              </div>
+            </div>
+
+            <div className="videoContent">
+              <div>{videoInfo?.title}</div>
+              <div className="videoCotent__left">
+                {showContent ? (
+                  <button onClick={changeShowContent}>▴</button>
+                ) : (
+                  <button onClick={changeShowContent}>▼</button>
+                )}
+                <div>{calDate(videoInfo?.createdDate)}</div>
+              </div>
+            </div>
             {showContent ? (
-              <button onClick={changeShowContent}>▴</button>
+              <div className="videoContent_content">{videoInfo?.content}</div>
             ) : (
-              <button onClick={changeShowContent}>▼</button>
+              <></>
             )}
-            <div>{calDate(videoInfo?.createdDate)}</div>
-          </div>
-        </div>
-        {showContent ? (
-          <div className="videoContent_content">{videoInfo?.content}</div>
-        ) : (
-          <></>
-        )}
-      </StyledDetail>
-      <VideoWrapper>
-        <video>
-          <source src={videoInfo?.videoUrl} />
-        </video>
-      </VideoWrapper>
+          </StyledDetail>
+          <VideoWrapper>
+            <video>
+              <source src={videoInfo?.videoUrl} />
+            </video>
+          </VideoWrapper>
+        </>
+      )}
     </section>
   );
 };
@@ -245,4 +264,13 @@ export const StyledDetail = styled.div`
 
 const VideoWrapper = styled.div`
   width: 100%;
+  overflow: hidden;
+  padding-bottom: 70px;
+`;
+
+const SpinnerWrapper = styled.div`
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
 `;
