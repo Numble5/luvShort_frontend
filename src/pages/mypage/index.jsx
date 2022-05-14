@@ -11,9 +11,11 @@ import VideoList from "@components/videoList";
 import { changeNavigator } from "@redux/reducers/navigator";
 import upload from "./assets/upload.svg";
 import Spinner from "@/components/common/Spinner";
-import { changeModalTrue } from "@/redux/reducers/modal";
-import { UploadModal } from "@/components/common/modal";
+import { changeModalFalse, changeModalTrue } from "@/redux/reducers/modal";
+import { ChattingModal, UploadModal } from "@/components/common/modal";
 import ModalBackground from "@/components/modalBackground";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -22,9 +24,25 @@ const MyPage = () => {
   const user = useSelector(({ user }) => user.user);
   const [userInfo, setUserInfo] = useState({ interests: [] });
   const [videos, setVideos] = useState([]);
+  const [isLogout, setIsLogout] = useState(false);
 
   const handleModal = () => {
     dispatch(changeModalTrue());
+  };
+
+  const handleLogout = () => {
+    setIsLogout(true);
+    dispatch(changeModalTrue());
+  };
+
+  const cancelLogout = () => {
+    setIsLogout(false);
+    dispatch(changeModalFalse());
+  };
+
+  const SignOut = async () => {
+    try {
+    } catch (e) {}
   };
 
   const fetchData = async () => {
@@ -46,6 +64,9 @@ const MyPage = () => {
   }, [user]);
 
   useEffect(() => {
+    if (!isLogout) {
+      dispatch(changeModalFalse());
+    }
     dispatch(changeNavigator("mypage"));
     fetchData();
   }, []);
@@ -61,11 +82,29 @@ const MyPage = () => {
           <TitlePrevHeader
             title={"MY"}
             background={"black"}
-            rightComponent={<ProfileTopButton>로그아웃</ProfileTopButton>}
+            rightComponent={
+              <ProfileTopButton onClick={handleLogout}>
+                {/* // <a href="https://kauth.kakao.com/oauth/logout?client_id=cb35cf8c852a69a0ff7192f0f1ca071d&logout_redirect_uri=http://localhost:3000/oauth/logout/kakao"> */}
+                로그아웃
+                {/* </a> */}
+              </ProfileTopButton>
+            }
             topPx={"19px"}
           />
           <Header type={"MY"} userInfo={userInfo} />
-          <ModalBackground children={<UploadModal />} />
+
+          {isLogout ? (
+            <ChattingModal
+              title={"로그아웃 할까요?"}
+              description={""}
+              leftButton={"취소"}
+              leftFunction={cancelLogout}
+              rightButton={"로그아웃하기"}
+              rightFunction={SignOut}
+            />
+          ) : (
+            <ModalBackground children={<UploadModal />} />
+          )}
           {videos.length === 0 ? (
             <>
               <Upload onClick={handleModal}>

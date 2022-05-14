@@ -76,7 +76,13 @@ export const ChattingModal = ({
               <button>{leftButton}</button>
             </div>
             <div className="exit">
-              <button onClick={rightFunction}>{rightButton}</button>
+              {rightButton === "로그아웃하기" ? (
+                <a href="https://kauth.kakao.com/oauth/logout?client_id=cb35cf8c852a69a0ff7192f0f1ca071d&logout_redirect_uri=http://localhost:3000/oauth/logout/kakao">
+                  {rightButton}
+                </a>
+              ) : (
+                <button onClick={rightFunction}>{rightButton}</button>
+              )}
             </div>
           </div>
         </div>
@@ -271,9 +277,20 @@ const ModalBlock = styled.div`
       }
       .exit {
         flex: 0.5;
+
+        a {
+          display: block;
+          width: 100%;
+          background: #5dccc6;
+          color: #ffffff;
+          height: 43px;
+          line-height: 45px;
+          text-align: center;
+        }
+
         button {
           width: 100%;
-          background: #3d3d3d;
+          background: #5dccc6;
           color: #ffffff;
           height: 43px;
         }

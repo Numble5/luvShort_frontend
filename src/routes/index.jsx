@@ -19,6 +19,7 @@ import Chatting from "@/pages/chatting";
 import ChatScreen from "@/pages/chatScreen";
 import ErrorPage from "@/pages/404Error";
 import KakaoRedirectPage from "@/pages/login/KakaoRedirectPage";
+import KakaoLogoutRedirectPage from "@/pages/logout";
 
 const Routers = () => {
   return (
@@ -32,6 +33,10 @@ const Routers = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/naver/auth/callback" element={<LoginCallbackPage />} />
         <Route path="/oauth/callback/kakao" element={<KakaoRedirectPage />} />
+        <Route
+          path="/oauth/logout/kakao"
+          element={<KakaoLogoutRedirectPage />}
+        />
         <Route path="/file-upload" element={<FileUploadPage />} />
         <Route
           path="/file-upload/embed"
