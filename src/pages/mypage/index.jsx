@@ -7,7 +7,6 @@ import request from "@/api/request";
 import TitlePrevHeader from "@components/common/titlePrevHeader";
 import Header from "@components/header";
 import Navigator from "@components/navigator";
-import VideoList from "@components/videoList";
 import { changeNavigator } from "@redux/reducers/navigator";
 import upload from "./assets/upload.svg";
 import Spinner from "@/components/common/Spinner";
@@ -16,6 +15,7 @@ import { ChattingModal, UploadModal } from "@/components/common/modal";
 import ModalBackground from "@/components/modalBackground";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import MyPageVideoList from "@/components/myPageVideoList";
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -25,8 +25,10 @@ const MyPage = () => {
   const [userInfo, setUserInfo] = useState({ interests: [] });
   const [videos, setVideos] = useState([]);
   const [isLogout, setIsLogout] = useState(false);
+  const [isUpload, setIsUpload] = useState(false);
 
   const handleModal = () => {
+    setIsUpload(true);
     dispatch(changeModalTrue());
   };
 
@@ -38,11 +40,6 @@ const MyPage = () => {
   const cancelLogout = () => {
     setIsLogout(false);
     dispatch(changeModalFalse());
-  };
-
-  const SignOut = async () => {
-    try {
-    } catch (e) {}
   };
 
   const fetchData = async () => {
@@ -84,9 +81,7 @@ const MyPage = () => {
             background={"black"}
             rightComponent={
               <ProfileTopButton onClick={handleLogout}>
-                {/* // <a href="https://kauth.kakao.com/oauth/logout?client_id=cb35cf8c852a69a0ff7192f0f1ca071d&logout_redirect_uri=http://localhost:3000/oauth/logout/kakao"> */}
                 로그아웃
-                {/* </a> */}
               </ProfileTopButton>
             }
             topPx={"19px"}
@@ -100,10 +95,11 @@ const MyPage = () => {
               leftButton={"취소"}
               leftFunction={cancelLogout}
               rightButton={"로그아웃하기"}
-              rightFunction={SignOut}
             />
+          ) : isUpload ? (
+            <ModalBackground children={<UploadModal />} setItem={setIsUpload} />
           ) : (
-            <ModalBackground children={<UploadModal />} />
+            <></>
           )}
           {videos.length === 0 ? (
             <>
@@ -116,10 +112,13 @@ const MyPage = () => {
               </Upload>
             </>
           ) : (
-            <VideoList videos={videos} />
+            <VideoListWrapper>
+              <MyPageVideoList videos={videos} />
+            </VideoListWrapper>
           )}
         </>
       )}
+      <Bottom />
       <Navigator />
     </>
   );
@@ -147,4 +146,14 @@ const Upload = styled.button`
   margin-top: 20%;
   margin-left: 50%;
   transform: translateX(-50%);
+`;
+
+const VideoListWrapper = styled.div`
+  width: 97%;
+  margin: 20px auto 10px;
+`;
+
+const Bottom = styled.div`
+  width: 100%;
+  height: 80px;
 `;

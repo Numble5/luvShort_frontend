@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import styled, { createGlobalStyle } from "styled-components";
@@ -8,6 +8,7 @@ import { changeModalFalse } from "@/redux/reducers/modal";
 import base_circle from "./assets/base_circle.svg";
 import plus_circle from "./assets/plus_circle.svg";
 import deleted from "./assets/deleted.svg";
+import request from "@/api/request";
 
 export const DeletedModal = ({ title }) => {
   const modal = useSelector(({ modal }) => modal.value);
@@ -63,7 +64,11 @@ export const ChattingModal = ({
     <>
       <GlobalStyle modal={modal} />
       <ModalBlock>
-        <div id="modal-background" onClick={closeModal}></div>
+        {title === "선택한 영상을 삭제할까요?" ? (
+          <></>
+        ) : (
+          <div id="modal-background" onClick={closeModal}></div>
+        )}
         <div className="modal-box">
           <div className="modal-question">
             <div className="modal-question-container">
@@ -87,6 +92,65 @@ export const ChattingModal = ({
           </div>
         </div>
       </ModalBlock>
+    </>
+  );
+};
+
+export const EditDeletedModal = ({ id }) => {
+  const dispatch = useDispatch();
+  const modal = useSelector(({ modal }) => modal.value);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const GlobalStyle = createGlobalStyle`
+  body {
+    overflow: ${(props) => props.modal && "hidden"}
+  }
+`;
+
+  const deleteModalView = () => {
+    setDeleteModal(true);
+  };
+
+  const toggleDeletedModal = () => {
+    setDeleteModal(false);
+  };
+
+  const deleteItem = async () => {
+    try {
+      await request(`/api/videos/${id}`, "delete");
+      setDeleteModal(false);
+      dispatch(changeModalFalse());
+    } catch (e) {}
+  };
+
+  const changeModal = () => {
+    dispatch(changeModalFalse());
+  };
+  return (
+    <>
+      {!modal ? (
+        <></>
+      ) : (
+        <div>
+          <GlobalStyle modal={modal} />
+          <EditDeletedModalBackground onClick={changeModal} />
+          {deleteModal ? (
+            <ChattingModal
+              title={"선택한 영상을 삭제할까요?"}
+              description={"*삭제완료 후에는 복원할 수 없습니다."}
+              leftButton={"아니요"}
+              leftFunction={toggleDeletedModal}
+              rightButton={"네,삭제할래요"}
+              rightFunction={deleteItem}
+            />
+          ) : (
+            <></>
+          )}
+          <StyledEditDeleted>
+            <button onClick={deleteModalView}>삭제하기</button>
+            <Link to={`/videos/edit/${id}`}>수정하기</Link>
+          </StyledEditDeleted>
+        </div>
+      )}
     </>
   );
 };
@@ -349,4 +413,42 @@ const StyledDeletedModal = styled.div`
       padding: 16px 0;
     }
   }
+`;
+
+const StyledEditDeleted = styled.div`
+  width: 100%;
+  border-radius: 8px 8px 0 0;
+  background-color: white;
+  z-index: 2;
+  position: fixed;
+  left: 0;
+  bottom: 79px;
+  text-align: center;
+
+  a,
+  button {
+    font-weight: 600;
+    display: block;
+    margin: 25px 0;
+  }
+
+  button {
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    margin: 25px auto;
+  }
+`;
+
+const EditDeletedModalBackground = styled.div`
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  background: rgba(1, 1, 1, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
