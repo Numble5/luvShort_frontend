@@ -46,6 +46,11 @@ const Routers = () => {
         <Route path="/mypage/edit" element={<ProfileEdit />} />
         <Route path="/mypage/:id" element={<Profile />} />
         <Route path="/manage" element={<AccountManage />} />
+        <Route path="/videos/edit/:id" element={<FileUploadPage />} />
+        <Route
+          path="/videos/embed/edit/:id"
+          element={<FileUploadPage embed="embed" />}
+        />
 
         <Route path="*" element={<ErrorPage />} />
       </Routes>
