@@ -1,55 +1,82 @@
+import { changeModalTrue } from "@/redux/reducers/modal";
 import calDate from "@/utils/calDate";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { EditDeletedModal, UploadModal } from "../common/modal";
+import ModalBackground from "../modalBackground";
 
 import add from "./assets/add.svg";
 import upload from "./assets/upload.svg";
 
 const MyPageVideoList = ({ videos }) => {
+  const [id, setId] = useState();
+  const [isUpload, setIsUpload] = useState(false);
+  const dispatch = useDispatch();
+
+  const editVideo = ({ target }) => {
+    const id = target.dataset.id;
+    setId(id);
+    dispatch(changeModalTrue());
+    setIsUpload(false);
+  };
+
+  const openUploadModal = () => {
+    setIsUpload(true);
+    dispatch(changeModalTrue());
+  };
+
   return (
-    <StyledUl>
-      <UploadItem>
-        <button>
-          <img src={upload} alt="업로드 버튼" />
-          <div>
-            새로운 영상을 <br />
-            업로드해보세요!
-          </div>
-        </button>
-      </UploadItem>
-      {videos.map(
-        ({
-          video_idx,
-          videoUrl,
-          createdDate,
-          title,
-          thumbnailUrl,
-          uploader: { profileImgUrl, nickname },
-        }) => (
-          <VideoItem key={video_idx}>
-            <Link to={`/${video_idx}`} className="thumbnails">
-              <img src={thumbnailUrl} alt="썸네일 이미지" />
-            </Link>
-            <div className="wrapper">
-              <div className="info_wrapper">
-                <div className="user_wrapper">
-                  <UserProfileImgWrpper profileImgUrl={profileImgUrl} />
-                  <span>{nickname}</span>
-                </div>
-                <div className="video_info">
-                  <span>{calDate(createdDate)}</span>
-                  <button>
-                    <img src={add} alt="추가" />
-                  </button>
-                </div>
-              </div>
-              <div className="item_title">{title}</div>
-            </div>
-          </VideoItem>
-        )
+    <>
+      {isUpload ? (
+        <ModalBackground children={<UploadModal />} />
+      ) : (
+        <EditDeletedModal id={id} />
       )}
-    </StyledUl>
+      <StyledUl>
+        <UploadItem>
+          <button onClick={openUploadModal}>
+            <img src={upload} alt="업로드 버튼" />
+            <div>
+              새로운 영상을 <br />
+              업로드해보세요!
+            </div>
+          </button>
+        </UploadItem>
+        {videos.map(
+          ({
+            video_idx,
+            videoUrl,
+            createdDate,
+            title,
+            thumbnailUrl,
+            uploader: { profileImgUrl, nickname },
+          }) => (
+            <VideoItem key={video_idx}>
+              <Link to={`/${video_idx}`} className="thumbnails">
+                <img src={thumbnailUrl} alt="썸네일 이미지" />
+              </Link>
+              <div className="wrapper">
+                <div className="info_wrapper">
+                  <div className="user_wrapper">
+                    <UserProfileImgWrpper profileImgUrl={profileImgUrl} />
+                    <span>{nickname}</span>
+                  </div>
+                  <div className="video_info">
+                    <span>{calDate(createdDate)}</span>
+                    <button onClick={({ target }) => editVideo({ target })}>
+                      <img data-id={video_idx} src={add} alt="추가" />
+                    </button>
+                  </div>
+                </div>
+                <div className="item_title">{title}</div>
+              </div>
+            </VideoItem>
+          )
+        )}
+      </StyledUl>
+    </>
   );
 };
 export default MyPageVideoList;

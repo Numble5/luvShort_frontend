@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-const ModalBackground = ({ children }) => {
+const ModalBackground = ({ children, setItem }) => {
   const selected = useSelector(selectedModal);
   const user = useSelector(({ user }) => user.user);
 
@@ -21,6 +21,7 @@ const ModalBackground = ({ children }) => {
     if (user) {
       dispath(changeModalFalse());
     }
+    setItem(false);
   };
 
   return (
@@ -44,6 +45,7 @@ const TempBackground = styled.div`
   background-color: black;
   position: fixed;
   top: 0;
+  left: 0;
   z-index: 20;
   opacity: 0.7;
 `;
