@@ -1,13 +1,42 @@
-import { changeModalFalse } from "@/redux/reducers/modal";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import { createGlobalStyle } from "styled-components";
+import { Link, useNavigate } from "react-router-dom";
+import styled, { createGlobalStyle } from "styled-components";
 import Carousel from "../../carousel/carousel";
+import { changeModalFalse } from "@/redux/reducers/modal";
 
 import base_circle from "./assets/base_circle.svg";
 import plus_circle from "./assets/plus_circle.svg";
+import deleted from "./assets/deleted.svg";
+
+export const DeletedModal = ({ title }) => {
+  const modal = useSelector(({ modal }) => modal.value);
+  const navigate = useNavigate();
+  const GlobalStyle = createGlobalStyle`
+
+    body {
+      overflow:hidden;
+    }
+  `;
+
+  const movingHome = () => {
+    navigate("/");
+  };
+
+  return (
+    <>
+      <GlobalStyle modal={modal} />
+      <StyledDeletedModal>
+        <div className="background"></div>
+        <div className="deleted-modal">
+          <img src={deleted} alt="삭제" />
+          <span>{title}</span>
+          <button onClick={movingHome}>홈으로 이동하기</button>
+        </div>
+      </StyledDeletedModal>
+    </>
+  );
+};
 
 export const ChattingModal = ({
   title,
@@ -249,6 +278,58 @@ const ModalBlock = styled.div`
           height: 43px;
         }
       }
+    }
+  }
+`;
+
+const StyledDeletedModal = styled.div`
+  .background {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    background: rgba(1, 1, 1, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .deleted-modal {
+    background-color: white;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    width: 331px;
+    overflow: hidden;
+    border-radius: 10px;
+
+    img,
+    button {
+      display: block;
+    }
+
+    img {
+      margin: 20px auto 5px auto;
+    }
+
+    span {
+      display: block;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    button {
+      background-color: #5dccc6;
+      border: none;
+      color: white;
+      font-weight: 600;
+      text-align: center;
+      width: 100%;
+      padding: 16px 0;
     }
   }
 `;
