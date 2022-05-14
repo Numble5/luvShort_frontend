@@ -11,10 +11,13 @@ import { changeNavigator } from "@/redux/reducers/navigator";
 import request from "@/api/request";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import { FixedTopBtn } from "@/components/common/button";
+import Spinner from "@/components/common/Spinner";
 
 const Interests = () => {
   const user = useSelector(({ user }) => user);
   const [videoList, setVideoList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -23,8 +26,12 @@ const Interests = () => {
       const result = await request("/api/hearts", "get", {
         userEmail: user.user.email,
       });
+
+      setIsLoading(false);
       setVideoList(result);
-    } catch (e) {}
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   useEffect(() => {
@@ -37,21 +44,31 @@ const Interests = () => {
   }, []);
 
   return (
-    <InterestBlock>
-      <TitlePrevHeader title={"관심영상"} background={"white"} />
-      <div className="contents">
-        <h3>
-          마음에 드는 영상에 하트를 누르고
-          <br /> 관심영상을 업데이트해보세요!
-        </h3>
-        {videoList.length !== 0 ? (
-          <VideoList videos={videoList} type={"interest"} />
-        ) : (
-          <NoVideoList background={noInterests} />
-        )}
-      </div>
-      <Navigator />
-    </InterestBlock>
+    <>
+      {isLoading ? (
+        <SpinnerWrapper>
+          <Spinner />
+        </SpinnerWrapper>
+      ) : (
+        <InterestBlock>
+          <TitlePrevHeader title={"관심영상"} background={"white"} />
+          <div className="contents">
+            <h3>
+              마음에 드는 영상에 하트를 누르고
+              <br /> 관심영상을 업데이트해보세요!
+            </h3>
+            {videoList.length !== 0 ? (
+              <VideoList videos={videoList} type={"interest"} />
+            ) : (
+              <NoVideoList background={noInterests} />
+            )}
+          </div>
+          <FixedTopBtn bottom={"90px"} />
+          <Bottom></Bottom>
+          <Navigator />
+        </InterestBlock>
+      )}
+    </>
   );
 };
 export default Interests;
@@ -94,4 +111,16 @@ const NoVideoList = styled.div`
   background-image: url(${(props) => props.background});
   background-repeat: no-repeat;
   bakcground-size: cover;
+`;
+
+const Bottom = styled.div`
+  width: 100%;
+  height: 70px;
+`;
+
+const SpinnerWrapper = styled.div`
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
 `;

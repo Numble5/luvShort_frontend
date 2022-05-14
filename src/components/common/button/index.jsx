@@ -5,13 +5,13 @@ import styled from "styled-components";
 import uploadBtn from "./assets/uploadBtn.svg";
 import topBtn from "./assets/top.svg";
 
-export const FixedTopBtn = () => {
+export const FixedTopBtn = ({ bottom }) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
-    <FixedTopButtonWrapper onClick={scrollToTop}>
+    <FixedTopButtonWrapper onClick={scrollToTop} bottom={bottom}>
       <img src={topBtn} alt="top" />
     </FixedTopButtonWrapper>
   );
@@ -48,7 +48,7 @@ const UploadButtonWrapper = styled.button`
 const FixedTopButtonWrapper = styled.button`
   position: fixed;
   z-index: 1;
-  bottom: 135px;
+  bottom: ${({ bottom }) => (bottom ? bottom : "135px")};
   right: 5%;
   background-color: transparent;
   border: none;
