@@ -11,6 +11,7 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { ChattingModal, DeletedModal } from "@/components/common/modal";
 import Spinner from "@/components/common/Spinner";
+import Video from "@/components/video";
 
 const Detail = () => {
   const user = useSelector(({ user }) => user);
@@ -162,13 +163,10 @@ const Detail = () => {
               <></>
             )}
           </StyledDetail>
-          <VideoWrapper>
-            <video>
-              <source src={videoInfo?.videoUrl} />
-            </video>
-          </VideoWrapper>
+          <Video src={videoInfo?.videoUrl} />
         </>
       )}
+      <WrapperDiv></WrapperDiv>
     </section>
   );
 };
@@ -262,15 +260,14 @@ export const StyledDetail = styled.div`
   }
 `;
 
-const VideoWrapper = styled.div`
-  width: 100%;
-  overflow: hidden;
-  padding-bottom: 70px;
-`;
-
 const SpinnerWrapper = styled.div`
   position: absolute;
   top: 30%;
   left: 50%;
   transform: translateX(-50%);
+`;
+
+const WrapperDiv = styled.div`
+  width: 100%;
+  height: 75px;
 `;
