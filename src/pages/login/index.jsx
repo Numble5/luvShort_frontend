@@ -90,33 +90,9 @@ const LoginBlock = styled.div`
   }
 `;
 
-const { naver } = window;
-
 const Login = () => {
-  const naverRef = useRef(null);
   const navigate = useNavigate();
   const user = useSelector(({ user }) => user.user);
-
-  const naverLoginInitial = () => {
-    const naverLogin = new naver.LoginWithNaverId({
-      clientId: "ifHDEHFmeaVaiNSc4KOn",
-      callbackUrl: "http://localhost:3000/naver/auth/callback",
-      // clientSecret: "EzSL5Az1aS",
-      isPopup: false, // popup 형식으로 띄울것인지 설정
-      loginButton: {
-        color: "green",
-        type: 1,
-        height: "40",
-      }, //버튼의 스타일, 타입, 크기를 지정
-      // callbackHandle: false,
-    });
-    naverLogin.init();
-  };
-
-  const onNaverLogin = () => {
-    console.log(naverRef.current);
-    naverRef.current.children[0].click();
-  };
 
   useEffect(() => {
     if (user) {
@@ -127,7 +103,6 @@ const Login = () => {
         console.log("로컬스토리지가 작동 안해요.");
       }
     }
-    naverLoginInitial();
   }, [user]);
 
   return (
@@ -152,10 +127,6 @@ const Login = () => {
             <img src={KakaoButton3} alt="카카오로그인버튼" />
             <span>카카오로 시작하기</span>
           </a>
-          <div className="naver-login-container" onClick={onNaverLogin}>
-            <div id="naverIdLogin" ref={naverRef} />
-            <span>네이버로 시작하기</span>
-          </div>
         </div>
       </LoginBlock>
     </>
