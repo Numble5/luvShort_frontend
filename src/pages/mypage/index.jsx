@@ -16,6 +16,7 @@ import { ChattingModal, UploadModal } from "@/components/common/modal";
 import ModalBackground from "@/components/modalBackground";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import MyPageVideoList from "@/components/myPageVideoList";
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -26,6 +27,38 @@ const MyPage = () => {
   const [videos, setVideos] = useState([]);
   const [isLogout, setIsLogout] = useState(false);
 
+  useEffect(() => {
+    setVideos([
+      {
+        video_idx: 4,
+        videoType: "DIRECT",
+        controlType: "AVAIL",
+        fileName: null,
+        title: "리즈",
+        content: "나는 리즈",
+        hits: 1,
+        thumbnailUrl:
+          "https://numble-luvshort.s3.ap-northeast-2.amazonaws.com/video-thumbnail/thum-2.jpeg",
+        videoUrl:
+          "https://numble-luvshort.s3.ap-northeast-2.amazonaws.com/short-video/video-2.mp4",
+        categories: ["쇼핑", "스포츠"],
+        createdDate: "2022-04-24T03:38:09",
+        updatedDate: "2022-04-24T03:38:09",
+        uploader: {
+          user_idx: 6,
+          email: "kk4@naver.com",
+          nickname: "j4",
+          profileImgUrl:
+            "https://numble-luvshort.s3.ap-northeast-2.amazonaws.com/profile-image/profile-w.jpeg",
+          interest: [],
+          gender: "FEMALE",
+          city: "인천",
+          district: "부평구",
+        },
+        heart: false,
+      },
+    ]);
+  }, []);
   const handleModal = () => {
     dispatch(changeModalTrue());
   };
@@ -52,7 +85,7 @@ const MyPage = () => {
       });
 
       setUserInfo(profile);
-      setVideos(videos);
+      // setVideos(videos);
       setIsLoading(false);
     } catch (e) {}
   };
@@ -84,9 +117,7 @@ const MyPage = () => {
             background={"black"}
             rightComponent={
               <ProfileTopButton onClick={handleLogout}>
-                {/* // <a href="https://kauth.kakao.com/oauth/logout?client_id=cb35cf8c852a69a0ff7192f0f1ca071d&logout_redirect_uri=http://localhost:3000/oauth/logout/kakao"> */}
                 로그아웃
-                {/* </a> */}
               </ProfileTopButton>
             }
             topPx={"19px"}
@@ -116,10 +147,13 @@ const MyPage = () => {
               </Upload>
             </>
           ) : (
-            <VideoList videos={videos} />
+            <VideoListWrapper>
+              <MyPageVideoList videos={videos} />
+            </VideoListWrapper>
           )}
         </>
       )}
+      <Bottom />
       <Navigator />
     </>
   );
@@ -147,4 +181,14 @@ const Upload = styled.button`
   margin-top: 20%;
   margin-left: 50%;
   transform: translateX(-50%);
+`;
+
+const VideoListWrapper = styled.div`
+  width: 97%;
+  margin: 20px auto 10px;
+`;
+
+const Bottom = styled.div`
+  width: 100%;
+  height: 80px;
 `;
