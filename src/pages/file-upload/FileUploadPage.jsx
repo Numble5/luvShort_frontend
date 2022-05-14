@@ -5,6 +5,8 @@ import Navigator from "@components/navigator";
 import FileUploadIcon from "@/pages/file-upload/assets/file-upload-icon.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { client } from "@/lib/api";
+import { useParams } from "react-router";
+import { getVideoInfo, setVideo } from "@/redux/reducers/video";
 
 const FileUploadPageBlock = styled.div`
   padding: 28px 23px 0 23px;
@@ -213,7 +215,10 @@ const FileUploadPage = ({ embed }) => {
   const useremail = useSelector(({ user }) => user.user?.email);
   const [thumbnailSrc, setThumbnailSrc] = useState("");
   const [embedUrl, setEmbedUrl] = useState("");
-
+  const video = useSelector(({ video }) => video.video);
+  const dispatch = useDispatch();
+  const id = useParams().id;
+  // const video_type = ''
   const onChangeVideoFile = (e) => {
     const file = e.target.files[0];
     const fileExt = file.name.split(".").pop();
@@ -314,6 +319,30 @@ const FileUploadPage = ({ embed }) => {
       console.log(result);
     }
   };
+
+  useEffect(() => {
+    if (id) {
+      dispatch(getVideoInfo({ id, useremail: "kk3@naver.com" }));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (video) {
+      if (embed) {
+        setEmbedUrl(video.videoUrl);
+        setVideoTitle(video.title);
+        setVideoDescription(video.content);
+      } else {
+        setSelectedVideoFile(video.videoUrl);
+        setVideoTitle(video.title);
+        setVideoDescription(video.content);
+        setThumbnailSrc(video.thumbnailUrl);
+      }
+    }
+    return () => {
+      dispatch(setVideo());
+    };
+  }, [video]);
 
   return (
     <>
@@ -425,7 +454,7 @@ const FileUploadPage = ({ embed }) => {
                     : true
                 }
               >
-                업로드 하기
+                {id ? "수정하기" : "업로드 하기"}
               </button>
             ) : (
               <button
@@ -447,7 +476,7 @@ const FileUploadPage = ({ embed }) => {
                     : true
                 }
               >
-                업로드 하기
+                {id ? "수정하기" : "업로드 하기"}
               </button>
             )}
           </div>
