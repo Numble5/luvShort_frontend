@@ -309,7 +309,7 @@ const FileUploadPage = ({ embed }) => {
     const formData = new FormData();
     if (!embed) {
       const info = {
-        email: "pm5555pm@naver.com",
+        email: useremail,
         title: videoTitle,
         content: videoDescription,
         videoUrl: "",
