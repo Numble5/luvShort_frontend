@@ -6,8 +6,6 @@ import Step1Page from "@pages/step/Step1Page";
 import Main from "@pages/main";
 import Step2Page from "@pages/step/Step2Page";
 import RegisterSuccessPage from "@/pages/step/RegisterSuccessPage";
-<<<<<<< HEAD
-=======
 import Interests from "@pages/Interests";
 import LoginCallbackPage from "@pages/login/LoginCallbackPage";
 import FileUploadPage from "@pages/file-upload/FileUploadPage";
@@ -24,7 +22,6 @@ import KakaoRedirectPage from "@/pages/login/KakaoRedirectPage";
 import KakaoLogoutRedirectPage from "@/pages/logout";
 import NotYetPage from "@/pages/notYetPage";
 import WebViewError from "@/components/common/webViewError";
->>>>>>> develop
 
 const Routers = () => {
   const [width, setWidth] = useState(window.screen.width);

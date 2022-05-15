@@ -79,7 +79,6 @@ const userSlice = createSlice({
         state.submitUserInfoLoading = true;
       })
       .addCase(submitUserInfo.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.submitUserInfoLoading = false;
         state.submitUserInfoError = false;
         state.interests = action.payload.selectedInterests;
@@ -93,7 +92,6 @@ const userSlice = createSlice({
       })
       .addCase(userCheck.fulfilled, (state, action) => {
         state.userCheckLoading = false;
-        console.log(action.payload);
         state.user = action.payload;
       })
       .addCase(userCheck.rejected, (state, action) => {
