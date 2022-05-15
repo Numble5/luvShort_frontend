@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import Routers from "@routes";
 
 import { ThemeProvider } from "styled-components";
 import { Provider } from "react-redux";
@@ -12,6 +11,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 
 import { tempSetUser, userCheck } from "./redux/reducers/user";
+import App from "./App";
 
 function loadUser() {
   try {
@@ -35,7 +35,7 @@ root.render(
       <ThemeProvider theme={theme}>
         <Provider store={store}>
           {/* <PersistGate loading={null} persistor={persistor}> */}
-          <Routers />
+          <App />
           {/* </PersistGate> */}
         </Provider>
         <GlobalStyle />

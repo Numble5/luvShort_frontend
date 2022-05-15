@@ -29,7 +29,7 @@ export const checkNickname = (nickname) => {
     return;
   }
   const regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
-  console.log(regex.test(nickname));
+
   if (regex.test(nickname)) {
     return true;
   } else {
