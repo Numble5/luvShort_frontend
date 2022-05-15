@@ -15,6 +15,7 @@ import {
 } from "@/redux/reducers/video";
 import InterestCategories from "@/components/interests";
 import { InterestsModal } from "@/components/common/modal";
+import TitlePrevHeader from "@/components/common/titlePrevHeader";
 
 const FileUploadPageBlock = styled.div`
   padding: 28px 23px 0 23px;
@@ -398,14 +399,11 @@ const FileUploadPage = ({ embed }) => {
 
   return (
     <>
+      <TitlePrevHeader
+        title={embed ? "임베드 영상 업로드" : "직접 영상 업로드"}
+        background={"white"}
+      />
       <FileUploadPageBlock thumbnailSrc={thumbnailSrc}>
-        <div className="header-pagination">
-          <div className="left-arrow" onClick={() => navigate(-1)}>
-            <img src={LeftArrow} alt="좌측화살표" />
-          </div>
-
-          <div>{embed ? "임베드 영상 업로드" : "직접 영상 업로드"}</div>
-        </div>
         <form>
           <header>
             <p>{embed ? "영상 임베드 링크" : "업로드영상"}</p>

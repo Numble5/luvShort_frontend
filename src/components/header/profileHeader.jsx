@@ -29,9 +29,10 @@ const ProfileHeader = ({ type, userInfo }) => {
                 {userInfo.isMatched}
               </ProfileResult>
             ) : (
-              <Link to="/mypage/edit" className="profile_side-edit">
-                프로필 편집
-              </Link>
+              <></>
+              // <Link to="/mypage/edit" className="profile_side-edit">
+              //   프로필 편집
+              // </Link>
             )}
           </div>
         </div>
