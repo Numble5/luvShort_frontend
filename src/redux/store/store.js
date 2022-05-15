@@ -20,8 +20,6 @@ const reducers = combineReducers({
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: [user],
-  // whitelist 이용시 그것만 제외됨
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

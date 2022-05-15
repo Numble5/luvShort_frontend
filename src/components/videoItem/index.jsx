@@ -119,7 +119,6 @@ export default VideoItem;
 const StyledLi = styled.li`
   width: 172px;
   height: 320px;
-
   overflow: hidden;
   margin-bottom: 20px;
   border-radius: 5px;
@@ -129,10 +128,13 @@ const StyledLi = styled.li`
     width: 100%;
     height: 240px;
     position: relative;
+    z-index: -1;
+    top: 0;
+    left: 0;
 
     img {
       position: absolute;
-      top: 0;
+      top: -10px;
       left: 50%;
       transform: translateX(-50%);
       height: auto;
@@ -161,6 +163,13 @@ const StyledLi = styled.li`
   .user_wrapper {
     display: flex;
     align-items: center;
+
+    span {
+      width: 40px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   .video_info {
