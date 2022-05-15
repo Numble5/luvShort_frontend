@@ -4,7 +4,16 @@ import WaveIllust from "@/pages/login/assets/Vector 9.jpg";
 import KakaoButton3 from "@/pages/login/assets/kakaotalk.svg";
 import { useNavigate } from "react-router";
 import { client } from "@/lib/api";
-import { userCheck } from "@/redux/reducers/user";
+import {
+  changeBirtdayError,
+  changeBirthday,
+  changeCity,
+  changeDistrict,
+  changeGender,
+  changeNickname,
+  setNicknameCheckNull,
+  userCheck,
+} from "@/redux/reducers/user";
 import { useDispatch, useSelector } from "react-redux";
 import { setEmail } from "@/redux/reducers/user";
 import { KAKAO_AUTH_URL } from "@/data/kakao";
@@ -91,6 +100,7 @@ const LoginBlock = styled.div`
 `;
 
 const Login = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector(({ user }) => user.user);
 
@@ -104,6 +114,16 @@ const Login = () => {
       }
     }
   }, [user]);
+
+  useEffect(() => {
+    dispatch(changeNickname(""));
+    dispatch(changeBirthday(""));
+    dispatch(changeGender(""));
+    dispatch(changeCity("서울특별시"));
+    dispatch(changeDistrict("강동구"));
+    dispatch(setNicknameCheckNull());
+    dispatch(changeBirtdayError(null));
+  }, []);
 
   return (
     <>

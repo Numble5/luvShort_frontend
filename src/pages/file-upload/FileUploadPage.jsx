@@ -245,7 +245,9 @@ const FileUploadPage = ({ embed }) => {
   const onChangeEmbedUrl = (e) => {
     setEmbedUrl(e.target.value);
     const youtubeEmd = e.target.value;
-    const result = youtubeEmd.includes("youtube.com/watch?v=");
+    const result =
+      youtubeEmd.includes("youtube.com/watch?v=") ||
+      youtubeEmd.includes("https://youtu.be/");
     if (result === false) {
       setVideoFileError("유튜브 영상 주소만 업로드 가능합니다!");
       return;

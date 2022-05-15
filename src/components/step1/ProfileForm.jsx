@@ -341,9 +341,9 @@ const ProfileForm = ({ type }) => {
           <div className="nickname_title">
             <label>
               닉네임
-              <span>
-                (한글, 영어, 숫자만 입력할 수 있습니다. 공백은 허용하지
-                않습니다!)
+              <span className="nickname-guide">
+                {nicknameCheckError === null &&
+                  "(한글, 영어, 숫자만 입력할 수 있습니다.공백은 허용하지 않습니다!)"}
               </span>
             </label>
             {nicknameCheckError === false && (
@@ -360,7 +360,7 @@ const ProfileForm = ({ type }) => {
                 type="text"
                 value={nickname}
                 onChange={onChangeNickname}
-                maxLength="6"
+                maxLength="3"
               />
             ) : (
               <input
@@ -368,7 +368,7 @@ const ProfileForm = ({ type }) => {
                 className={nicknameCheckError === true ? "error" : ""}
                 value={nickname}
                 onChange={onChangeNickname}
-                maxLength="6"
+                maxLength="3"
               />
             )}
 
@@ -444,6 +444,7 @@ const ProfileForm = ({ type }) => {
           <div className="location-select-container">
             <div className="location-si">
               <Select
+                maxMenuHeight="100px"
                 options={options.cityOptions}
                 onChange={onChangeCity}
                 value={cityValue}
@@ -452,6 +453,7 @@ const ProfileForm = ({ type }) => {
             <div className="location-gu">
               {city === "서울특별시" && (
                 <Select
+                  maxMenuHeight="100px"
                   options={options.seoulOptions}
                   onChange={onChangeDistrict}
                   value={districtValue}
@@ -459,6 +461,7 @@ const ProfileForm = ({ type }) => {
               )}
               {city === "강원도" && (
                 <Select
+                  maxMenuHeight="100px"
                   options={options.gangWonDoOptions}
                   onChange={onChangeDistrict}
                   value={districtValue}
@@ -466,6 +469,7 @@ const ProfileForm = ({ type }) => {
               )}
               {city === "경기도" && (
                 <Select
+                  maxMenuHeight="100px"
                   options={options.GyeonggiDoOptions}
                   onChange={onChangeDistrict}
                   value={districtValue}
@@ -473,6 +477,7 @@ const ProfileForm = ({ type }) => {
               )}
               {city === "경상남도" && (
                 <Select
+                  maxMenuHeight="100px"
                   options={options.GyeongsangnamDoOptions}
                   onChange={onChangeDistrict}
                   value={districtValue}
@@ -480,6 +485,7 @@ const ProfileForm = ({ type }) => {
               )}
               {city === "경상북도" && (
                 <Select
+                  maxMenuHeight="100px"
                   options={options.GyeongsangbukDoOptions}
                   onChange={onChangeDistrict}
                   value={districtValue}
@@ -487,6 +493,7 @@ const ProfileForm = ({ type }) => {
               )}
               {city === "광주광역시" && (
                 <Select
+                  maxMenuHeight="100px"
                   options={options.GwangjuOptions}
                   onChange={onChangeDistrict}
                   value={districtValue}
@@ -494,6 +501,7 @@ const ProfileForm = ({ type }) => {
               )}
               {city === "대구광역시" && (
                 <Select
+                  maxMenuHeight="100px"
                   options={options.DaeguOptions}
                   onChange={onChangeDistrict}
                   value={districtValue}
@@ -501,6 +509,7 @@ const ProfileForm = ({ type }) => {
               )}
               {city === "대전광역시" && (
                 <Select
+                  maxMenuHeight="100px"
                   options={options.DaejeonOptions}
                   onChange={onChangeDistrict}
                   value={districtValue}
@@ -508,6 +517,7 @@ const ProfileForm = ({ type }) => {
               )}
               {city === "부산광역시" && (
                 <Select
+                  maxMenuHeight="100px"
                   options={options.BusanOptions}
                   onChange={onChangeDistrict}
                   value={districtValue}
@@ -515,6 +525,7 @@ const ProfileForm = ({ type }) => {
               )}
               {city === "세종특별자치시" && (
                 <Select
+                  maxMenuHeight="100px"
                   options={options.SejongOptions}
                   onChange={onChangeDistrict}
                   value={districtValue}
@@ -522,6 +533,7 @@ const ProfileForm = ({ type }) => {
               )}
               {city === "울산광역시" && (
                 <Select
+                  maxMenuHeight="100px"
                   options={options.UlsanOptions}
                   onChange={onChangeDistrict}
                   value={districtValue}
@@ -529,6 +541,7 @@ const ProfileForm = ({ type }) => {
               )}
               {city === "인천광역시" && (
                 <Select
+                  maxMenuHeight="100px"
                   options={options.IncheonOptions}
                   onChange={onChangeDistrict}
                   value={districtValue}
@@ -536,6 +549,7 @@ const ProfileForm = ({ type }) => {
               )}
               {city === "전라남도" && (
                 <Select
+                  maxMenuHeight="100px"
                   options={options.JeollanamDoOptions}
                   onChange={onChangeDistrict}
                   value={districtValue}
@@ -543,6 +557,7 @@ const ProfileForm = ({ type }) => {
               )}
               {city === "전라북도" && (
                 <Select
+                  maxMenuHeight="100px"
                   options={options.JeollabukDoOptions}
                   onChange={onChangeDistrict}
                   value={districtValue}
@@ -550,6 +565,7 @@ const ProfileForm = ({ type }) => {
               )}
               {city === "제주특별자치도" && (
                 <Select
+                  maxMenuHeight="100px"
                   options={options.JejuOptions}
                   onChange={onChangeDistrict}
                   value={districtValue}
@@ -557,6 +573,7 @@ const ProfileForm = ({ type }) => {
               )}
               {city === "충청남도" && (
                 <Select
+                  maxMenuHeight="100px"
                   options={options.ChungcheongnamDoOptions}
                   onChange={onChangeDistrict}
                   value={districtValue}
@@ -564,6 +581,7 @@ const ProfileForm = ({ type }) => {
               )}
               {city === "충청북도" && (
                 <Select
+                  maxMenuHeight="100px"
                   options={options.ChungcheongbukDoOptions}
                   onChange={onChangeDistrict}
                   value={districtValue}
