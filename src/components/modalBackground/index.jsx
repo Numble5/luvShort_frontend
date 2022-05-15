@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-const ModalBackground = ({ children, setItem }) => {
+const ModalBackground = ({ children, setItem = () => {} }) => {
   const selected = useSelector(selectedModal);
   const user = useSelector(({ user }) => user.user);
 

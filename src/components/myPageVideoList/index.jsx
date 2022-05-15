@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { EditDeletedModal, UploadModal } from "../common/modal";
 import ModalBackground from "../modalBackground";
+import MyVideoEdit from "../myVideoEdit";
 
-import add from "./assets/add.svg";
 import upload from "./assets/upload.svg";
 
 const MyPageVideoList = ({ videos }) => {
@@ -15,16 +15,6 @@ const MyPageVideoList = ({ videos }) => {
   const [type, setType] = useState();
   const [isUpload, setIsUpload] = useState(false);
   const dispatch = useDispatch();
-
-  const editVideo = ({ target }) => {
-    const id = target.dataset.id;
-    const type = target.dataset.type;
-
-    setId(id);
-    setType(type);
-    dispatch(changeModalTrue());
-    setIsUpload(false);
-  };
 
   const openUploadModal = () => {
     setIsUpload(true);
@@ -69,14 +59,13 @@ const MyPageVideoList = ({ videos }) => {
                   </div>
                   <div className="video_info">
                     <span>{calDate(createdDate)}</span>
-                    <button onClick={({ target }) => editVideo({ target })}>
-                      <img
-                        data-id={video_idx}
-                        data-type={videoType}
-                        src={add}
-                        alt="추가"
-                      />
-                    </button>
+                    <MyVideoEdit
+                      video_idx={video_idx}
+                      videoType={videoType}
+                      setId={setId}
+                      setType={setType}
+                      setIsUpload={setIsUpload}
+                    />
                   </div>
                 </div>
                 <div className="item_title">{title}</div>
@@ -125,30 +114,37 @@ const VideoItem = styled.li`
   overflow: hidden;
   margin-bottom: 20px;
   border-radius: 5px;
+  position: relative;
 
   .thumbnails {
     display: block;
     width: 100%;
     height: 240px;
     position: relative;
-    z-index: -1;
+    z-index: 1;
     top: 0;
     left: 0;
 
     img {
+      display: block;
       position: absolute;
-      top: 0;
+      top: -10px;
       left: 50%;
       transform: translateX(-50%);
-      height: auto;
-      min-height: 240px;
-      z-index: 0;
+      width: 160%;
+      min-height: 250px;
+      z-index: -1;
+      pointer-events: none;
     }
   }
 
   .wrapper {
     background-color: #3d3d3d;
     height: 80px;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
 
     * {
       color: white;
@@ -169,7 +165,7 @@ const VideoItem = styled.li`
     align-items: center;
 
     span {
-      width: 40px;
+      width: 30px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -179,21 +175,6 @@ const VideoItem = styled.li`
   .video_info {
     display: flex;
     align-items: center;
-    button {
-      width: 15px;
-      margin-left: 10px;
-      background: transparent;
-      background: red;
-      border: none;
-      position: relative;
-
-      img {
-        position: absolute;
-        top: -4px;
-        left: -6px;
-        width: 20px;
-      }
-    }
     span {
       margin-right: 2px;
     }
