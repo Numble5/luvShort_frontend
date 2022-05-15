@@ -122,6 +122,9 @@ const VideoItem = styled.li`
     width: 100%;
     height: 240px;
     position: relative;
+    z-index: -1;
+    top: 0;
+    left: 0;
 
     img {
       position: absolute;
@@ -155,6 +158,13 @@ const VideoItem = styled.li`
   .user_wrapper {
     display: flex;
     align-items: center;
+
+    span {
+      width: 40px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   .video_info {
