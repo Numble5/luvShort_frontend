@@ -12,12 +12,16 @@ import upload from "./assets/upload.svg";
 
 const MyPageVideoList = ({ videos }) => {
   const [id, setId] = useState();
+  const [type, setType] = useState();
   const [isUpload, setIsUpload] = useState(false);
   const dispatch = useDispatch();
 
   const editVideo = ({ target }) => {
     const id = target.dataset.id;
+    const type = target.dataset.type;
+
     setId(id);
+    setType(type);
     dispatch(changeModalTrue());
     setIsUpload(false);
   };
@@ -32,7 +36,7 @@ const MyPageVideoList = ({ videos }) => {
       {isUpload ? (
         <ModalBackground children={<UploadModal />} />
       ) : (
-        <EditDeletedModal id={id} videoType={videos.videoType} />
+        <EditDeletedModal id={id} videoType={type} />
       )}
       <StyledUl>
         <UploadItem>

@@ -278,6 +278,7 @@ export const EditDeletedModal = ({ videoType, id }) => {
       await request(`/api/videos/${id}`, "delete");
       setDeleteModal(false);
       dispatch(changeModalFalse());
+      window.location.reload();
     } catch (e) {}
   };
 
