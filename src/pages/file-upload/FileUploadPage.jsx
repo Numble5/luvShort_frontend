@@ -56,6 +56,7 @@ const FileUploadPageBlock = styled.div`
           border-radius: 8px;
           border: 1px solid #c4c4c4;
           input {
+            width: 100%;
             border: none;
             outline: none;
           }
@@ -63,6 +64,7 @@ const FileUploadPageBlock = styled.div`
             border: 1px solid red;
             color: #f3576c;
             input {
+              width: 100%;
               color: #f3576c;
             }
             span {
@@ -336,7 +338,7 @@ const FileUploadPage = ({ embed }) => {
       navigate(`/${result.data.video_idx}`);
     } else if (embed) {
       const result = await client.post("/api/videos/upload/embed", {
-        email: "pm5555pm@naver.com",
+        email: useremail,
         title: videoTitle,
         content: videoDescription,
         videoUrl: embedUrl,
@@ -390,10 +392,11 @@ const FileUploadPage = ({ embed }) => {
     <>
       <FileUploadPageBlock thumbnailSrc={thumbnailSrc}>
         <div className="header-pagination">
-          <div className="left-arrow">
+          <div className="left-arrow" onClick={() => navigate(-1)}>
             <img src={LeftArrow} alt="좌측화살표" />
           </div>
-          <div>직접 영상 업로드</div>
+
+          <div>{embed ? "임베드 영상 업로드" : "직접 영상 업로드"}</div>
         </div>
         <form>
           <header>
