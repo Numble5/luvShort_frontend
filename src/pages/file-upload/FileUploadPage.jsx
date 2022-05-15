@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import React, { useEffect, useState } from "react";
-import LeftArrow from "@/pages/step/assets/Vector 3.svg";
 import Navigator from "@components/navigator";
 import FileUploadIcon from "@/pages/file-upload/assets/file-upload-icon.svg";
 import { useDispatch, useSelector } from "react-redux";

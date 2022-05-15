@@ -11,7 +11,6 @@ export const MainFirstFetchData = async ({
   setVideoList,
 }) => {
   try {
-    console.log(payload);
     setLastIdx(MAX_VIDEO_IDX);
     const result = await request(
       "/api/videos/filter",

@@ -38,6 +38,8 @@ const Step2Page = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isModal, setIsModal] = useState(false);
+  const userinfo = useSelector(({ user }) => user);
+
   const user = useSelector(({ user }) => user.user);
   const submitUserInfoError = useSelector(
     ({ user }) => user.submitUserInfoError
@@ -84,7 +86,7 @@ const Step2Page = () => {
         <div className="title">
           <h1>Step2</h1>
           <p>
-            <span>'빙고'</span>님의 관심사/취미를 알려주세요!
+            <span>'{userinfo.nickname}'</span>님의 관심사/취미를 알려주세요!
           </p>
         </div>
         <SelectInterest />

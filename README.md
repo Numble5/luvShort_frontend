@@ -1,8 +1,8 @@
-<a href="https://pear-meal-b3e.notion.site/NUMBLE-5-6468aab4c8674e6d8bb59fd889f0dc74" target="_blank"> 프로젝트 정리 노션</a>
+<a href="https://pear-meal-b3e.notion.site/NUMBLE-5-6468aab4c8674e6d8bb59fd889f0dc74" target="_blank">전제 프로젝트 정리 노션</a>
 
-## 럽쇼츠(luvshorts)
+<a href="https://www.notion.so/85c19fe33cff489eaee13ceb53843700">사전 설문 조사</a>
 
-- love (사랑을 찾는 소개팅 어플) + shorts (쇼츠 동영상)
+<a href="https://pear-meal-b3e.notion.site/616bd8d7d22540b39caf5bf3e88e6224">프론트엔트 컴포넌트 공유 문서</a>
 
 ## 기술 스택
 
