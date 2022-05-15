@@ -1,12 +1,15 @@
+import user from "@/redux/reducers/user";
 import React from "react";
-import { Link } from "react-router-dom";
 
 import styled from "styled-components";
 import Union from "./assets/Union.svg";
+import MainHeader from "./mainHeader";
+import ProfileHeader from "./profileHeader";
 
-const Header = () => {
+const Header = ({ type, userInfo }) => {
   return (
     <StyledHeader>
+<<<<<<< HEAD
       <HeaderWrapper>
         <h1>
           <img src="assets/logo+name(white).svg" alt="로고" />
@@ -26,6 +29,13 @@ const Header = () => {
         <div className="greeting_mid">신개념 랜선 소개팅을 경험해 보세요!</div>
         <Link to="">{`업로드 하러가기`}</Link>
       </HeaderGreeting>
+=======
+      {type === "main" ? (
+        <MainHeader userInfo={userInfo} />
+      ) : (
+        <ProfileHeader type={type} userInfo={userInfo} />
+      )}
+>>>>>>> develop
     </StyledHeader>
   );
 };
@@ -41,43 +51,4 @@ const StyledHeader = styled.header`
   background-image: url(${Union});
   background-repeat: no-repeat;
   background-size: cover;
-`;
-
-const HeaderWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 90%;
-  margin: 0 auto;
-
-  .header__userProfile {
-    > span {
-      color: #d4d4d4;
-    }
-  }
-`;
-const HeaderGreeting = styled.div`
-  margin: 40px auto 0 auto;
-  width: 90%;
-
-  .greeting_bold,
-  .greeting_mid {
-    font-weight: 700;
-    line-height: 26px;
-    color: #e6e6e6;
-  }
-  .greeting_bold {
-    font-size: 21px;
-  }
-
-  .greeting_mid {
-    font-size: 18px;
-  }
-
-  a {
-    font-size: 16px;
-    display: block;
-    margin-top: 10px;
-    color: #5dccc6;
-  }
 `;
