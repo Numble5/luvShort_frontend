@@ -10,6 +10,7 @@ import TitlePrevHeader from "@components/common/titlePrevHeader";
 import Navigator from "@components/navigator";
 import { changeNavigator } from "@redux/reducers/navigator";
 import { client } from "@/lib/api";
+import { InterestsModal } from "@/components/common/modal";
 
 const ProfileEdit = () => {
   const dispatch = useDispatch();
@@ -21,8 +22,10 @@ const ProfileEdit = () => {
   const gender = useSelector(({ user }) => user.gender);
   const city = useSelector(({ user }) => user.city);
   const district = useSelector(({ user }) => user.district);
+  const modal = useSelector(({ modal }) => modal.value);
   const interests = null;
   const myIntroduce = null;
+  const categories = useSelector(({ video }) => video.categories);
   const navigate = useNavigate();
 
   const onClickProfileEdit = async (e) => {
@@ -109,7 +112,11 @@ const ProfileEdit = () => {
           />
         </div>
 
-        <InterestCategories title={"관심사"} categories={user.user.interests} />
+        <InterestCategories
+          title={"관심사"}
+          categories={categories}
+          border={true}
+        />
 
         <ProfileForm />
         <label>한줄 소개</label>
@@ -121,6 +128,7 @@ const ProfileEdit = () => {
         >
           저장
         </button>
+        {modal && <InterestsModal />}
       </ProfileEditForm>
       <Link to="/manage">계정 관리</Link>
       <Navigator />
