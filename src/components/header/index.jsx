@@ -1,3 +1,4 @@
+import user from "@/redux/reducers/user";
 import React from "react";
 
 import styled from "styled-components";
@@ -9,7 +10,7 @@ const Header = ({ type, userInfo }) => {
   return (
     <StyledHeader>
       {type === "main" ? (
-        <MainHeader />
+        <MainHeader userInfo={userInfo} />
       ) : (
         <ProfileHeader type={type} userInfo={userInfo} />
       )}

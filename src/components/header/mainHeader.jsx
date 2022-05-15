@@ -1,10 +1,10 @@
 import { changeModalTrue } from "@/redux/reducers/modal";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-const MainHeader = () => {
+const MainHeader = ({ userInfo }) => {
   const user = useSelector(({ user }) => user);
   const dispatch = useDispatch();
 
@@ -19,14 +19,11 @@ const MainHeader = () => {
           <img src="assets/logo+name(white).svg" alt="로고" />
           <span className="sr-only">럽쇼츠</span>
         </h1>
-        {user.user ? (
+        {userInfo ? (
           <Link to="/mypage" className="header__userProfile">
-            <span>{user.user.nickname}</span>
+            <span>{userInfo.nickname}</span>
             <div className="profile__img">
-              <img
-                src="https://www.epnnews.com/news/photo/202008/5216_6301_1640.jpg"
-                alt="프로필 이미지"
-              />
+              <img src={userInfo.profileImg} alt="프로필 이미지" />
             </div>
           </Link>
         ) : (
