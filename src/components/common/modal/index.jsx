@@ -308,9 +308,19 @@ export const EditDeletedModal = ({ videoType, id }) => {
           <StyledEditDeleted>
             <button onClick={deleteModalView}>삭제하기</button>
             {videoType === "EMBED" ? (
-              <Link to={`/videos/embed/edit/${id}`}>수정하기</Link>
+              <Link
+                to={`/videos/embed/edit/${id}`}
+                onClick={() => dispatch(changeModalFalse())}
+              >
+                수정하기
+              </Link>
             ) : (
-              <Link to={`/videos/edit/${id}`}>수정하기</Link>
+              <Link
+                to={`/videos/edit/${id}`}
+                onClick={() => dispatch(changeModalFalse())}
+              >
+                수정하기
+              </Link>
             )}
           </StyledEditDeleted>
         </div>

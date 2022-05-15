@@ -375,6 +375,12 @@ const FileUploadPage = ({ embed }) => {
         setEmbedUrl(video.videoUrl);
         setVideoTitle(video.title);
         setVideoDescription(video.content);
+        dispatch(
+          setCategoriesInterests({
+            beforeCategories: video.categories,
+            beforeInterests: newInterests,
+          })
+        );
       } else {
         setSelectedVideoFile({ name: video.fileName });
         setVideoTitle(video.title);
@@ -414,6 +420,7 @@ const FileUploadPage = ({ embed }) => {
                     placeholder="유튜브 주소를 적어주세요!"
                     value={embedUrl}
                     onChange={onChangeEmbedUrl}
+                    disabled={id ? true : ""}
                   />
                 ) : (
                   <>
@@ -430,7 +437,12 @@ const FileUploadPage = ({ embed }) => {
                   <label htmlFor="file">
                     <img src={FileUploadIcon} alt="파일업로드아이콘" />
                   </label>
-                  <input type="file" id="file" onChange={onChangeVideoFile} />
+                  <input
+                    type="file"
+                    id="file"
+                    onChange={onChangeVideoFile}
+                    disabled={id ? true : ""}
+                  />
                 </div>
               )}
             </div>
@@ -480,6 +492,7 @@ const FileUploadPage = ({ embed }) => {
                     type="file"
                     id="file2"
                     onChange={onChangeThumbnailFile}
+                    disabled={id ? true : ""}
                   />
                 </div>
               </div>
@@ -490,20 +503,33 @@ const FileUploadPage = ({ embed }) => {
               <button
                 type="submit"
                 className={
-                  videoFileError === null &&
-                  embedUrl &&
-                  videoTitle &&
-                  videoDescription &&
-                  categories.length !== 0 &&
-                  "selected"
+                  id
+                    ? embedUrl &&
+                      videoTitle &&
+                      videoDescription &&
+                      categories.length !== 0 &&
+                      "selected"
+                    : videoFileError === null &&
+                      embedUrl &&
+                      videoTitle &&
+                      videoDescription &&
+                      categories.length !== 0 &&
+                      "selected"
                 }
                 onClick={(e) => submitVideoFile(e)}
                 disabled={
-                  videoFileError === null &&
-                  embedUrl &&
-                  videoTitle &&
-                  videoDescription &&
-                  categories.length !== 0
+                  id
+                    ? embedUrl &&
+                      videoTitle &&
+                      videoDescription &&
+                      categories.length !== 0
+                      ? false
+                      : true
+                    : videoFileError === null &&
+                      embedUrl &&
+                      videoTitle &&
+                      videoDescription &&
+                      categories.length !== 0
                     ? false
                     : true
                 }
