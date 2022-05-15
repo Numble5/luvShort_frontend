@@ -59,6 +59,7 @@ const FileUploadPageBlock = styled.div`
             width: 100%;
             border: none;
             outline: none;
+            font-size: 14px;
           }
           &.error {
             border: 1px solid red;
@@ -135,6 +136,7 @@ const FileUploadPageBlock = styled.div`
           }
         }
         textarea {
+          font-family: "Noto Sans KR", sans-serif;
           outline: none;
           padding: 0.8em 1em;
           border-radius: 8px;
@@ -492,6 +494,7 @@ const FileUploadPage = ({ embed }) => {
                   embedUrl &&
                   videoTitle &&
                   videoDescription &&
+                  categories.length !== 0 &&
                   "selected"
                 }
                 onClick={(e) => submitVideoFile(e)}
@@ -499,7 +502,8 @@ const FileUploadPage = ({ embed }) => {
                   videoFileError === null &&
                   embedUrl &&
                   videoTitle &&
-                  videoDescription
+                  videoDescription &&
+                  categories.length !== 0
                     ? false
                     : true
                 }
@@ -514,6 +518,7 @@ const FileUploadPage = ({ embed }) => {
                   videoTitle &&
                   videoDescription &&
                   thumbnailSrc &&
+                  categories.length !== 0 &&
                   "selected"
                 }
                 onClick={(e) => submitVideoFile(e)}
@@ -521,7 +526,8 @@ const FileUploadPage = ({ embed }) => {
                   selectedVideoFile &&
                   videoTitle &&
                   videoDescription &&
-                  thumbnailSrc
+                  thumbnailSrc &&
+                  categories.length !== 0
                     ? false
                     : true
                 }
