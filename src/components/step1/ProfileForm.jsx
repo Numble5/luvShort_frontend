@@ -360,7 +360,7 @@ const ProfileForm = ({ type }) => {
                 type="text"
                 value={nickname}
                 onChange={onChangeNickname}
-                maxLength="6"
+                maxLength="3"
               />
             ) : (
               <input
@@ -368,7 +368,7 @@ const ProfileForm = ({ type }) => {
                 className={nicknameCheckError === true ? "error" : ""}
                 value={nickname}
                 onChange={onChangeNickname}
-                maxLength="6"
+                maxLength="3"
               />
             )}
 
