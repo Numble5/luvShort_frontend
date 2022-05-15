@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import Login from "@pages/login";
@@ -21,47 +21,58 @@ import ErrorPage from "@/pages/404Error";
 import KakaoRedirectPage from "@/pages/login/KakaoRedirectPage";
 import KakaoLogoutRedirectPage from "@/pages/logout";
 import NotYetPage from "@/pages/notYetPage";
+import WebViewError from "@/components/common/webViewError";
 
 const Routers = () => {
+  const [width, setWidth] = useState(window.screen.width);
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      setWidth(window.screen.width);
+    });
+  });
   return (
     <>
-      <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/:id" element={<Detail />} />
-        <Route path="/step1" element={<Step1Page />} />
-        <Route path="/step2" element={<Step2Page />} />
-        <Route path="/register-success" element={<RegisterSuccessPage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/naver/auth/callback" element={<LoginCallbackPage />} />
-        <Route path="/oauth/callback/kakao" element={<KakaoRedirectPage />} />
-        <Route
-          path="/oauth/logout/kakao"
-          element={<KakaoLogoutRedirectPage />}
-        />
-        <Route path="/file-upload" element={<FileUploadPage />} />
-        <Route
-          path="/file-upload/embed"
-          element={<FileUploadPage embed="embed" />}
-        />
-        {/* 아래에서부터는 링크 */}
-        <Route path="/liked" element={<Interests />} />
-        {/* <Route path="/alarm" element={<Alarm />} /> */}
-        {/* <Route path="/chatting" element={<Chatting />} /> */}
-        {/* <Route path="/chatting/:roomid" element={<ChatScreen />} /> */}
-        <Route path="/mypage" element={<MyPage />} />
-        <Route path="/mypage/edit" element={<ProfileEdit />} />
-        <Route path="/mypage/:id" element={<Profile />} />
-        <Route path="/manage" element={<AccountManage />} />
-        <Route path="/videos/edit/:id" element={<FileUploadPage />} />
-        <Route
-          path="/videos/embed/edit/:id"
-          element={<FileUploadPage embed="embed" />}
-        />
-        <Route path="/alarm" element={<NotYetPage />} />
-        <Route path="/message" element={<NotYetPage />} />
+      {width > 545 ? (
+        <WebViewError />
+      ) : (
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/:id" element={<Detail />} />
+          <Route path="/step1" element={<Step1Page />} />
+          <Route path="/step2" element={<Step2Page />} />
+          <Route path="/register-success" element={<RegisterSuccessPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/naver/auth/callback" element={<LoginCallbackPage />} />
+          <Route path="/oauth/callback/kakao" element={<KakaoRedirectPage />} />
+          <Route
+            path="/oauth/logout/kakao"
+            element={<KakaoLogoutRedirectPage />}
+          />
+          <Route path="/file-upload" element={<FileUploadPage />} />
+          <Route
+            path="/file-upload/embed"
+            element={<FileUploadPage embed="embed" />}
+          />
+          {/* 아래에서부터는 링크 */}
+          <Route path="/liked" element={<Interests />} />
+          {/* <Route path="/alarm" element={<Alarm />} /> */}
+          {/* <Route path="/chatting" element={<Chatting />} /> */}
+          {/* <Route path="/chatting/:roomid" element={<ChatScreen />} /> */}
+          <Route path="/mypage" element={<MyPage />} />
+          <Route path="/mypage/edit" element={<ProfileEdit />} />
+          <Route path="/mypage/:id" element={<Profile />} />
+          <Route path="/manage" element={<AccountManage />} />
+          <Route path="/videos/edit/:id" element={<FileUploadPage />} />
+          <Route
+            path="/videos/embed/edit/:id"
+            element={<FileUploadPage embed="embed" />}
+          />
+          <Route path="/alarm" element={<NotYetPage />} />
+          <Route path="/message" element={<NotYetPage />} />
 
-        <Route path="*" element={<ErrorPage />} />
-      </Routes>
+          <Route path="*" element={<ErrorPage />} />
+        </Routes>
+      )}
     </>
   );
 };
