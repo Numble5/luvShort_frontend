@@ -431,7 +431,7 @@ const FileUploadPage = ({ embed }) => {
                 )}
               </div>
               {!embed && (
-                <div class="filebox">
+                <div className="filebox">
                   <label htmlFor="file">
                     <img src={FileUploadIcon} alt="파일업로드아이콘" />
                   </label>

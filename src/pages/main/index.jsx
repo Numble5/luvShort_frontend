@@ -33,7 +33,7 @@ const Main = () => {
 
   const makePayload = () => {
     const payload = {
-      categories: userInfo.interests,
+      categories: user.user.interests,
       gender:
         currentCategory === "FEMALE" || currentCategory === "MALE"
           ? currentCategory
