@@ -164,7 +164,39 @@ const ProfileFormBlock = styled.div`
       }
     }
   }
+  .location-select {
+    .location-select-container {
+      display: flex;
+      justify-content: space-between;
+    }
 
+    .location-si {
+      width: 49%;
+    }
+    .location-gu {
+      width: 49%;
+    }
+
+    > label {
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    select {
+      width: 100%;
+      padding: 0.6em 1em;
+      font-size: 16px;
+      font-family: inherit;
+      background: url(https://farm1.staticflickr.com/379/19928272501_4ef877c265_t.jpg)
+        no-repeat 98.5% 50%;
+      border: 1px solid #c4c4c4;
+      border-radius: 8px;
+      outline: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+    }
+  }
   .next-step-button {
     display: ${({ type }) => (type === "profile" ? "none" : "")};
 
