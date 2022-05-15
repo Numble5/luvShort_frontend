@@ -8,7 +8,9 @@ const KakaoLogoutRedirectPage = (props) => {
 
   const getSignout = async () => {
     try {
-      await request("/api/logout", "delete");
+      const result = await request("/api/logout", "delete");
+      window.localStorage.removeItem("user");
+      window.localStorage.removeItem("persist:root");
     } catch (e) {
       console.log(e);
     }
@@ -16,9 +18,6 @@ const KakaoLogoutRedirectPage = (props) => {
 
   useEffect(() => {
     getSignout();
-    window.localStorage.removeItem("user");
-    window.localStorage.removeItem("persist:root");
-
     navigate("/login");
   }, []);
 
