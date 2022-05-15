@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import { ChattingModal, DeletedModal } from "@/components/common/modal";
 import Spinner from "@/components/common/Spinner";
 import Video from "@/components/video";
+import { Link } from "react-router-dom";
 
 const Detail = () => {
   const user = useSelector(({ user }) => user);
@@ -23,6 +24,7 @@ const Detail = () => {
   const [modal, setModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  console.log(videoInfo);
   const changeShowContent = () => {
     setShowContent(!showContent);
   };
@@ -36,6 +38,10 @@ const Detail = () => {
     setModal(false);
     setHeartState(true);
   };
+
+  useEffect(() => {
+    console.log("hello");
+  }, []);
 
   const fetchData = async () => {
     try {
@@ -94,16 +100,22 @@ const Detail = () => {
           <StyledDetail>
             <div className="videoInfo">
               <div className="videoInfo__user-info">
-                <div className="videoInfo__img-wrapper">
+                <Link
+                  to={`/mypage/${videoInfo?.uploader.user_idx}`}
+                  className="videoInfo__img-wrapper"
+                >
                   <img
                     src={videoInfo?.uploader?.profileImgUrl}
                     alt="프로필 이미지"
                   />
-                </div>
+                </Link>
                 <div>
-                  <span className="videoInfo_nickname">
+                  <Link
+                    to={`/mypage/${videoInfo?.uploader.user_idx}`}
+                    className="videoInfo_nickname"
+                  >
                     {videoInfo?.uploader?.nickname}
-                  </span>
+                  </Link>
                   <ul className="videoInfo__category">
                     {videoInfo?.categories.map((category) => (
                       <Cateogories key={category} category={category} />
