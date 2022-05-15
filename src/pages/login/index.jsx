@@ -1,14 +1,22 @@
 import styled from "styled-components";
 import React, { useEffect, useRef } from "react";
-import WaveIllust from "../../static/login/Vector 9.jpg";
-import LogoIllust from "../../static/login/Group 39520.jpg";
-import Template from "@/components/common/Template";
-import KakaoButton3 from "@/static/login/kakaotalk.svg";
-import axios from "axios";
+import WaveIllust from "@/pages/login/assets/Vector 9.jpg";
+import KakaoButton3 from "@/pages/login/assets/kakaotalk.svg";
 import { useNavigate } from "react-router";
 import { client } from "@/lib/api";
-import { userCheck } from "@/redux/reducers/user";
+import {
+  changeBirtdayError,
+  changeBirthday,
+  changeCity,
+  changeDistrict,
+  changeGender,
+  changeNickname,
+  setNicknameCheckNull,
+  userCheck,
+} from "@/redux/reducers/user";
 import { useDispatch, useSelector } from "react-redux";
+import { setEmail } from "@/redux/reducers/user";
+import { KAKAO_AUTH_URL } from "@/data/kakao";
 
 const LoginBlock = styled.div`
   .illust {
@@ -91,50 +99,10 @@ const LoginBlock = styled.div`
   }
 `;
 
-const { Kakao } = window;
-const { naver } = window;
-
 const Login = () => {
-  const naverRef = useRef(null);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user = useSelector(({ user }) => user.user);
-
-  const kakaoLoginClickHandler = () => {
-    Kakao.Auth.login({
-      success: async function (authObj) {
-        let result = await client.post("/api/auth/kakao-login", {
-          access_token: authObj.access_token,
-        });
-        if (result.data.redirectUrl === "/") {
-          dispatch(userCheck());
-        } else if (result.data.redirectUrl === "/step1") {
-          navigate("/step1");
-        }
-      },
-    });
-  };
-
-  const naverLoginInitial = () => {
-    const naverLogin = new naver.LoginWithNaverId({
-      clientId: "ifHDEHFmeaVaiNSc4KOn",
-      callbackUrl: "http://localhost:3000/naver/auth/callback",
-      clientSecret: "EzSL5Az1aS",
-      isPopup: true, // popup 형식으로 띄울것인지 설정
-      loginButton: {
-        color: "green",
-        type: 1,
-        height: "40",
-      }, //버튼의 스타일, 타입, 크기를 지정
-      callbackHandle: true,
-    });
-    naverLogin.init();
-  };
-
-  const onNaverLogin = () => {
-    console.log(naverRef.current);
-    naverRef.current.children[0].click();
-  };
 
   useEffect(() => {
     if (user) {
@@ -145,8 +113,17 @@ const Login = () => {
         console.log("로컬스토리지가 작동 안해요.");
       }
     }
-    naverLoginInitial();
   }, [user]);
+
+  useEffect(() => {
+    dispatch(changeNickname(""));
+    dispatch(changeBirthday(""));
+    dispatch(changeGender(""));
+    dispatch(changeCity("서울특별시"));
+    dispatch(changeDistrict("강동구"));
+    dispatch(setNicknameCheckNull());
+    dispatch(changeBirtdayError(null));
+  }, []);
 
   return (
     <>
@@ -166,17 +143,10 @@ const Login = () => {
         </div>
         <div className="sns-login-container">
           <p>SNS 계정으로 간편하기 시작하기</p>
-          <div
-            className="kakao-login-container"
-            onClick={kakaoLoginClickHandler}
-          >
+          <a href={KAKAO_AUTH_URL} className="kakao-login-container">
             <img src={KakaoButton3} alt="카카오로그인버튼" />
             <span>카카오로 시작하기</span>
-          </div>
-          <div className="naver-login-container" onClick={onNaverLogin}>
-            <div id="naverIdLogin" ref={naverRef} />
-            <span>네이버로 시작하기</span>
-          </div>
+          </a>
         </div>
       </LoginBlock>
     </>

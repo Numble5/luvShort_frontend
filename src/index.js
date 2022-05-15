@@ -5,9 +5,13 @@ import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { Provider } from "react-redux";
 import { theme, GlobalStyle } from "@styles";
-import Routers from "@routes";
-import store from "@redux/store/configureStore";
+
+import store from "@redux/store/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
+
 import { tempSetUser, userCheck } from "./redux/reducers/user";
+import App from "./App";
 
 function loadUser() {
   try {
@@ -22,16 +26,20 @@ function loadUser() {
 
 loadUser();
 
+const persistor = persistStore(store);
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  // <React.StrictMode>
-  <BrowserRouter>
-    <ThemeProvider theme={theme}>
-      <Provider store={store}>
-        <Routers />
-      </Provider>
-      <GlobalStyle />
-    </ThemeProvider>
-  </BrowserRouter>
-  // </React.StrictMode>
+  <React.StrictMode>
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <Provider store={store}>
+          {/* <PersistGate loading={null} persistor={persistor}> */}
+          <App />
+          {/* </PersistGate> */}
+        </Provider>
+        <GlobalStyle />
+      </ThemeProvider>
+    </BrowserRouter>
+  </React.StrictMode>
 );
