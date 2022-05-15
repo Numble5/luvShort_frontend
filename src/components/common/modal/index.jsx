@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import styled, { createGlobalStyle } from "styled-components";
@@ -252,6 +252,63 @@ export const ChattingModal = ({
         </div>
       </ModalBlock>
     </>
+  );
+};
+
+export const MainEditDeleteModal = ({ videoType, id, setEditModal }) => {
+  const [del, setDel] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+
+    return () => (document.body.style.overflow = "");
+  }, []);
+
+  const changeModal = () => {
+    setEditModal(true);
+    setDel(false);
+  };
+
+  const toggleDeletedModal = () => {
+    setDel(false);
+    setEditModal(true);
+  };
+
+  const deleteModalView = () => {
+    setDel(true);
+  };
+
+  const deleteItem = async () => {
+    try {
+      await request(`/api/videos/${id}`, "delete");
+      window.location.reload();
+    } catch (e) {}
+  };
+
+  return (
+    <div>
+      <EditDeletedModalBackground onClick={changeModal} />
+      {del ? (
+        <ChattingModal
+          title={"선택한 영상을 삭제할까요?"}
+          description={"*삭제완료 후에는 복원할 수 없습니다."}
+          leftButton={"아니요"}
+          leftFunction={toggleDeletedModal}
+          rightButton={"네,삭제할래요"}
+          rightFunction={deleteItem}
+        />
+      ) : (
+        <></>
+      )}
+      <StyledEditDeleted>
+        <button onClick={deleteModalView}>삭제하기</button>
+        {videoType === "EMBED" ? (
+          <Link to={`/videos/embed/edit/${id}`}>수정하기</Link>
+        ) : (
+          <Link to={`/videos/edit/${id}`}>수정하기</Link>
+        )}
+      </StyledEditDeleted>
+    </div>
   );
 };
 
@@ -590,7 +647,7 @@ const StyledEditDeleted = styled.div`
   z-index: 2;
   position: fixed;
   left: 0;
-  bottom: 79px;
+  bottom: 78px;
   text-align: center;
 
   a,

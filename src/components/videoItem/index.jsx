@@ -3,24 +3,32 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import calDate from "@/utils/calDate";
-import { ChattingModal } from "../common/modal";
+import {
+  ChattingModal,
+  EditDeletedModal,
+  MainEditDeleteModal,
+} from "../common/modal";
 import { useSelector } from "react-redux";
 import { toggleLiked } from "@/utils/toggleHeartState";
-import { useEffect } from "react";
+import MyVideoEdit from "../myVideoEdit";
 
 const VideoItem = ({
   video: {
     video_idx,
+    videoType,
     title,
     heart,
     thumbnailUrl,
     createdDate,
-    uploader: { user_idx, nickname, profileImgUrl },
+    uploader: { user_idx, nickname, profileImgUrl, email },
   },
   type,
 }) => {
   const date = calDate(createdDate);
   const user = useSelector(({ user }) => user.user);
+  const [id, setId] = useState();
+  const [videotype, setVideoType] = useState();
+  const [editModal, setEditModal] = useState(true);
   const [heartState, setHeartState] = useState(heart);
   const [modal, setModal] = useState(false);
 
@@ -41,6 +49,16 @@ const VideoItem = ({
 
   return (
     <StyledLi key={video_idx}>
+      {editModal ? (
+        <></>
+      ) : (
+        <MainEditDeleteModal
+          id={id}
+          videoType={videotype}
+          setEditModal={setEditModal}
+        />
+      )}
+
       {modal ? (
         type === "interest" ? (
           <ChattingModal
@@ -64,47 +82,71 @@ const VideoItem = ({
       ) : (
         <></>
       )}
-      <Link to={`/${video_idx}`} className="thumbnails">
+      <ImgWrapper
+        href={`/${video_idx}`}
+        img={thumbnailUrl}
+        className="thumbnails"
+      >
         <img src={thumbnailUrl} alt="썸네일 이미지" />
-      </Link>
+      </ImgWrapper>
       <div className="wrapper">
         <div className="info_wrapper">
-          <Link to={`/mypage/${user_idx}`} className="user_wrapper">
-            <UserProfileImgWrpper profileImgUrl={profileImgUrl} />
-            <span>{nickname}</span>
-          </Link>
+          {user.email === email ? (
+            <Link to={`/mypage`} className="user_wrapper">
+              <UserProfileImgWrpper profileImgUrl={profileImgUrl} />
+              <span>{nickname}</span>
+            </Link>
+          ) : (
+            <Link to={`/mypage/${user_idx}`} className="user_wrapper">
+              <UserProfileImgWrpper profileImgUrl={profileImgUrl} />
+              <span>{nickname}</span>
+            </Link>
+          )}
           <div className="video_info">
             <span>{date}</span>
-            {heartState ? (
-              <img
-                src="/assets/fullheart.svg"
-                onClick={({ target }) => {
-                  toggleLiked({
-                    target,
-                    heartState,
-                    setModal,
-                    setHeartState,
-                    email: user?.email,
-                  });
-                }}
-                data-id={video_idx}
-                alt="하트"
+            {user.email === email ? (
+              <MyVideoEdit
+                video_idx={video_idx}
+                videoType={videoType}
+                setId={setId}
+                setType={setVideoType}
+                setIsUpload={setEditModal}
+                Pagetype={"메인"}
               />
             ) : (
-              <img
-                src="/assets/heart.svg"
-                onClick={({ target }) => {
-                  toggleLiked({
-                    target,
-                    heartState,
-                    setModal,
-                    setHeartState,
-                    email: user?.email,
-                  });
-                }}
-                data-id={video_idx}
-                alt="빈하트"
-              />
+              <>
+                {heartState ? (
+                  <img
+                    src="/assets/fullheart.svg"
+                    onClick={({ target }) => {
+                      toggleLiked({
+                        target,
+                        heartState,
+                        setModal,
+                        setHeartState,
+                        email: user?.email,
+                      });
+                    }}
+                    data-id={video_idx}
+                    alt="하트"
+                  />
+                ) : (
+                  <img
+                    src="/assets/heart.svg"
+                    onClick={({ target }) => {
+                      toggleLiked({
+                        target,
+                        heartState,
+                        setModal,
+                        setHeartState,
+                        email: user?.email,
+                      });
+                    }}
+                    data-id={video_idx}
+                    alt="빈하트"
+                  />
+                )}
+              </>
             )}
           </div>
         </div>
@@ -122,30 +164,15 @@ const StyledLi = styled.li`
   overflow: hidden;
   margin-bottom: 20px;
   border-radius: 5px;
-
-  .thumbnails {
-    display: block;
-    width: 100%;
-    height: 240px;
-    position: relative;
-    z-index: -1;
-    top: 0;
-    left: 0;
-
-    img {
-      position: absolute;
-      top: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      height: auto;
-      min-height: 240px;
-      z-index: 0;
-    }
-  }
+  position: relative;
 
   .wrapper {
     background-color: #3d3d3d;
     height: 80px;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
 
     * {
       color: white;
@@ -165,7 +192,7 @@ const StyledLi = styled.li`
     align-items: center;
 
     span {
-      width: 40px;
+      width: 30px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -198,4 +225,27 @@ const UserProfileImgWrpper = styled.div`
   background-image: url(${(props) => props.profileImgUrl});
   background-repeat: no-repeat;
   background-size: cover;
+`;
+
+const ImgWrapper = styled.a`
+  display: block;
+  width: 100%;
+  height: 240px;
+  position: relative;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  background-color: ${({ img }) => (img.includes("youtube") ? "black" : "")};
+
+  img {
+    display: block;
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 160%;
+    min-height: 250px;
+    z-index: -1;
+    pointer-events: none;
+  }
 `;
