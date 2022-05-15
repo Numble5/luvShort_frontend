@@ -12,12 +12,16 @@ import upload from "./assets/upload.svg";
 
 const MyPageVideoList = ({ videos }) => {
   const [id, setId] = useState();
+  const [type, setType] = useState();
   const [isUpload, setIsUpload] = useState(false);
   const dispatch = useDispatch();
 
   const editVideo = ({ target }) => {
     const id = target.dataset.id;
+    const type = target.dataset.type;
+
     setId(id);
+    setType(type);
     dispatch(changeModalTrue());
     setIsUpload(false);
   };
@@ -32,7 +36,7 @@ const MyPageVideoList = ({ videos }) => {
       {isUpload ? (
         <ModalBackground children={<UploadModal />} />
       ) : (
-        <EditDeletedModal id={id} />
+        <EditDeletedModal id={id} videoType={type} />
       )}
       <StyledUl>
         <UploadItem>
@@ -47,7 +51,7 @@ const MyPageVideoList = ({ videos }) => {
         {videos.map(
           ({
             video_idx,
-            videoUrl,
+            videoType,
             createdDate,
             title,
             thumbnailUrl,
@@ -66,7 +70,12 @@ const MyPageVideoList = ({ videos }) => {
                   <div className="video_info">
                     <span>{calDate(createdDate)}</span>
                     <button onClick={({ target }) => editVideo({ target })}>
-                      <img data-id={video_idx} src={add} alt="추가" />
+                      <img
+                        data-id={video_idx}
+                        data-type={videoType}
+                        src={add}
+                        alt="추가"
+                      />
                     </button>
                   </div>
                 </div>

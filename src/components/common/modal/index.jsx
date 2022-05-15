@@ -255,7 +255,7 @@ export const ChattingModal = ({
   );
 };
 
-export const EditDeletedModal = ({ id }) => {
+export const EditDeletedModal = ({ videoType, id }) => {
   const dispatch = useDispatch();
   const modal = useSelector(({ modal }) => modal.value);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -278,6 +278,7 @@ export const EditDeletedModal = ({ id }) => {
       await request(`/api/videos/${id}`, "delete");
       setDeleteModal(false);
       dispatch(changeModalFalse());
+      window.location.reload();
     } catch (e) {}
   };
 
@@ -306,7 +307,11 @@ export const EditDeletedModal = ({ id }) => {
           )}
           <StyledEditDeleted>
             <button onClick={deleteModalView}>삭제하기</button>
-            <Link to={`/videos/edit/${id}`}>수정하기</Link>
+            {videoType === "EMBED" ? (
+              <Link to={`/videos/embed/edit/${id}`}>수정하기</Link>
+            ) : (
+              <Link to={`/videos/edit/${id}`}>수정하기</Link>
+            )}
           </StyledEditDeleted>
         </div>
       )}
