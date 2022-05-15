@@ -30,7 +30,7 @@ export default Video;
 
 const VideoWrapper = styled.div`
   width: 100%;
-  height: calc(100vh - 160px);
+  height: calc(100vh - 270px);
   overflow: hidden;
   position: relative;
 
@@ -47,6 +47,6 @@ const VideoWrapper = styled.div`
 
 const NormalVideoWrapper = styled.div`
   width: 100%;
-  height: calc(100vh - 160px);
+  height: calc(100vh - 270px);
   position: relative;
 `;
