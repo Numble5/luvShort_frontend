@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import styled, { createGlobalStyle } from "styled-components";
@@ -8,35 +8,194 @@ import { changeModalFalse } from "@/redux/reducers/modal";
 import base_circle from "./assets/base_circle.svg";
 import plus_circle from "./assets/plus_circle.svg";
 import deleted from "./assets/deleted.svg";
+import InterestCategories from "@/components/interests";
+import Circle from "@pages/step/assets-step2/Ellipse 454.svg";
+import {
+  setCategories,
+  setCategoriesInterests,
+  setInterests,
+} from "@/redux/reducers/video";
 
-export const DeletedModal = ({ title }) => {
-  const modal = useSelector(({ modal }) => modal.value);
-  const navigate = useNavigate();
-  const GlobalStyle = createGlobalStyle`
+const InterestModalBlock = styled.div`
+  #modal-background {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    background: rgba(1, 1, 1, 0.3);
+  }
+  .modal-box {
+    position: fixed;
+    top: 25%;
+    left: 2.5%;
+    z-index: 2;
+    width: 95%;
+    background-color: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+  }
 
-    body {
-      overflow:hidden;
+  .select_interests_container {
+    padding-left: 1em;
+    margin-bottom: 2em;
+    .interest-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+
+      .interest-item {
+        padding: 0.8em 1.2em;
+        display: flex;
+        align-items: center;
+        border: 1px solid #c4c4c4;
+        border-radius: 25px;
+
+        img {
+          margin-right: 6px;
+        }
+        @media screen and (max-width: 488px) {
+          font-size: 11px;
+        }
+        @media screen and (min-width: 488px) {
+          width: calc((100% - 165px) / 3);
+        }
+        @media screen and (min-width: 1024px) {
+          width: calc((100% - 165px) / 3);
+        }
+
+        > span {
+          color: inherit;
+          font-size: inherit;
+        }
+
+        &.selected {
+          border: 1px solid #5dccc6;
+          color: #5dccc6;
+        }
+      }
     }
-  `;
+  }
+  .modal-button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    button {
+      outline: none;
+      border: none;
+    }
+    .cancel {
+      flex: 0.5;
+      button {
+        width: 100%;
+        background: #f6f6f6;
+        color: #777777;
+        height: 43px;
+      }
+    }
+    .exit {
+      flex: 0.5;
+      button {
+        width: 100%;
+        background: #5dccc6;
+        color: #ffffff;
+        height: 43px;
+      }
+    }
+  }
+`;
 
-  const movingHome = () => {
-    navigate("/");
+export const InterestsModal = () => {
+  const dispatch = useDispatch();
+  const categories = useSelector(({ video }) => video.categories);
+  const interests = useSelector(({ video }) => video.interests);
+  const [beforeCategories, setBeforeCategories] = useState(categories);
+  const [beforeInterests, setBeforeInterests] = useState(interests);
+  const modal = useSelector(({ modal }) => modal.value);
+  const GlobalStyle = createGlobalStyle`
+  body {
+    overflow: ${(props) => props.modal && "hidden"}
+  }
+`;
+
+  const toggleInterest = (name) => {
+    const newInterest = beforeInterests.map((item) =>
+      item.name === name ? { ...item, checked: !item.checked } : item
+    );
+    const checkedInterestLength = newInterest.filter(
+      (item) => item.checked === true
+    ).length;
+    if (checkedInterestLength === 4) {
+      return;
+    }
+    if (beforeCategories?.includes(name)) {
+      const newCategories = beforeCategories.filter((item) => item !== name);
+      setBeforeCategories(newCategories);
+    } else {
+      setBeforeCategories([...beforeCategories, name]);
+    }
+    setBeforeInterests(newInterest);
+  };
+
+  const closeModal = () => {
+    dispatch(changeModalFalse());
+  };
+
+  const onClickSetCategoriesInterests = () => {
+    dispatch(setCategoriesInterests({ beforeCategories, beforeInterests }));
+    closeModal();
   };
 
   return (
     <>
       <GlobalStyle modal={modal} />
-      <StyledDeletedModal>
-        <div className="background"></div>
-        <div className="deleted-modal">
-          <img src={deleted} alt="삭제" />
-          <span>{title}</span>
-          <button onClick={movingHome}>홈으로 이동하기</button>
+      <InterestModalBlock>
+        <div id="modal-background" onClick={closeModal}></div>
+        <div className="modal-box">
+          <div className="selected_interests">
+            <InterestCategories
+              title=""
+              categories={beforeCategories}
+              border={false}
+            />
+          </div>
+          <div className="select_interests_container">
+            <div className="interest-list">
+              {beforeInterests?.map((item, index) => (
+                <div
+                  key={index}
+                  className={
+                    item.checked ? "interest-item selected" : "interest-item"
+                  }
+                  onClick={() => toggleInterest(item.name)}
+                >
+                  <div>
+                    <img
+                      src={item.checked ? item.imgSrc : Circle}
+                      alt="취미아이콘"
+                    />
+                  </div>
+                  <span>{item.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="modal-button-container">
+            <div className="cancel" onClick={closeModal}>
+              <button>취소하기</button>
+            </div>
+            <div className="exit" onClick={onClickSetCategoriesInterests}>
+              <button>저장하기</button>
+            </div>
+          </div>
         </div>
-      </StyledDeletedModal>
+      </InterestModalBlock>
     </>
   );
 };
+
+export const DeletedModal = ({ title }) => {};
 
 export const ChattingModal = ({
   title,
@@ -86,16 +245,20 @@ export const ChattingModal = ({
 };
 
 export const UploadModal = () => {
+  const dispatch = useDispatch();
+  const onClickChangeModalFalse = () => {
+    dispatch(changeModalFalse());
+  };
   return (
     <StyledUploadModal>
       <Link to="/file-upload/embed" className="embeded__btn">
-        <div className="embeded__btn-wrapper">
+        <div className="embeded__btn-wrapper" onClick={onClickChangeModalFalse}>
           <img src={plus_circle} alt="임베드" />
           <span>임베드 영상 업로드</span>
         </div>
       </Link>
       <Link to="/file-upload" className="self__btn">
-        <div>
+        <div onClick={onClickChangeModalFalse}>
           <img src={base_circle} alt="직접" />
           <span>직접 영상 업로드</span>
         </div>

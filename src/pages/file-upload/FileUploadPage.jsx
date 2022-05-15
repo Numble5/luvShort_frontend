@@ -5,15 +5,23 @@ import Navigator from "@components/navigator";
 import FileUploadIcon from "@/pages/file-upload/assets/file-upload-icon.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { client } from "@/lib/api";
-import { useParams } from "react-router";
-import { getVideoInfo, setVideo } from "@/redux/reducers/video";
+import { Navigate, useNavigate, useParams } from "react-router";
+import {
+  getVideoInfo,
+  setCategories,
+  setCategoriesInterests,
+  setInterests,
+  setVideo,
+} from "@/redux/reducers/video";
+import InterestCategories from "@/components/interests";
+import { InterestsModal } from "@/components/common/modal";
 
 const FileUploadPageBlock = styled.div`
   padding: 28px 23px 0 23px;
   .header-pagination {
     display: flex;
     align-items: center;
-    margin-bottom: 44px;
+    margin-bottom: 22px;
     div:nth-child(2) {
       text-align: center;
       width: 100%;
@@ -25,7 +33,7 @@ const FileUploadPageBlock = styled.div`
   }
   form {
     header {
-      margin-bottom: 20px;
+      margin-bottom: 12px;
 
       > p {
         font-size: 14px;
@@ -90,7 +98,7 @@ const FileUploadPageBlock = styled.div`
     main {
       margin-bottom: 25px;
       .video-title {
-        margin-bottom: 40px;
+        margin-bottom: 18px;
         > p {
           font-size: 14px;
           font-weight: bold;
@@ -111,7 +119,7 @@ const FileUploadPageBlock = styled.div`
         }
       }
       .video-description {
-        margin-bottom: 22px;
+        margin-bottom: 6px;
         > p {
           font-weight: bold;
           margin-bottom: 0.5em;
@@ -216,9 +224,13 @@ const FileUploadPage = ({ embed }) => {
   const [thumbnailSrc, setThumbnailSrc] = useState("");
   const [embedUrl, setEmbedUrl] = useState("");
   const video = useSelector(({ video }) => video.video);
+  const modal = useSelector(({ modal }) => modal.value);
+  const categories = useSelector(({ video }) => video.categories);
+  const interests = useSelector(({ video }) => video.interests);
   const dispatch = useDispatch();
   const id = useParams().id;
-  // const video_type = ''
+  const navigate = useNavigate();
+
   const onChangeVideoFile = (e) => {
     const file = e.target.files[0];
     const fileExt = file.name.split(".").pop();
@@ -281,6 +293,17 @@ const FileUploadPage = ({ embed }) => {
 
   const submitVideoFile = async (e) => {
     e.preventDefault();
+    if (id) {
+      const result = client.put("api/videos/update", {
+        idx: id,
+        title: videoTitle,
+        content: videoDescription,
+        categories: categories,
+      });
+      console.log(result);
+      navigate(`/${id}`);
+      return;
+    }
     const formData = new FormData();
     if (!embed) {
       const info = {
@@ -290,6 +313,7 @@ const FileUploadPage = ({ embed }) => {
         videoUrl: "",
         thumbUrl: "",
         videoType: "",
+        categories: categories,
       };
       formData.append("videoFile", selectedVideoFile);
       formData.append("thumbFile", selectedThumbnailFile);
@@ -307,6 +331,7 @@ const FileUploadPage = ({ embed }) => {
         config
       );
       console.log(result);
+      navigate(`/${result.data.video_idx}`);
     } else if (embed) {
       const result = await client.post("/api/videos/upload/embed", {
         email: "pm5555pm@naver.com",
@@ -315,33 +340,48 @@ const FileUploadPage = ({ embed }) => {
         videoUrl: embedUrl,
         thumbUrl: "",
         videoType: "",
+        categories: categories,
       });
       console.log(result);
+      navigate(`/${result.data.video_idx}`);
     }
   };
 
   useEffect(() => {
     if (id) {
-      dispatch(getVideoInfo({ id, useremail: "kk3@naver.com" }));
+      dispatch(getVideoInfo({ id, useremail }));
     }
+    return () => {
+      dispatch(setVideo());
+      dispatch(setCategories());
+      dispatch(setInterests());
+    };
   }, []);
 
   useEffect(() => {
     if (video) {
+      const newInterests = interests.map((item) =>
+        video.categories.includes(item.name) ? { ...item, checked: true } : item
+      );
+      console.log(video);
+      console.log(newInterests);
       if (embed) {
         setEmbedUrl(video.videoUrl);
         setVideoTitle(video.title);
         setVideoDescription(video.content);
       } else {
-        setSelectedVideoFile(video.videoUrl);
+        setSelectedVideoFile({ name: video.fileName });
         setVideoTitle(video.title);
         setVideoDescription(video.content);
         setThumbnailSrc(video.thumbnailUrl);
+        dispatch(
+          setCategoriesInterests({
+            beforeCategories: video.categories,
+            beforeInterests: newInterests,
+          })
+        );
       }
     }
-    return () => {
-      dispatch(setVideo());
-    };
   }, [video]);
 
   return (
@@ -416,6 +456,11 @@ const FileUploadPage = ({ embed }) => {
                 />
               </div>
             </div>
+            <InterestCategories
+              title="태그"
+              categories={categories}
+              border={true}
+            />
             {!embed && (
               <div className="video-thumnail">
                 <p>썸네일 이미지</p>
@@ -481,6 +526,7 @@ const FileUploadPage = ({ embed }) => {
             )}
           </div>
         </form>
+        {modal && <InterestsModal />}
       </FileUploadPageBlock>
       <Navigator />
     </>
