@@ -32,7 +32,7 @@ const MyPageVideoList = ({ videos }) => {
       {isUpload ? (
         <ModalBackground children={<UploadModal />} />
       ) : (
-        <EditDeletedModal id={id} />
+        <EditDeletedModal id={id} videoType={videos.videoType} />
       )}
       <StyledUl>
         <UploadItem>
@@ -47,7 +47,7 @@ const MyPageVideoList = ({ videos }) => {
         {videos.map(
           ({
             video_idx,
-            videoUrl,
+            videoType,
             createdDate,
             title,
             thumbnailUrl,
@@ -66,7 +66,12 @@ const MyPageVideoList = ({ videos }) => {
                   <div className="video_info">
                     <span>{calDate(createdDate)}</span>
                     <button onClick={({ target }) => editVideo({ target })}>
-                      <img data-id={video_idx} src={add} alt="추가" />
+                      <img
+                        data-id={video_idx}
+                        data-type={videoType}
+                        src={add}
+                        alt="추가"
+                      />
                     </button>
                   </div>
                 </div>
