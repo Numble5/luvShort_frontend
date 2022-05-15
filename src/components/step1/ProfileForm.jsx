@@ -22,7 +22,8 @@ import { options } from "@/utils/selectOptions";
 const ProfileFormBlock = styled.div`
   .profile {
     .nickname-container {
-      margin-bottom: 27px;
+      margin-top: ${({ type }) => (type === "profile" ? "15px" : "0px")};
+      margin-bottom: ${({ type }) => (type === "profile" ? "15px" : "27px")};
       .nickname_title {
         display: flex;
         justify-content: space-between;
@@ -30,13 +31,19 @@ const ProfileFormBlock = styled.div`
           display: inline-block;
           margin-bottom: 8px;
           span {
-            margin-left: 4px;
+            margin-top: ${({ type }) => (type === "profile" ? "3px" : "0")};
+
+            margin-left: ${({ type }) => (type === "profile" ? "" : "4px")};
+            display: ${({ type }) => (type === "profile" ? "none" : "")};
+
             font-size: 12px;
             color: #b1b1b1;
           }
         }
         span {
-          font-size: 12p;
+          display: ${({ type }) => (type === "profile" ? "block" : "")};
+
+          font-size: 12px;
           &.success {
             color: #5dccc6;
           }
@@ -51,9 +58,10 @@ const ProfileFormBlock = styled.div`
         > input {
           width: 100%;
           box-sizing: border-box;
-          padding: 0.6em 1em;
+          padding: ${({ type }) => (type === "profile" ? "8px" : "0.6em 1em")};
           color: #5dccc6;
-          font-size: 18px;
+          font-size: ${({ type }) => (type === "profile" ? "16px" : "18px")};
+
           border: 1px solid #c4c4c4;
           border-radius: 8px;
           outline: none;
@@ -67,8 +75,9 @@ const ProfileFormBlock = styled.div`
         }
         > span {
           position: absolute;
-          right: 1em;
-          top: 10px;
+
+          right: ${({ type }) => (type === "profile" ? "7px" : "1em")};
+          top: ${({ type }) => (type === "profile" ? "6px" : "10px")};
           background-color: #5dccc6;
           padding: 0.4em 0.8em 0.6em 0.8em;
           border-radius: 6px;
@@ -78,7 +87,10 @@ const ProfileFormBlock = styled.div`
           &.nickcheck-success {
             box-sizing: border-box;
             background: #c4c4c4;
-            margin-right: 3em;
+
+            margin-right: ${({ type }) =>
+              type === "profile" ? "24px" : "3em"};
+
             pointer-events: none;
           }
           &.error {
@@ -89,15 +101,17 @@ const ProfileFormBlock = styled.div`
         }
         > img {
           position: absolute;
-          right: 1em;
-          top: 10px;
+          right: ${({ type }) => (type === "profile" ? "7px" : "1em")};
+          top: ${({ type }) => (type === "profile" ? "9px " : "10px")};
+          width: ${({ type }) => (type === "profile" ? "20px" : "")};
         }
       }
     }
   }
 
   .birthday-gender {
-    margin-bottom: 27px;
+    margin-bottom: ${({ type }) => (type === "profile" ? "15px" : "27px")};
+
     .birthday-gender-title {
       label {
         display: inline-block;
@@ -119,7 +133,8 @@ const ProfileFormBlock = styled.div`
           box-sizing: border-box;
           width: 90%;
           font-size: 16px;
-          padding: 0.6em 1em;
+          padding: ${({ type }) => (type === "profile" ? "8px" : "0.6em 1em")};
+
           border: 1px solid #c4c4c4;
           border-radius: 8px;
           outline: none;
@@ -151,6 +166,8 @@ const ProfileFormBlock = styled.div`
   }
 
   .next-step-button {
+    display: ${({ type }) => (type === "profile" ? "none" : "")};
+
     position: absolute;
     box-sizing: border-box;
     display: block;
@@ -165,6 +182,8 @@ const ProfileFormBlock = styled.div`
     font-weight: bold;
   }
   .next-step-button-selected {
+    display: ${({ type }) => (type === "profile" ? "none" : "")};
+
     background: #5dccc6;
   }
   .error {
@@ -172,7 +191,7 @@ const ProfileFormBlock = styled.div`
   }
 `;
 
-const ProfileForm = ({ height }) => {
+const ProfileForm = ({ type }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const nickname = useSelector(({ user }) => user.nickname);
@@ -316,7 +335,7 @@ const ProfileForm = ({ height }) => {
   };
 
   return (
-    <ProfileFormBlock height={height}>
+    <ProfileFormBlock type={type}>
       <form className="profile">
         <div className="nickname-container">
           <div className="nickname_title">

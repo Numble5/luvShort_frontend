@@ -20,7 +20,7 @@ const ProfileHeader = ({ type, userInfo }) => {
               userInfo.city
             } ${userInfo.district}`}</div>
           </div>
-          <div>
+          <div className="profile_side-Wrapper">
             {type === "프로필" ? (
               <ProfileResult
                 result={userInfo.isMatched}
@@ -30,13 +30,17 @@ const ProfileHeader = ({ type, userInfo }) => {
               </ProfileResult>
             ) : (
               <Link to="/mypage/edit" className="profile_side-edit">
-                프로필편집
+                프로필 편집
               </Link>
             )}
           </div>
         </div>
         <ProfileCategory categoryList={userInfo.interests} />
-        <div className="profile__introduce">{userInfo.introduce}</div>
+        <div className="profile__introduce">
+          {!userInfo.introduce
+            ? "아직 한 줄 소개가 없습니다."
+            : userInfo.introduce}
+        </div>
       </ProfileWrapper>
     </>
   );
@@ -57,6 +61,7 @@ const ProfileWrapper = styled.div`
     width: 90%;
     justify-content: space-between;
     margin: 0 auto;
+    position: relative;
   }
 
   .profile_infoType {
@@ -65,7 +70,7 @@ const ProfileWrapper = styled.div`
     .profile_infoType-nickname {
       font-size: 20px;
       font-weight: 600;
-      margin-bottom: 5px;
+      margin-bottom: 8px;
     }
 
     .profile_infoType-others {
@@ -79,7 +84,7 @@ const ProfileWrapper = styled.div`
     overflow: hidden;
     position: relative;
     border-radius: 50%;
-    margin-right: 5px;
+    margin-right: 8px;
     background-color: white;
 
     > img {
@@ -89,6 +94,12 @@ const ProfileWrapper = styled.div`
       left: 50%;
       transform: translateX(-50%);
     }
+  }
+
+  .profile_side-Wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 
   .profile_side-edit {

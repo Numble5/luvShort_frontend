@@ -14,11 +14,13 @@ import Alarm from "@pages/alarm";
 import MyPage from "@pages/mypage";
 import Profile from "@pages/profile";
 import ProfileEdit from "@pages/profileEdit";
-//import AccountManage from "@pages/accountManage";
+import AccountManage from "@pages/accountManage";
 import Chatting from "@/pages/chatting";
 import ChatScreen from "@/pages/chatScreen";
 import ErrorPage from "@/pages/404Error";
 import KakaoRedirectPage from "@/pages/login/KakaoRedirectPage";
+import KakaoLogoutRedirectPage from "@/pages/logout";
+import NotYetPage from "@/pages/notYetPage";
 
 const Routers = () => {
   return (
@@ -32,6 +34,10 @@ const Routers = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/naver/auth/callback" element={<LoginCallbackPage />} />
         <Route path="/oauth/callback/kakao" element={<KakaoRedirectPage />} />
+        <Route
+          path="/oauth/logout/kakao"
+          element={<KakaoLogoutRedirectPage />}
+        />
         <Route path="/file-upload" element={<FileUploadPage />} />
         <Route
           path="/file-upload/embed"
@@ -39,18 +45,20 @@ const Routers = () => {
         />
         {/* 아래에서부터는 링크 */}
         <Route path="/liked" element={<Interests />} />
-        <Route path="/alarm" element={<Alarm />} />
-        <Route path="/chatting" element={<Chatting />} />
-        <Route path="/chatting/:roomid" element={<ChatScreen />} />
+        {/* <Route path="/alarm" element={<Alarm />} /> */}
+        {/* <Route path="/chatting" element={<Chatting />} /> */}
+        {/* <Route path="/chatting/:roomid" element={<ChatScreen />} /> */}
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/mypage/edit" element={<ProfileEdit />} />
         <Route path="/mypage/:id" element={<Profile />} />
+        <Route path="/manage" element={<AccountManage />} />
         <Route path="/videos/edit/:id" element={<FileUploadPage />} />
         <Route
           path="/videos/embed/edit/:id"
           element={<FileUploadPage embed="embed" />}
         />
-        {/*<Route path="/manage" element={<AccountManage />} />*/}
+        <Route path="/alarm" element={<NotYetPage />} />
+        <Route path="/message" element={<NotYetPage />} />
 
         <Route path="*" element={<ErrorPage />} />
       </Routes>
