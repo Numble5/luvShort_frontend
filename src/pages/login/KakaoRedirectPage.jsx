@@ -7,7 +7,6 @@ import { setEmail, userCheck } from "@/redux/reducers/user";
 import axios from "axios";
 
 const KakaoRedirect = () => {
-  console.log("리다이렉트");
   const dispatch = useDispatch();
   const user = useSelector(({ user }) => user.user);
   const navigate = useNavigate();
@@ -25,7 +24,6 @@ const KakaoRedirect = () => {
     if (result.data.redirectUrl === "/") {
       dispatch(userCheck());
     } else if (result.data.redirectUrl === "/step1") {
-      console.log(result.data);
       dispatch(setEmail(result.data.user_email));
       navigate("/step1");
     }
@@ -50,7 +48,7 @@ const KakaoRedirect = () => {
       data: makeFormData({
         grant_type: "authorization_code",
         client_id: process.env.REACT_APP_KAKAO_REST_API_KEY,
-        redirect_uri: process.env.REACT_APP_REDIRECT_URI,
+        redirect_uri: `${KAKAO_AUTH_URL}`,
         code,
       }),
     }).then((res) => {
