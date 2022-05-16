@@ -25,7 +25,6 @@ const ProfileEdit = () => {
   const [thumbnailSrc, setThumbnailSrc] = useState("");
   const { user } = useSelector(({ user }) => user);
   const modal = useSelector(({ modal }) => modal.value);
-
   const [categories, setCategories] = useState([]);
   const [comment, setComment] = useState("");
   const [birthday, setBirthday] = useState("");
