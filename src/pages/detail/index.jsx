@@ -119,36 +119,42 @@ const Detail = () => {
                 </div>
               </div>
               <div className="videoInfo__heart">
-                {heartState ? (
-                  <img
-                    data-id={videoInfo?.video_idx}
-                    src="assets/fullheart.svg"
-                    onClick={({ target }) =>
-                      toggleLiked({
-                        target,
-                        heartState,
-                        setModal,
-                        setHeartState,
-                        email: user.user.email,
-                      })
-                    }
-                    alt="하트"
-                  />
+                {user?.user.email === videoInfo?.uploader.email ? (
+                  <></>
                 ) : (
-                  <img
-                    data-id={videoInfo?.video_idx}
-                    src="assets/heart.svg"
-                    onClick={({ target }) =>
-                      toggleLiked({
-                        target,
-                        heartState,
-                        setModal,
-                        setHeartState,
-                        email: user.user.email,
-                      })
-                    }
-                    alt="빈하트"
-                  />
+                  <>
+                    {heartState ? (
+                      <img
+                        data-id={videoInfo?.video_idx}
+                        src="assets/fullheart.svg"
+                        onClick={({ target }) =>
+                          toggleLiked({
+                            target,
+                            heartState,
+                            setModal,
+                            setHeartState,
+                            email: user.user.email,
+                          })
+                        }
+                        alt="하트"
+                      />
+                    ) : (
+                      <img
+                        data-id={videoInfo?.video_idx}
+                        src="assets/heart.svg"
+                        onClick={({ target }) =>
+                          toggleLiked({
+                            target,
+                            heartState,
+                            setModal,
+                            setHeartState,
+                            email: user.user.email,
+                          })
+                        }
+                        alt="빈하트"
+                      />
+                    )}
+                  </>
                 )}
               </div>
             </div>

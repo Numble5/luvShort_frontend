@@ -104,7 +104,7 @@ const Login = () => {
   const user = useSelector(({ user }) => user.user);
   const location = window.location.host;
   const KAKAO_AUTH_URL =
-    location === "localhost"
+    location === "localhost:3000"
       ? process.env.REACT_APP_REDIRECT_URI_LOCAL
       : process.env.REACT_APP_REDIRECT_URI_DEPLOY;
 
