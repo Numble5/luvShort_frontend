@@ -5,6 +5,7 @@ import { client } from "@/lib/api";
 import { useNavigate } from "react-router";
 import { setEmail, userCheck } from "@/redux/reducers/user";
 import axios from "axios";
+import { $BASE_URL } from "@/utils/BASE_URL";
 
 const KakaoRedirect = () => {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ const KakaoRedirect = () => {
 
   function requestToken(code) {
     const JS_APP_KEY = "42f138356c44e8bdcbcae522929a5117";
-    const REDIRECT_URI = "http://localhost:3000/oauth/callback/kakao";
+    const REDIRECT_URI = `http://${$BASE_URL}/oauth/callback/kakao`;
     const makeFormData = (params) => {
       const searchParams = new URLSearchParams();
       Object.keys(params).forEach((key) => {
@@ -46,7 +47,7 @@ const KakaoRedirect = () => {
       data: makeFormData({
         grant_type: "authorization_code",
         client_id: JS_APP_KEY,
-        redirect_uri: REDIRECT_URI,
+        redirect_uri: `${$BASE_URL}/oauth/callback/kakao`,
         code,
       }),
     }).then((res) => {

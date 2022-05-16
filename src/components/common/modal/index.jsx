@@ -16,6 +16,7 @@ import {
   setInterests,
 } from "@/redux/reducers/video";
 import request from "@/api/request";
+import { $BASE_URL } from "@/utils/BASE_URL";
 
 const InterestModalBlock = styled.div`
   #modal-background {
@@ -241,7 +242,9 @@ export const ChattingModal = ({
             </div>
             <div className="exit">
               {rightButton === "로그아웃하기" ? (
-                <a href="https://kauth.kakao.com/oauth/logout?client_id=cb35cf8c852a69a0ff7192f0f1ca071d&logout_redirect_uri=http://localhost:3000/oauth/logout/kakao">
+                <a
+                  href={`https://kauth.kakao.com/oauth/logout?client_id=cb35cf8c852a69a0ff7192f0f1ca071d&logout_redirect_uri=http://${$BASE_URL}/oauth/logout/kakao`}
+                >
                   {rightButton}
                 </a>
               ) : (
