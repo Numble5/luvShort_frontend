@@ -12,7 +12,6 @@ import Cooking from "@pages/step/assets-step2/cooking.svg";
 import Circle from "@pages/step/assets-step2/Ellipse 454.svg";
 import { submitUserInfo } from "@/redux/reducers/user";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
 
 const SelectInterestBlock = styled.div`
   .interest {
@@ -98,7 +97,6 @@ const SelectInterestBlock = styled.div`
 
 const SelectInterest = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const email = useSelector(({ user }) => user.email);
   const nickname = useSelector(({ user }) => user.nickname);
   const birthday = useSelector(({ user }) => user.birthday);
@@ -187,7 +185,6 @@ const SelectInterest = () => {
     };
 
     dispatch(submitUserInfo(user_info));
-    navigate("/register-success");
   };
 
   return (
