@@ -17,7 +17,8 @@ import { InterestsModal } from "@/components/common/modal";
 import TitlePrevHeader from "@/components/common/titlePrevHeader";
 
 const FileUploadPageBlock = styled.div`
-  padding: 28px 23px 0 23px;
+  width: 90%;
+  margin: 0 auto;
   .header-pagination {
     display: flex;
     align-items: center;
@@ -41,6 +42,7 @@ const FileUploadPageBlock = styled.div`
         margin-bottom: 0.5em;
       }
       .video-file-upload {
+        width: 100%;
         display: flex;
         align-items: center;
         &.error {
@@ -48,6 +50,8 @@ const FileUploadPageBlock = styled.div`
           color: red;
         }
         .video-info {
+          width: 80%;
+          overflow: hidden;
           display: flex;
           flex: 1;
           font-size: 14px;
@@ -69,6 +73,7 @@ const FileUploadPageBlock = styled.div`
               color: #f3576c;
             }
             span {
+              width: 90%;
               color: #f3576c;
             }
           }
