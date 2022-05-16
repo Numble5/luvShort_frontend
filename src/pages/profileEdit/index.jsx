@@ -190,7 +190,7 @@ const ProfileEdit = () => {
         </div>
         <InterestCategories
           title={"관심사"}
-          categories={interests}
+          categories={categories}
           border={true}
         />
 
