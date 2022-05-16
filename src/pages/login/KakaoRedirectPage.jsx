@@ -42,7 +42,7 @@ const KakaoRedirect = () => {
     axios({
       method: "POST",
       headers: {
-        "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
+        "content-type": "application/x-www-form-urlencoded;charset=utf-8",
       },
       url: "https://kauth.kakao.com/oauth/token",
       data: makeFormData({
