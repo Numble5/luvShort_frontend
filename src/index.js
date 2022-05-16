@@ -18,6 +18,7 @@ function loadUser() {
     const user = localStorage.getItem("user");
     if (!user) {
       window.location.href("/");
+      console.log("아아");
     }
     store.dispatch(tempSetUser(JSON.parse(user)));
     store.dispatch(userCheck());

@@ -108,6 +108,7 @@ const Login = () => {
       ? process.env.REACT_APP_REDIRECT_URI_LOCAL
       : process.env.REACT_APP_REDIRECT_URI_DEPLOY;
 
+  console.log("로그인페이지");
   useEffect(() => {
     if (user) {
       navigate("/");
