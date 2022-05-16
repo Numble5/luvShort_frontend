@@ -80,6 +80,9 @@ const CategorySelect = styled.select`
   border-radius: 5px;
   outline: none;
   padding: 3px 5px;
+  option {
+    color: white;
+  }
 `;
 
 const StyledProfileCategory = styled.ul`

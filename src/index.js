@@ -30,16 +30,14 @@ const persistor = persistStore(store);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <Provider store={store}>
-          {/* <PersistGate loading={null} persistor={persistor}> */}
-          <App />
-          {/* </PersistGate> */}
-        </Provider>
-        <GlobalStyle />
-      </ThemeProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+  <BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        {/* <PersistGate loading={null} persistor={persistor}> */}
+        <App />
+        {/* </PersistGate> */}
+      </Provider>
+      <GlobalStyle />
+    </ThemeProvider>
+  </BrowserRouter>
 );
