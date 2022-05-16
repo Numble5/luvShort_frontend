@@ -16,7 +16,9 @@ import App from "./App";
 function loadUser() {
   try {
     const user = localStorage.getItem("user");
-    if (!user) return;
+    if (!user) {
+      window.location.href("/");
+    }
     store.dispatch(tempSetUser(JSON.parse(user)));
     store.dispatch(userCheck());
   } catch (e) {
