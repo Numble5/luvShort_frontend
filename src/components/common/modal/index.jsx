@@ -210,7 +210,7 @@ export const ChattingModal = ({
   const modal = useSelector(({ modal }) => modal.value);
   const location = window.location.host;
   const KAKAO_AUTH_URL =
-    location === "localhost"
+    location === "localhost:3000"
       ? `https://kauth.kakao.com/oauth/logout?client_id=${process.env.REACT_APP_KAKAO_REST_API_KEY}&logout_redirect_uri=https://localhost:3000/oauth/logout/kakao`
       : `https://kauth.kakao.com/oauth/logout?client_id=${process.env.REACT_APP_KAKAO_REST_API_KEY}&logout_redirect_uri=https://luvshort.netlify.app/oauth/logout/kakao`;
 

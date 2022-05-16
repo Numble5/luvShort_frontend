@@ -35,6 +35,7 @@ const MyPage = () => {
   const handleLogout = () => {
     setIsLogout(true);
     dispatch(changeModalTrue());
+    setIsUpload(false);
   };
 
   const cancelLogout = () => {
@@ -96,11 +97,10 @@ const MyPage = () => {
               leftFunction={cancelLogout}
               rightButton={"로그아웃하기"}
             />
-          ) : isUpload ? (
-            <ModalBackground children={<UploadModal />} setItem={setIsUpload} />
           ) : (
-            <></>
+            <ModalBackground children={<UploadModal />} setItem={setIsUpload} />
           )}
+
           {videos.length === 0 ? (
             <>
               <Upload onClick={handleModal}>
@@ -113,7 +113,7 @@ const MyPage = () => {
             </>
           ) : (
             <VideoListWrapper>
-              <MyPageVideoList videos={videos} />
+              <MyPageVideoList videos={videos} setIsLogout={setIsLogout} />
             </VideoListWrapper>
           )}
         </>

@@ -21,7 +21,7 @@ const MyVideoEdit = ({
     setId(id);
     setType(type);
     if (!Pagetype) {
-      dispatch(changeModalTrue());
+      setIsUpload(true);
     }
     setIsUpload(false);
   };

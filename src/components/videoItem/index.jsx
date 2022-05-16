@@ -165,6 +165,7 @@ const StyledLi = styled.li`
   margin-bottom: 20px;
   border-radius: 5px;
   position: relative;
+  background-color: #f0ebeb;
 
   .wrapper {
     background-color: #3d3d3d;

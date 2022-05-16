@@ -4,29 +4,38 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { EditDeletedModal, UploadModal } from "../common/modal";
+import {
+  EditDeletedModal,
+  MainEditDeleteModal,
+  UploadModal,
+} from "../common/modal";
 import ModalBackground from "../modalBackground";
 import MyVideoEdit from "../myVideoEdit";
 
 import upload from "./assets/upload.svg";
 
-const MyPageVideoList = ({ videos }) => {
+const MyPageVideoList = ({ videos, setIsLogout }) => {
   const [id, setId] = useState();
   const [type, setType] = useState();
-  const [isUpload, setIsUpload] = useState(false);
+  const [isUpload, setIsUpload] = useState(true);
   const dispatch = useDispatch();
 
   const openUploadModal = () => {
     setIsUpload(true);
     dispatch(changeModalTrue());
+    setIsLogout(false);
   };
 
   return (
     <>
       {isUpload ? (
-        <ModalBackground children={<UploadModal />} />
+        <></>
       ) : (
-        <EditDeletedModal id={id} videoType={type} />
+        <MainEditDeleteModal
+          videoType={type}
+          id={id}
+          setEditModal={setIsUpload}
+        />
       )}
       <StyledUl>
         <UploadItem>
@@ -115,15 +124,16 @@ const VideoItem = styled.li`
   margin-bottom: 20px;
   border-radius: 5px;
   position: relative;
+  background-color: #f0ebeb;
 
   .thumbnails {
     display: block;
     width: 100%;
     height: 240px;
     position: relative;
-    z-index: 1;
     top: 0;
     left: 0;
+    z-index: 0;
 
     img {
       display: block;
@@ -133,8 +143,8 @@ const VideoItem = styled.li`
       transform: translateX(-50%);
       width: 160%;
       min-height: 250px;
-      z-index: -1;
       pointer-events: none;
+      z-index: -1;
     }
   }
 
@@ -143,6 +153,7 @@ const VideoItem = styled.li`
     height: 80px;
     position: absolute;
     width: 100%;
+
     bottom: 0;
     left: 0;
 
