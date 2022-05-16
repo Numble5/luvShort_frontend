@@ -12,6 +12,9 @@ import { persistStore } from "redux-persist";
 
 import { tempSetUser, userCheck } from "./redux/reducers/user";
 import App from "./App";
+import { initVConsole } from "./lib/initVConsole";
+
+initVConsole();
 
 function loadUser() {
   try {
