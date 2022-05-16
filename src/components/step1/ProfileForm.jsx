@@ -256,12 +256,14 @@ const ProfileForm = ({ type }) => {
       Number(birth.substring(0, 2)) !== 19 &&
       Number("20" + birth.substring(2, 4)) > Number(new Date().getFullYear())
     ) {
+      console.log("1");
       return dispatch(changeBirtdayError(true));
     }
     if (
       Number(birth.substring(0, 2)) !== 19 &&
       Number(birth.substring(4, 6)) > new Date().getMonth() + 1
     ) {
+      console.log("2");
       return dispatch(changeBirtdayError(true));
     }
     if (
@@ -269,12 +271,15 @@ const ProfileForm = ({ type }) => {
       Number(birth.substring(4, 6)) === new Date().getMonth() + 1 &&
       Number(birth.substring(6, 8)) > new Date().getDay() + 1
     ) {
+      console.log("3");
       return dispatch(changeBirtdayError(true));
     }
     if (Number(birth.substring(4, 6)) === 0) {
+      console.log("4");
       return dispatch(changeBirtdayError(true));
     }
     if (format.test(birth)) {
+      console.log("5");
       dispatch(changeBirtdayError(false));
     } else {
       dispatch(changeBirtdayError(true));
