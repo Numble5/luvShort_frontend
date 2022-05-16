@@ -1,8 +1,10 @@
-export const birthdayCheck = (birth) => {
+export const birthdayCheckInfo = (birth) => {
   if (birth.length !== 8) return false;
 
   var result = true;
   const year = String(birth).slice(0, 4);
+
+  if (year <= 1920) return false;
   const month = String(birth).slice(4, 6);
   const day = String(birth).slice(6, 8);
 

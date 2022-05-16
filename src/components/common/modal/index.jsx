@@ -16,7 +16,6 @@ import {
   setInterests,
 } from "@/redux/reducers/video";
 import request from "@/api/request";
-import { $BASE_URL } from "@/utils/BASE_URL";
 
 const InterestModalBlock = styled.div`
   #modal-background {
@@ -209,6 +208,12 @@ export const ChattingModal = ({
 }) => {
   const dispatch = useDispatch();
   const modal = useSelector(({ modal }) => modal.value);
+  const location = window.location.host;
+  const KAKAO_AUTH_URL =
+    location === "localhost"
+      ? `https://kauth.kakao.com/oauth/logout?client_id=${process.env.REACT_APP_KAKAO_REST_API_KEY}&logout_redirect_uri=https://localhost:3000/oauth/logout/kakao`
+      : `https://kauth.kakao.com/oauth/logout?client_id=${process.env.REACT_APP_KAKAO_REST_API_KEY}&logout_redirect_uri=https://luvshort.netlify.app/oauth/logout/kakao`;
+
   const GlobalStyle = createGlobalStyle`
     body {
       overflow: ${(props) => props.modal && "hidden"}
@@ -242,11 +247,7 @@ export const ChattingModal = ({
             </div>
             <div className="exit">
               {rightButton === "로그아웃하기" ? (
-                <a
-                  href={`https://kauth.kakao.com/oauth/logout?client_id=cb35cf8c852a69a0ff7192f0f1ca071d&logout_redirect_uri=http://${$BASE_URL}/oauth/logout/kakao`}
-                >
-                  {rightButton}
-                </a>
+                <a href={KAKAO_AUTH_URL}>{rightButton}</a>
               ) : (
                 <button onClick={rightFunction}>{rightButton}</button>
               )}

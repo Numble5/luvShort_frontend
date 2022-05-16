@@ -16,7 +16,6 @@ import {
 } from "@/redux/reducers/user";
 import { useDispatch, useSelector } from "react-redux";
 import { setEmail } from "@/redux/reducers/user";
-import { KAKAO_AUTH_URL } from "@/data/kakao";
 
 const LoginBlock = styled.div`
   .illust {
@@ -103,6 +102,11 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector(({ user }) => user.user);
+  const location = window.location.host;
+  const KAKAO_AUTH_URL =
+    location === "localhost"
+      ? process.env.REACT_APP_REDIRECT_URI_LOCAL
+      : process.env.REACT_APP_REDIRECT_URI_DEPLOY;
 
   useEffect(() => {
     if (user) {

@@ -17,7 +17,7 @@ import yes from "./assets/yes.svg";
 import no from "./assets/no.svg";
 
 import request from "@/api/request";
-import { birthdayCheck, checkNickname } from "./vaildation";
+import { birthdayCheckInfo, checkNickname } from "./vaildation";
 
 const ProfileEdit = () => {
   const dispatch = useDispatch();
@@ -100,7 +100,7 @@ const ProfileEdit = () => {
 
   const onChangeBirthday = ({ target }) => {
     setBirthday(target.value);
-    const result = birthdayCheck(target.value);
+    const result = birthdayCheckInfo(target.value);
     setBirthdayCheck(result);
   };
 
