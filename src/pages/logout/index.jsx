@@ -27,7 +27,6 @@ const KakaoLogoutRedirectPage = () => {
 
   useEffect(() => {
     if (isLoading) {
-      console.log(window.localStorage);
       navigate("/login");
     }
   }, [isLoading]);

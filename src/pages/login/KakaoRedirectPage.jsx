@@ -11,6 +11,11 @@ const KakaoRedirect = () => {
   const user = useSelector(({ user }) => user.user);
   const navigate = useNavigate();
   let code = new URL(window.location.href).searchParams.get("code");
+  const location = window.location.host;
+  const KAKAO_AUTH_URL =
+    location === "localhost"
+      ? process.env.REACT_APP_REDIRECT_URI_LOCAL
+      : process.env.REACT_APP_REDIRECT_URI_DEPLOY;
 
   const sendAccessToken = async function (authObj) {
     let result = await client.post("/api/auth/kakao-login", {
@@ -26,8 +31,7 @@ const KakaoRedirect = () => {
   };
 
   function requestToken(code) {
-    const JS_APP_KEY = process.env.REACT_APP_JS_APP_KEY;
-    const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
+    const JS_APP_KEY = "42f138356c44e8bdcbcae522929a5117";
     const makeFormData = (params) => {
       const searchParams = new URLSearchParams();
       Object.keys(params).forEach((key) => {
@@ -46,7 +50,7 @@ const KakaoRedirect = () => {
       data: makeFormData({
         grant_type: "authorization_code",
         client_id: JS_APP_KEY,
-        redirect_uri: REDIRECT_URI,
+        redirect_uri: `${KAKAO_AUTH_URL}`,
         code,
       }),
     }).then((res) => {

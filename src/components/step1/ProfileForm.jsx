@@ -18,6 +18,7 @@ import GenderGreenCheckButton from "@/pages/step/assets-step1/Group 39571.svg";
 import NicknameError from "@pages/step/assets-step1/Group 39570.svg";
 import Select from "react-select";
 import { options } from "@/utils/selectOptions";
+import { birthdayCheckInfo } from "@pages/profileEdit/vaildation";
 
 const ProfileFormBlock = styled.div`
   .profile {
@@ -236,35 +237,46 @@ const ProfileForm = ({ type }) => {
   }, []);
 
   const birthdayCheck = (birth) => {
-    var format =
-      /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/;
-    if (
-      Number(birth.substring(0, 2)) !== 19 &&
-      Number("20" + birth.substring(2, 4)) > Number(new Date().getFullYear())
-    ) {
+    const result = birthdayCheckInfo(birth);
+    if (!result) {
       return dispatch(changeBirtdayError(true));
-    }
-    if (
-      Number(birth.substring(0, 2)) !== 19 &&
-      Number(birth.substring(4, 6)) > new Date().getMonth() + 1
-    ) {
-      return dispatch(changeBirtdayError(true));
-    }
-    if (
-      Number(birth.substring(0, 2)) !== 19 &&
-      Number(birth.substring(4, 6)) === new Date().getMonth() + 1 &&
-      Number(birth.substring(6, 8)) > new Date().getDay() + 1
-    ) {
-      return dispatch(changeBirtdayError(true));
-    }
-    if (Number(birth.substring(4, 6)) === 0) {
-      return dispatch(changeBirtdayError(true));
-    }
-    if (format.test(birth)) {
-      dispatch(changeBirtdayError(false));
     } else {
-      dispatch(changeBirtdayError(true));
+      return dispatch(changeBirtdayError(false));
     }
+    // var format =
+    //   /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/;
+    // if (
+    //   Number(birth.substring(0, 2)) !== 19 &&
+    //   Number("20" + birth.substring(2, 4)) > Number(new Date().getFullYear())
+    // ) {
+    //   console.log("1");
+    //   return dispatch(changeBirtdayError(true));
+    // }
+    // if (
+    //   Number(birth.substring(0, 2)) !== 19 &&
+    //   Number(birth.substring(4, 6)) > new Date().getMonth() + 1
+    // ) {
+    //   console.log("2");
+    //   return dispatch(changeBirtdayError(true));
+    // }
+    // if (
+    //   Number(birth.substring(0, 2)) !== 19 &&
+    //   Number(birth.substring(4, 6)) === new Date().getMonth() + 1 &&
+    //   Number(birth.substring(6, 8)) > new Date().getDay() + 1
+    // ) {
+    //   console.log("3");
+    //   return dispatch(changeBirtdayError(true));
+    // }
+    // if (Number(birth.substring(4, 6)) === 0) {
+    //   console.log("4");
+    //   return dispatch(changeBirtdayError(true));
+    // }
+    // if (format.test(birth)) {
+    //   console.log("5");
+    //   dispatch(changeBirtdayError(false));
+    // } else {
+    //   dispatch(changeBirtdayError(true));
+    // }
   };
 
   const checkGender = (gender) => {

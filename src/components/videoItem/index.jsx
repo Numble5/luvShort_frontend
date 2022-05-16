@@ -91,7 +91,7 @@ const VideoItem = ({
       </ImgWrapper>
       <div className="wrapper">
         <div className="info_wrapper">
-          {user.email === email ? (
+          {user?.email === email ? (
             <Link to={`/mypage`} className="user_wrapper">
               <UserProfileImgWrpper profileImgUrl={profileImgUrl} />
               <span>{nickname}</span>
@@ -104,7 +104,7 @@ const VideoItem = ({
           )}
           <div className="video_info">
             <span>{date}</span>
-            {user.email === email ? (
+            {user?.email === email ? (
               <MyVideoEdit
                 video_idx={video_idx}
                 videoType={videoType}

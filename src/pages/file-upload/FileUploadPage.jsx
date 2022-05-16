@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import React, { useEffect, useState } from "react";
-import LeftArrow from "@/pages/step/assets/Vector 3.svg";
 import Navigator from "@components/navigator";
 import FileUploadIcon from "@/pages/file-upload/assets/file-upload-icon.svg";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +14,7 @@ import {
 } from "@/redux/reducers/video";
 import InterestCategories from "@/components/interests";
 import { InterestsModal } from "@/components/common/modal";
+import TitlePrevHeader from "@/components/common/titlePrevHeader";
 
 const FileUploadPageBlock = styled.div`
   padding: 28px 23px 0 23px;
@@ -398,14 +398,11 @@ const FileUploadPage = ({ embed }) => {
 
   return (
     <>
+      <TitlePrevHeader
+        title={embed ? "임베드 영상 업로드" : "직접 영상 업로드"}
+        background={"white"}
+      />
       <FileUploadPageBlock thumbnailSrc={thumbnailSrc}>
-        <div className="header-pagination">
-          <div className="left-arrow" onClick={() => navigate(-1)}>
-            <img src={LeftArrow} alt="좌측화살표" />
-          </div>
-
-          <div>{embed ? "임베드 영상 업로드" : "직접 영상 업로드"}</div>
-        </div>
         <form>
           <header>
             <p>{embed ? "영상 임베드 링크" : "업로드영상"}</p>
@@ -433,7 +430,7 @@ const FileUploadPage = ({ embed }) => {
                 )}
               </div>
               {!embed && (
-                <div class="filebox">
+                <div className="filebox">
                   <label htmlFor="file">
                     <img src={FileUploadIcon} alt="파일업로드아이콘" />
                   </label>

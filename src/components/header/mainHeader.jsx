@@ -19,7 +19,7 @@ const MainHeader = ({ userInfo }) => {
           <img src="assets/logo+name(white).svg" alt="로고" />
           <span className="sr-only">럽쇼츠</span>
         </h1>
-        {userInfo ? (
+        {user?.user ? (
           <Link to="/mypage" className="header__userProfile">
             <span>{userInfo.nickname}</span>
             <div className="profile__img">

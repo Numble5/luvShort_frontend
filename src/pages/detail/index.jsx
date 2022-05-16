@@ -24,7 +24,6 @@ const Detail = () => {
   const [modal, setModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  console.log(videoInfo);
   const changeShowContent = () => {
     setShowContent(!showContent);
   };
@@ -38,10 +37,6 @@ const Detail = () => {
     setModal(false);
     setHeartState(true);
   };
-
-  useEffect(() => {
-    console.log("hello");
-  }, []);
 
   const fetchData = async () => {
     try {

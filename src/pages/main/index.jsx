@@ -28,17 +28,18 @@ const Main = () => {
   const [currentCategory, setCurrentCategory] = useState("전체");
   const [videoList, setVideoList] = useState([]);
   const [lastIdx, setlastIdx] = useState(100000);
-  const [userInfo, setUserInfo] = useState();
+  const [userInfo, setUserInfo] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   const makePayload = () => {
     const payload = {
-      category: user.user.interests,
+      categories: user.user.interests,
       gender:
         currentCategory === "FEMALE" || currentCategory === "MALE"
           ? currentCategory
           : null,
-      city: currentCategory === "우리동네" ? user.city : null,
-      district: currentCategory === "우리동네" ? user.district : null,
+      city: currentCategory === "우리동네" ? userInfo.city : null,
+      district: currentCategory === "우리동네" ? userInfo.district : null,
     };
 
     return payload;
@@ -52,7 +53,6 @@ const Main = () => {
   const NonMemberDataFetch = async () => {
     try {
       const result = await request("/api/videos/basic", "get");
-
       setVideoList(result);
     } catch (e) {
       console.log(e);
@@ -65,7 +65,6 @@ const Main = () => {
       MainFirstFetchData({
         email: user.user.email,
         payload: payload,
-        lastIdx: lastIdx,
         setLastIdx: setlastIdx,
         setVideoList: setVideoList,
       });
@@ -101,13 +100,14 @@ const Main = () => {
       }
       return () => observer && observer.disconnect();
     }
-  }, [target, videoList.length]);
+  }, [target, videoList.length, userInfo]);
 
   useEffect(() => {
     if (!user.user) {
       NonMemberDataFetch();
+    } else {
+      fetchUserInfo();
     }
-    fetchUserInfo();
   }, []);
 
   useEffect(() => {
