@@ -243,8 +243,13 @@ const FileUploadPage = ({ embed }) => {
   const onChangeVideoFile = (e) => {
     const file = e.target.files[0];
     const fileExt = file.name.split(".").pop();
-    if (file.type !== "video/mp4" || fileExt !== "mp4") {
-      setVideoFileError("mp4 파일만 업로드 가능합니다.");
+    if (
+      file.type !== "video/mp4" &&
+      file.type !== "video/quicktime" &&
+      fileExt !== "mp4" &&
+      fileExt !== "mov"
+    ) {
+      setVideoFileError("mp4,mov 파일만 업로드 가능합니다.");
       return;
     }
     setSelectedVideoFile(file);
