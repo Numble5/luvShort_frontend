@@ -50,7 +50,7 @@ const KakaoRedirect = () => {
       data: makeFormData({
         grant_type: "authorization_code",
         client_id: process.env.REACT_APP_KAKAO_REST_API_KEY,
-        redirect_uri: process.env.REACT_APP_REDIRECT_URI,
+        redirect_uri: KAKAO_AUTH_URL,
         code,
       }),
     }).then((res) => {
