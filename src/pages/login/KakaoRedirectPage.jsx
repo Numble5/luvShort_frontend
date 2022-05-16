@@ -7,6 +7,7 @@ import { setEmail, userCheck } from "@/redux/reducers/user";
 import axios from "axios";
 
 const KakaoRedirect = () => {
+  console.log("리다이렉트");
   const dispatch = useDispatch();
   const user = useSelector(({ user }) => user.user);
   const navigate = useNavigate();
@@ -31,7 +32,6 @@ const KakaoRedirect = () => {
   };
 
   function requestToken(code) {
-    const JS_APP_KEY = "42f138356c44e8bdcbcae522929a5117";
     const makeFormData = (params) => {
       const searchParams = new URLSearchParams();
       Object.keys(params).forEach((key) => {
@@ -44,22 +44,21 @@ const KakaoRedirect = () => {
     axios({
       method: "POST",
       headers: {
-        "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+        "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
       },
       url: "https://kauth.kakao.com/oauth/token",
       data: makeFormData({
         grant_type: "authorization_code",
-        client_id: JS_APP_KEY,
-        redirect_uri: `${KAKAO_AUTH_URL}`,
+        client_id: process.env.REACT_APP_KAKAO_REST_API_KEY,
+        redirect_uri: process.env.REACT_APP_REDIRECT_URI,
         code,
       }),
     }).then((res) => {
       sendAccessToken(res.data);
     });
   }
-  useEffect(() => {
-    requestToken(code);
-  }, []);
+
+  requestToken(code);
 
   useEffect(() => {
     if (user) {
