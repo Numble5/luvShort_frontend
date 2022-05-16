@@ -23,9 +23,8 @@ const ProfileEdit = () => {
   const city = useSelector(({ user }) => user.city);
   const district = useSelector(({ user }) => user.district);
   const modal = useSelector(({ modal }) => modal.value);
-  const interests = null;
+  const interests = useSelector(({ user }) => user.user.interests);
   const myIntroduce = null;
-  const categories = useSelector(({ video }) => video.categories);
   const navigate = useNavigate();
 
   const onClickProfileEdit = async (e) => {
@@ -114,7 +113,7 @@ const ProfileEdit = () => {
 
         <InterestCategories
           title={"관심사"}
-          categories={categories}
+          categories={interests}
           border={true}
         />
 

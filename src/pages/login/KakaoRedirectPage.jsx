@@ -26,8 +26,8 @@ const KakaoRedirect = () => {
   };
 
   function requestToken(code) {
-    const JS_APP_KEY = "42f138356c44e8bdcbcae522929a5117";
-    const REDIRECT_URI = "http://localhost:3000/oauth/callback/kakao";
+    const JS_APP_KEY = process.env.REACT_APP_JS_APP_KEY;
+    const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
     const makeFormData = (params) => {
       const searchParams = new URLSearchParams();
       Object.keys(params).forEach((key) => {
