@@ -148,7 +148,7 @@ const Login = () => {
         <div className="sns-login-container">
           <p>SNS 계정으로 간편하기 시작하기</p>
           <a
-            href={`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_REST_API_KEY}&redirect_uri=${KAKAO_AUTH_URL}&response_type=code&prompt=none`}
+            href={`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_REST_API_KEY}&redirect_uri=${KAKAO_AUTH_URL}&response_type=code`}
             className="kakao-login-container"
           >
             <img src={KakaoButton3} alt="카카오로그인버튼" />
