@@ -26,6 +26,7 @@
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.3.5",
     "styled-reset": "^4.3.4",
+    "vconsole": "^3.14.6",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

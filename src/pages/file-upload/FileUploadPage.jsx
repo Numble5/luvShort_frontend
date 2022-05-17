@@ -236,6 +236,7 @@ const FileUploadPage = ({ embed }) => {
   const modal = useSelector(({ modal }) => modal.value);
   const categories = useSelector(({ video }) => video.categories);
   const interests = useSelector(({ video }) => video.interests);
+  const user = useSelector(({ user }) => user.user);
   const dispatch = useDispatch();
   const id = useParams().id;
   const navigate = useNavigate();
@@ -362,6 +363,12 @@ const FileUploadPage = ({ embed }) => {
       navigate(`/${result.data.video_idx}`);
     }
   };
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user]);
 
   useEffect(() => {
     if (id) {
