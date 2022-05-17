@@ -17,10 +17,8 @@ import { initVConsole } from "./lib/initVConsole";
 function loadUser() {
   try {
     const user = localStorage.getItem("user");
-    if (!user) {
-      window.location.href("/");
-      console.log("아아");
-    }
+    if (!user) return;
+
     store.dispatch(tempSetUser(JSON.parse(user)));
     store.dispatch(userCheck());
   } catch (e) {
